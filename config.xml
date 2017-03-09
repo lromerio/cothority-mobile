@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.epfl.dedis.cothority-mobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.epfl.dedis.cothoritymobile" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
     <name>CothorityMobile</name>
     <description>
         Mobile application to perform distributed tasks using cothority-framework.
