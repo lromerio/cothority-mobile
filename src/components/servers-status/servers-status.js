@@ -1,30 +1,26 @@
 import React from 'react'
-import {Table} from 'reactstrap'
+import Tappable from 'react-tappable';
 
-import './servers-status.css'
-import LastUpdate from './last-update'
+import './server-status.css';
+
 import StatusService from '../../services/status'
 
-
-/**
- * Source: https://github.com/Gilthoniel/cothority-web
- */
 export default class ServersStatus extends React.Component {
 
   constructor(props) {
-    super(props);
+      super(props);
 
-    this.service = new StatusService(30000);
+      this.service = new StatusService(30000);
 
-    this.state = {
-      status: [],
-      isLoading: true
+      this.state = {
+          status: [],
+          recap: true,
+          data: null
     };
   }
 
   onStatusUpdate(status) {
     this.setState({
-      isLoading: false,
       status: Object.keys(status).map((server) => status[server])
     });
   }
@@ -37,78 +33,89 @@ export default class ServersStatus extends React.Component {
     this.service.unsubscribe(this);
   }
 
-  render() {
-    const {status, isLoading} = this.state;
-
-    const rows = generateRows(status);
-    const loading = isLoading ? generateLoading() : null;
-
-    return (
-      <div className="servers-status">
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Last Update</th>
-              <th>IP</th>
-              <th>Connection Type</th>
-              <th>Port Number</th>
-              <th>Uptime</th>
-              <th>Traffic [Bps]</th>
-              <th>Services</th>
-              <th>Version</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </Table>
-
-        {loading}
-
-      </div>
-    );
+  showDetails(data) {
+      this.setState({
+          data: data,
+          recap: false
+      });
   }
-}
 
-function generateLoading() {
-  return (
-    <div className="servers-status-loading">
-      <LoadingSpinner/>
-    </div>
-  );
-}
+  renderServerList(status) {
+        return status.map(status => {
+            let data;
+            if (status.system) {
+                data = status.system.Status.field;
+            } else {
+                data = {
+                    className: 'has-error',
+                    Host: status.server.address
+                };
+            }
 
-/**
- * Generate a table row from a list of status responses
- * @param status
- */
-function generateRows(status) {
-  return status.map(status => {
-    let data;
-    if (status.system) {
-      data = status.system.Status.field;
-    } else {
-      data = {
-        className: 'has-error',
-        Host: status.server.address
-      };
-    }
+            return (
+                <div className="server-name">
+                    <Tappable className={data.className} onTap={() => this.showDetails(data)}>
+                        {data.Description}
+                    </Tappable>
+                </div>
+            );
+        });
+  }
 
-    return (
-      <tr key={status.server.address} className={data.className}>
-        <td>{data.Description}</td>
-        <td><LastUpdate timestamp={status.timestamp}/></td>
-        <td>{data.Host}</td>
-        <td>{data.ConnType}</td>
-        <td>{data.Port}</td>
-        <td>{data.Uptime}</td>
-        <td>{parseTraffic(data.RX_bytes, data.TX_bytes, data.Uptime)}</td>
-        <td>{data.Available_Services}</td>
-        <td>{data.Version}</td>
-      </tr>
-    );
-  });
+  renderDetails(data) {
+      return (
+          <table>
+              <tr>
+                  <th>Name</th>
+                  <td>{data.Description}</td>
+              </tr>
+              <tr>
+                  <th>IP</th>
+                  <td>{data.Host}</td>
+              </tr>
+              <tr>
+                  <th>Connection</th>
+                  <td>{data.ConnType}</td>
+              </tr>
+              <tr>
+                  <th>Port Number</th>
+                  <td>{data.Port}</td>
+              </tr>
+              <tr>
+                  <th>Uptime</th>
+                  <td>{data.Uptime}</td>
+              </tr>
+              <tr>
+                  <th>Traffic [Bps]</th>
+                  <td>{parseTraffic(data.RX_bytes, data.TX_bytes, data.Uptime)}</td>
+              </tr>
+              <tr>
+                  <th>Services</th>
+                  <td>{data.Available_Services}</td>
+              </tr>
+              <tr>
+                  <th>Version</th>
+                  <td>{data.Version}</td>
+              </tr>
+          </table>
+      );
+  }
+
+  render() {
+      const {status} = this.state;
+
+      const rows = this.renderServerList(status);
+
+      if(this.state.recap) {
+          return (
+              <div className="servers-status">
+                  {rows}
+              </div>
+          );
+      } else {
+          return this.renderDetails(this.state.data);
+      }
+  }
 }
 
 /**
@@ -119,13 +126,13 @@ function generateRows(status) {
  * @returns {number}
  */
 function parseTraffic(rx_bytes, tx_bytes, uptime) {
-  if (!rx_bytes || !tx_bytes || !uptime) {
-    return 0;
-  }
+    if (!rx_bytes || !tx_bytes || !uptime) {
+        return 0;
+    }
 
-  let traffic = Number(rx_bytes) + Number(tx_bytes);
-  traffic = Number(traffic / parseUptime(uptime)).toFixed(2);
-  return traffic;
+    let traffic = Number(rx_bytes) + Number(tx_bytes);
+    traffic = Number(traffic / parseUptime(uptime)).toFixed(2);
+    return traffic;
 }
 
 const TO_SECONDS_ADAPTER = [1, 60, 60*60];
@@ -136,8 +143,8 @@ const TO_SECONDS_ADAPTER = [1, 60, 60*60];
  * @returns {number}
  */
 function parseUptime(uptime) {
-  let seconds = 0;
-  uptime.split(/[hm.]/).reverse().slice(1).forEach((t, i) => seconds += Number(t) * TO_SECONDS_ADAPTER[i]);
+    let seconds = 0;
+    uptime.split(/[hm.]/).reverse().slice(1).forEach((t, i) => seconds += Number(t) * TO_SECONDS_ADAPTER[i]);
 
-  return seconds;
+    return seconds;
 }

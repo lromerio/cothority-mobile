@@ -1,0 +1,24 @@
+.servers-status {
+    color: #009900;
+}
+
+hr {
+    color: #009900;
+}
+
+.has-error {
+    color: #990000;
+}
+
+th {
+    text-align: left;
+}
+
+td {
+    text-align: right;
+}
+
+.server-name {
+    font-size: 20px;
+    padding: 10px 30px 10px 30px;
+}

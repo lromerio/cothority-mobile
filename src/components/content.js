@@ -1,6 +1,7 @@
 import React from 'react';
 import Tappable from 'react-tappable';
 
+import './content.css';
 
 import ServersStatus from './servers-status/servers-status';
 
@@ -10,7 +11,7 @@ export default class Content extends React.Component{
         super(props);
 
         this.state = {
-            currentPage:  1,
+            currentPage:  1
         };
     }
 
@@ -25,9 +26,6 @@ export default class Content extends React.Component{
                     Status
                 </Tappable>
                 <hr/>
-                <Tappable className="menu-item" onTap={() => this.updatePage(1)} >
-                    Second Page
-                </Tappable>
             </div>
         )
     }
@@ -46,8 +44,8 @@ export default class Content extends React.Component{
 
         return (
             <div>
-                <Tappable id="open_menu" onTap= {() =>this.updatePage(0)}>
-                    <img src="src/img/menu.png" alt="MENU"/>
+                <Tappable className="menu_button" onTap= {() =>this.updatePage(0)}>
+                    MENU
                 </Tappable>
                 <hr/>
 
