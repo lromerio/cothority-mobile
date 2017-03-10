@@ -40,6 +40,13 @@ export default class ServersStatus extends React.Component {
       });
   }
 
+  hideDetails() {
+      this.setState({
+          recap: true,
+          data: null
+      });
+  }
+
   renderServerList(status) {
         return status.map(status => {
             let data;
@@ -64,40 +71,48 @@ export default class ServersStatus extends React.Component {
 
   renderDetails(data) {
       return (
-          <table>
-              <tr>
-                  <th>Name</th>
-                  <td>{data.Description}</td>
-              </tr>
-              <tr>
-                  <th>IP</th>
-                  <td>{data.Host}</td>
-              </tr>
-              <tr>
-                  <th>Connection</th>
-                  <td>{data.ConnType}</td>
-              </tr>
-              <tr>
-                  <th>Port Number</th>
-                  <td>{data.Port}</td>
-              </tr>
-              <tr>
-                  <th>Uptime</th>
-                  <td>{data.Uptime}</td>
-              </tr>
-              <tr>
-                  <th>Traffic [Bps]</th>
-                  <td>{parseTraffic(data.RX_bytes, data.TX_bytes, data.Uptime)}</td>
-              </tr>
-              <tr>
-                  <th>Services</th>
-                  <td>{data.Available_Services}</td>
-              </tr>
-              <tr>
-                  <th>Version</th>
-                  <td>{data.Version}</td>
-              </tr>
-          </table>
+          <div>
+              <table>
+                  <tr>
+                      <th>Name</th>
+                      <td>{data.Description}</td>
+                  </tr>
+                  <tr>
+                      <th>IP</th>
+                      <td>{data.Host}</td>
+                  </tr>
+                  <tr>
+                      <th>Connection</th>
+                      <td>{data.ConnType}</td>
+                  </tr>
+                  <tr>
+                      <th>Port Number</th>
+                      <td>{data.Port}</td>
+                  </tr>
+                  <tr>
+                      <th>Uptime</th>
+                      <td>{data.Uptime}</td>
+                  </tr>
+                  <tr>
+                      <th>Traffic [Bps]</th>
+                      <td>{parseTraffic(data.RX_bytes, data.TX_bytes, data.Uptime)}</td>
+                  </tr>
+                  <tr>
+                      <th>Services</th>
+                      <td>{data.Available_Services}</td>
+                  </tr>
+                  <tr>
+                      <th>Version</th>
+                      <td>{data.Version}</td>
+                  </tr>
+              </table>
+
+              <br/>
+
+              <Tappable className="back_button" onTap={() => this.hideDetails()}>
+                  Back
+              </Tappable>
+          </div>
       );
   }
 
@@ -118,7 +133,11 @@ export default class ServersStatus extends React.Component {
   }
 }
 
+
+
 /**
+ * Source: https://github.com/Gilthoniel/cothority-web
+ *
  * Compute the total traffic since the server started
  * @param rx_bytes
  * @param tx_bytes
@@ -138,6 +157,8 @@ function parseTraffic(rx_bytes, tx_bytes, uptime) {
 const TO_SECONDS_ADAPTER = [1, 60, 60*60];
 
 /**
+ * Source: https://github.com/Gilthoniel/cothority-web
+ *
  * Convert ??h??m??s to the total amount of seconds
  * @param uptime
  * @returns {number}

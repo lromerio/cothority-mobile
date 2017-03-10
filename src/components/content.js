@@ -11,7 +11,7 @@ export default class Content extends React.Component{
         super(props);
 
         this.state = {
-            currentPage:  1
+            currentPage:  0
         };
     }
 
@@ -25,7 +25,6 @@ export default class Content extends React.Component{
                 <Tappable className="menu-item" onTap={() => this.updatePage(1)} >
                     Status
                 </Tappable>
-                <hr/>
             </div>
         )
     }
@@ -44,8 +43,9 @@ export default class Content extends React.Component{
 
         return (
             <div>
+                <br/>
                 <Tappable className="menu_button" onTap= {() =>this.updatePage(0)}>
-                    MENU
+                    HOME
                 </Tappable>
                 <hr/>
 
