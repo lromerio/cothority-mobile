@@ -2,4 +2,5 @@
 node_modules
 platforms
 plugins
+www/bundle.js
 npm-debug.log
