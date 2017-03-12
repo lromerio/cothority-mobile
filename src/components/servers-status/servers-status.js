@@ -55,7 +55,8 @@ export default class ServersStatus extends React.Component {
             } else {
                 data = {
                     className: 'has-error',
-                    Host: status.server.address
+                    Host: status.server.address,
+                    Description: 'Error'
                 };
             }
 
