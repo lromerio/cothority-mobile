@@ -10,6 +10,11 @@ hr {
     color: #990000;
 }
 
+table {
+    margin-left:auto;
+    margin-right:auto;
+}
+
 th {
     text-align: left;
 }
