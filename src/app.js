@@ -1,11 +1,11 @@
 import React from 'react';
 import Tappable from 'react-tappable';
 
-import './content.css';
+import './app.css';
 
-import ServersStatus from './servers-status/servers-status';
+import ServersStatus from './components/servers-status/servers-status';
 
-export default class Content extends React.Component{
+export default class App extends React.Component{
 
     constructor(props) {
         super(props);
