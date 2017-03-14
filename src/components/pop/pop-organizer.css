@@ -1,0 +1,48 @@
+table {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.start_button, .done_button {
+    font-weight: bold;
+    margin: auto;
+
+    position: absolute;
+    display: block;
+    font-size: 120%;
+    bottom: 100px;
+    right: 50%;
+    -webkit-transform: translate(50%,0);
+    transform: translate(50%,0);
+    -webkit-appearance: none;
+    border-radius: 2px;
+    background: #efefef;
+    color: #666666;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+}
+
+.keys_button {
+    font-weight: bold;
+    margin: auto;
+
+    position: absolute;
+    display: block;
+    font-size: 120%;
+    bottom: 200px;
+    right: 50%;
+    -webkit-transform: translate(50%,0);
+    transform: translate(50%,0);
+    -webkit-appearance: none;
+    border-radius: 2px;
+    background: #efefef;
+    color: #666666;
+    padding: 10px;
+    width: 150px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+}
