@@ -36,12 +36,15 @@
     "babel-preset-react-hmre": "^1.0.1",
     "css-loader": "^0.23.1",
     "elementtree": "^0.1.6",
+    "enzyme": "^2.7.1",
     "faker": "^4.1.0",
     "jest": "^19.0.2",
+    "jest-enzyme": "^2.1.2",
     "mock-socket": "^6.0.4",
-    "react-scripts": "^0.9.4",
+    "react-addons-test-utils": "^15.4.2",
     "replace": "^0.3.0",
     "style-loader": "^0.13.0",
+    "webpack-babel-jest": "^1.0.4",
     "webpack-merge": "^0.7.3"
   },
   "scripts": {
@@ -51,6 +54,17 @@
     "build": "node config && webpack && phonegap build",
     "start": "node config && cross-env HOST=0.0.0.0 webpack-dev-server",
     "test": "jest"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
+    "transform": {
+      "^.+\\.(js)$": "<rootDir>/node_modules/webpack-babel-jest"
+    },
+    "unmockedModulePathPatterns": [
+      "react",
+      "enzyme",
+      "jest-enzyme"
+    ]
   },
   "keywords": []
 }

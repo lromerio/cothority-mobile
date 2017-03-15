@@ -1,19 +1,9 @@
-import './css/index.css';
+import './index.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Content from './components/content';
+import App from './app';
 
-const App = React.createClass({
-
-  render() {
-    return (
-      <div>
-            <Content/>
-      </div>
-    );
-  },
-});
 
 ReactDOM.render(<App />, document.getElementById('app'));

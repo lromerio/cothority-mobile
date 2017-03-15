@@ -1,14 +1,12 @@
 import React from 'react'
 import Tappable from 'react-tappable'
 
-import './content.css'
-
+import './app.css';
 import ServersStatus from './servers-status/servers-status';
 import PopOrganizer from './pop/pop-organizer'
 import PopAttendee from './pop/pop-attendee'
 
-
-export default class Content extends React.Component{
+export default class App extends React.Component{
 
     constructor(props) {
         super(props);

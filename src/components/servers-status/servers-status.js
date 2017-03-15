@@ -61,7 +61,7 @@ export default class ServersStatus extends React.Component {
             }
 
             return (
-                <div className="server-name">
+                <div key={status.server.address} className="server-name">
                     <Tappable className={data.className} onTap={() => this.showDetails(data)}>
                         {data.Description}
                     </Tappable>
@@ -74,6 +74,7 @@ export default class ServersStatus extends React.Component {
       return (
           <div>
               <table>
+                  <tbody>
                   <tr>
                       <th>Name</th>
                       <td>{data.Description}</td>
@@ -106,6 +107,7 @@ export default class ServersStatus extends React.Component {
                       <th>Version</th>
                       <td>{data.Version}</td>
                   </tr>
+                  </tbody>
               </table>
 
               <br/>
