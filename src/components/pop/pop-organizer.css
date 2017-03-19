@@ -1,11 +1,11 @@
 h2 {
-    line-height: 300%;
+    line-height: 200%;
 }
 
 p {
     text-align: justify;
-    padding: 20px;
-    line-height: 125%;
+    padding: 17px;
+    line-height: 120%;
 }
 
 table {
@@ -34,15 +34,10 @@ table {
     position: absolute;
     margin: auto;
     display: block;
-
     right: 50%;
     -webkit-transform: translate(50%,0);
     transform: translate(50%,0);
     -webkit-appearance: none;
-    line-height: 200%;
-}
-
-.name_input, .location_input, .date_input, .description_input, .organizers_input {
     line-height: 150%;
 }
 
