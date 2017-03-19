@@ -4,3 +4,4 @@ platforms
 plugins
 www/bundle.js
 npm-debug.log
+coverage

@@ -25,7 +25,7 @@ export default class App extends React.Component{
         return (
             <div className="menu">
                 <br/>
-                <Tappable className="menu-item" onTap={() => this.updatePage(1)} >
+                <Tappable className="status_item" onTap={() => this.updatePage(1)} >
                     Status
                 </Tappable>
                 <br/>

@@ -3,14 +3,13 @@ import Tappable from 'react-tappable'
 
 import CothorityWS from '../../services/websocket'
 import CothorityMessages from '../../lib/cothority-messages'
-import cryptoJS from '../../lib/crypto-js'
 
 import './pop-organizer.css'
 
 export default class PopOrganizer extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
             phase:  0,
@@ -35,11 +34,11 @@ export default class PopOrganizer extends React.Component {
         this.pinPromise = CothorityWS.getStatus(this.state.address)
             .then(() => {this.updatePhase(1)})
             .catch(() => {
-                const adr = this.state.address
+                const adr = this.state.address;
                 this.setState({
                     error: 'Invalid address: ' + adr,
                     address: ''
-                })
+                });
                 setTimeout(() => {
                     this.setState({
                         error: '',
@@ -48,9 +47,9 @@ export default class PopOrganizer extends React.Component {
             });
     }
 
-    /* TODO: send PIN message with public key and PIN to the conode
+    /* TODO: send PIN message with www key and PIN to the conode
      * 1) generate keypair
-     * 2) send PIN message with public key and PIN
+     * 2) send PIN message with www key and PIN
      * 3) update in real time current operation (generating key, sending message, wrong PIN, ..)
      */
     completePairing() {
@@ -122,36 +121,46 @@ export default class PopOrganizer extends React.Component {
                 <p>
                     Insert details about the PoP party.
                 </p>
+                <p>
                 <label className="name_input">
                     Name:
                     <br/>
                     <input type="text" value={this.state.name}
                            onChange={(event) => this.setState({name: event.target.value})}/>
                 </label>
+                </p>
+                <p>
                 <label className="location_input">
                     Location:
                     <br/>
                     <input type="text" value={this.state.location}
                            onChange={(event) => this.setState({location: event.target.value})}/>
                 </label>
+                </p>
+                <p>
                 <label className="date_input">
                     Date:
                     <br/>
                     <input type="text" value={this.state.date}
                            onChange={(event) => this.setState({date: event.target.value})}/>
                 </label>
+                </p>
+                <p>
                 <label className="description_input">
                     Description:
                     <br/>
                     <input type="text" value={this.state.description}
                            onChange={(event) => this.setState({description: event.target.value})}/>
                 </label>
+                </p>
+                <p>
                 <label className="organizers_input">
                     Other organizers:
                     <br/>
-                    <input className="input_field" type="text" value={this.state.organizers}
+                    <input type="text" value={this.state.organizers}
                            onChange={(event) => this.setState({organizers: event.target.value})}/>
                 </label>
+                </p>
                 <Tappable className="done_button" onTap={() => this.storeConfig()} >
                     Done
                 </Tappable>
@@ -164,7 +173,8 @@ export default class PopOrganizer extends React.Component {
         return (
             <div>
                 <h2>Setup Completed!</h2>
-                <table>
+                <table className="pop_party_recap">
+                    <tbody>
                     <tr>
                         <th>Name:</th>
                         <td>{this.state.name}</td>
@@ -185,6 +195,7 @@ export default class PopOrganizer extends React.Component {
                         <th>Other organizers:</th>
                         <td>{this.state.organizers}</td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         )

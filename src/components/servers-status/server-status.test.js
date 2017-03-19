@@ -8,7 +8,6 @@ import Faker from 'faker'
 import {mount} from 'enzyme'
 
 import ServersStatus from './servers-status'
-import StatusService from '../../services/status'
 
 describe(ServersStatus, () => {
 
