@@ -1,16 +1,79 @@
+h2 {
+    line-height: 300%;
+}
+
+p {
+    text-align: justify;
+    padding: 20px;
+    line-height: 125%;
+}
+
 table {
     margin-left:auto;
     margin-right:auto;
 }
 
-.start_button, .done_button {
+.error_message {
+    position: absolute;
+    margin: auto;
+    display: block;
+    text-align: center;
+
+    right: 50%;
+    top: 55%;
+    -webkit-transform: translate(50%,0);
+    transform: translate(50%,0);
+    -webkit-appearance: none;
+    line-height: 125%;
+    padding: 10px;
+    color: #990000;
+}
+
+.address_input, .pin_input, .name_input, .location_input,
+.date_input, .description_input, .organizers_input {
+    position: absolute;
+    margin: auto;
+    display: block;
+
+    right: 50%;
+    -webkit-transform: translate(50%,0);
+    transform: translate(50%,0);
+    -webkit-appearance: none;
+    line-height: 200%;
+}
+
+.name_input, .location_input, .date_input, .description_input, .organizers_input {
+    line-height: 150%;
+}
+
+.name_input {
+    bottom: 320px;
+}
+
+.location_input {
+    bottom: 265px;
+}
+
+.date_input {
+    bottom: 210px;
+}
+
+.description_input {
+    bottom: 155px;
+}
+
+.organizers_input {
+    bottom: 100px;
+}
+
+.start_button, .done_button, .back_button {
     font-weight: bold;
     margin: auto;
 
     position: absolute;
     display: block;
     font-size: 120%;
-    bottom: 100px;
+    bottom: 25px;
     right: 50%;
     -webkit-transform: translate(50%,0);
     transform: translate(50%,0);
@@ -19,7 +82,7 @@ table {
     background: #efefef;
     color: #666666;
     padding: 10px;
-    width: 150px;
+    width: 100px;
     text-align: center;
     text-decoration: none;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
@@ -31,8 +94,8 @@ table {
 
     position: absolute;
     display: block;
-    font-size: 120%;
-    bottom: 200px;
+    font-size: 100%;
+    bottom: 150px;
     right: 50%;
     -webkit-transform: translate(50%,0);
     transform: translate(50%,0);
@@ -41,7 +104,7 @@ table {
     background: #efefef;
     color: #666666;
     padding: 10px;
-    width: 150px;
+    width: 120px;
     text-align: center;
     text-decoration: none;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);

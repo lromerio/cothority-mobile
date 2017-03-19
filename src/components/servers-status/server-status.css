@@ -35,7 +35,7 @@ td {
     position: absolute;
     display: block;
     font-size: 120%;
-    bottom: 100px;
+    bottom: 25px;
     right: 50%;
     -webkit-transform: translate(50%,0);
     transform: translate(50%,0);
