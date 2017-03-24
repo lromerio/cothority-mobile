@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Tappable from 'react-tappable'
 
 //TODO
 export default class PopAttendee extends React.Component {

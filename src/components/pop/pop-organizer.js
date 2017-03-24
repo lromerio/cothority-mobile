@@ -65,7 +65,9 @@ export default class PopOrganizer extends React.Component {
 
     //TODO: generate key pair and save it.
     generateKeyPair() {
-
+        this.setState({
+            pin: cryptoJS.keyPair()
+        })
     }
 
     renderStartPairing() {

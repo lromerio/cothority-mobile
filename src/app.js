@@ -5,6 +5,7 @@ import './app.css';
 import ServersStatus from './components/servers-status/servers-status';
 import PopOrganizer from './components/pop/pop-organizer'
 import PopAttendee from './components/pop/pop-attendee'
+import './lib/crypto-js'
 
 export default class App extends React.Component{
 
