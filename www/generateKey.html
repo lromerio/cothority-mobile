@@ -36,13 +36,13 @@
     <!-- Page content -->
     <div data-role="page" id="main">
         <div data-role="header">
-            <h1>Barcode Scanner</h1>
+            <h1>Generate Keys</h1>
         </div>
 
         <div data-role="main" class="ui-content">
             <p>
-                <a target="_blank" href="javascript:qrcodeScan();">
-                    <button id="scan_button" type="button">Scan</button>
+                <a href="javascript:qrcodeCreate(generateKeyPair(true));">
+                    <button id="scan_button" type="button">Generate</button>
                 </a>
             </p>
         </div>
@@ -52,7 +52,10 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script src="js/qrcode.js"></script>
+    <script type="text/javascript" src="js/lib/crypto-js.js"></script>
+    <script type="text/javascript" src="js/crypto.js"></script>
+    <script type="text/javascript" src="js/qrcode.js"></script>
+    <script type="text/javascript" src="js/lib/bytebuffer.js"></script>
 </body>
 
 </html>
