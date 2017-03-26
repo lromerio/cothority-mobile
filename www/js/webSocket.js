@@ -25,7 +25,7 @@ function pinRequest() {
     var pin = document.getElementById("pin").value;
     var key = new Uint8Array([]);
 
-    if (pin.toString().length === 0) {
+    if (pin.toString().length !== 0) {
         key = generateKeyPair(false);
     }
 
@@ -33,7 +33,7 @@ function pinRequest() {
         this.pinSocket,
         address + 'Pop/PinRequest',
         fail, success,
-        CothorityMessages.createPinRequest(pin, key)
+        CothorityProtobuf.createPinRequest(pin, key)
     );
 }
 

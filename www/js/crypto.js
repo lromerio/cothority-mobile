@@ -5,7 +5,7 @@ function generateKeyPair(hex) {
     if(hex) {
         return buf2hex(pubKey);
     } else {
-        return pubkey;
+        return pubKey;
     }
 }
 
