@@ -31,7 +31,7 @@ function pinRequest() {
 
     this.pinSocket = createSocket(
         this.pinSocket,
-        address + 'Pop/PinRequest',
+        address + '/Pop/PinRequest',
         fail, success,
         CothorityProtobuf.createPinRequest(pin, key)
     );
