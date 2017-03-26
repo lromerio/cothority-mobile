@@ -30,19 +30,22 @@
     <!-- Sidebar open icon -->
     <span id="open_menu" onclick="openNav()">
             <img src="img/menu.png" alt="MENU">
-        </span>
+    </span>
     <hr>
 
     <!-- Page content -->
     <div data-role="page" id="main">
-        <div data-role="header">
-            <h1>Generate Keys</h1>
-        </div>
 
         <div data-role="main" class="ui-content">
+
+            <input type="text" id="address">
+            <input type="text" id="pin">
+
+            <p id="ws_result"></p>
+
             <p>
-                <a href="javascript:qrcodeCreate(generateKeyPair(true));">
-                    <button id="scan_button" type="button">Generate</button>
+                <a href="javascript:pinRequest();">
+                    <button id="scan_button" type="button">SendMessage</button>
                 </a>
             </p>
         </div>
@@ -52,10 +55,12 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/lib/crypto-js.js"></script>
+
+    <script type="text/javascript" src="js/webSocket.js"></script>
     <script type="text/javascript" src="js/crypto.js"></script>
-    <script type="text/javascript" src="js/qrcode.js"></script>
-    <script type="text/javascript" src="js/lib/bytebuffer.js"></script>
+    <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
+    <script type="text/javascript" src="js/lib/crypto-js.js"></script>
+
 </body>
 
 </html>

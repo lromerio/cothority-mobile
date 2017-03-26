@@ -1,11 +1,13 @@
-function generateKeyPair() {
+function generateKeyPair(hex) {
     var keyPair = cryptoJS.keyPair();
     var pubKey = cryptoJS.publicKey(keyPair);
 
-    return buf2hex(pubKey);
+    if(hex) {
+        return buf2hex(pubKey);
+    } else {
+        return pubkey;
+    }
 }
-
-
 
 var buf2hex = function( arr ) {
 
@@ -13,7 +15,7 @@ var buf2hex = function( arr ) {
 
     for (var i = 0; i < arr.length; i++) {
         var hex = arr[i].toString(16);
-        if (hex.length == 1) {
+        if (hex.length === 1) {
             hex = "0" + hex;
         }
         result += hex + "-";
@@ -28,7 +30,7 @@ var hex2buf = function ( hexStr ) {
     var result = [];
 
     hexStr = hexStr.replace( /-/g, ""); // remove "-"
-    if (Math.floor(hexStr.length % 2) == 0) {
+    if (Math.floor(hexStr.length % 2) === 0) {
         for (var i = 0; i < hexStr.length; i = i + 2) {
 
             var hex = hexStr.substr(i, 2).toUpperCase();

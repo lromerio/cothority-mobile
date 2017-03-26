@@ -29,6 +29,7 @@
 
 /* Portrait layout (default) */
 .app {
+    color: white;
     position:absolute;             /* position in the center of the screen */
     left:50%;
     top:50%;
@@ -158,17 +159,17 @@ img {
     background-color: #111; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    transition: 0.2s; /* 0.2 second transition effect to slide in the sidenav */
 }
 
 /* The navigation menu links */
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     color: #818181;
     display: block;
-    transition: 0.3s
+    transition: 0.2s
 }
 
 /* When you mouse over the navigation links, change their color */
