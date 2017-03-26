@@ -35,12 +35,12 @@
     <!-- Page content -->
     <div data-role="page" id="main">
         <div data-role="header">
-            <h1>Barcode Scanner</h1>
+            <h1>Generate Keys</h1>
         </div>
 
         <div data-role="main" class="ui-content">
             <p>
-                <a href="javascript:generateKey();">
+                <a href="javascript:qrcodeCreate(generateKeyPair());">
                     <button id="scan_button" type="button">Generate</button>
                 </a>
             </p>
@@ -53,6 +53,7 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/lib/crypto-js.js"></script>
     <script type="text/javascript" src="js/crypto.js"></script>
+    <script type="text/javascript" src="js/qrcode.js"></script>
 </body>
 
 </html>

@@ -13,8 +13,8 @@ function qrcodeScan() {
     );
 }
 
-function qrcodeCreate() {
-    cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, 'http://www.nytimes.com',
+function qrcodeCreate(toEncode) {
+    cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, toEncode,
         function (success) {
             alert("Encode succes: " + success);
         },
