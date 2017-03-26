@@ -1,54 +1,28 @@
 {
-  "name": "CothorityMobile",
+  "name": "cothority-mobile",
   "version": "1.0.0",
   "description": "Mobile application to perform distributed tasks using cothority-framework",
-  "main": "src/index.js",
+  "main": "index.js",
   "author": {
     "name": "Lucio Romerio",
     "email": "lucio.romerio@epfl.ch"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lromerio/CothorityMobile"
+    "url": "git+https://github.com/lromerio/cothority-mobile.git"
   },
-  "license": "none specified",
-  "dependencies": {
-    "babel-core": "^6.4.5",
-    "babel-loader": "^6.2.1",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
-    "babel-preset-stage-0": "^6.22.0",
-    "classnames": "^2.2.3",
-    "cordova": "^6.5.0",
-    "cross-env": "^3.2.3",
-    "protobufjs": "^6.6.5",
-    "react": "^15.3.0",
-    "react-addons-css-transition-group": "^15.3.0",
-    "react-addons-transition-group": "^15.4.2",
-    "react-dom": "^15.3.0",
-    "react-fontawesome": "^1.5.0",
-    "react-tappable": "^0.8.3",
-    "reactstrap": "^4.2.0",
-    "webpack": "^1.12.12",
-    "webpack-dev-server": "^1.14.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "babel-preset-react-hmre": "^1.0.1",
-    "css-loader": "^0.23.1",
-    "elementtree": "^0.1.6",
-    "jest": "^19.0.2",
-    "react-scripts": "^0.9.4",
-    "replace": "^0.3.0",
-    "style-loader": "^0.13.0",
-    "webpack-merge": "^0.7.3"
+    "jest": "^19.0.2"
   },
   "scripts": {
-    "android": "phonegap run android",
-    "ios": "phonegap run ios",
-    "prepare": "node config && webpack && phonegap prepare",
-    "build": "node config && webpack && phonegap build",
-    "start": "node config && cross-env HOST=0.0.0.0 webpack-dev-server",
-    "test": "react-scripts test --env=jsdom"
+    "test": "jest --coverage"
   },
-  "keywords": []
+  "jest": {
+    "collectCoverageFrom": [
+      "www/**/*.js"
+    ]
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/lromerio/cothority-mobile#readme"
 }

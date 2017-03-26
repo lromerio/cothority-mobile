@@ -9,7 +9,7 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>Cothority Mobile</title>
@@ -28,20 +28,20 @@
     </div>
     <!-- Sidebar open icon -->
     <span id="open_menu" onclick="openNav()">
-            <img src="img/menu.png" alt="MENU">
-        </span>
+        <img src="img/menu.png" alt="MENU">
+    </span>
     <hr>
 
     <!-- Page content -->
     <div data-role="page" id="main">
         <div data-role="header">
-            <h1>Barcode Scanner</h1>
+            <h1>Encode QR-Code</h1>
         </div>
 
         <div data-role="main" class="ui-content">
             <p>
-                <a target="_blank" href="javascript:qrcodeScan();">
-                    <button id="scan_button" type="button">Scan</button>
+                <a href="javascript:qrcodeCreate();">
+                    <button id="scan_button" type="button">Encode</button>
                 </a>
             </p>
         </div>
