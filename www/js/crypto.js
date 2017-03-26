@@ -2,44 +2,41 @@ function generateKeyPair() {
     var keyPair = cryptoJS.keyPair();
     var pubKey = cryptoJS.publicKey(keyPair);
 
-    return createHexString(pubKey);
+    return buf2hex(pubKey);
 }
 
-/**
- * http://stackoverflow.com/questions/14603205/how-to-convert-hex-string-into-a-bytes-array-and-a-bytes-array-in-the-hex-strin
- *
- * @param str
- * @returns {Array}
- */
-function parseHexString(str) {
-    var result = [];
-    while (str.length >= 8) {
-        result.push(parseInt(str.substring(0, 8), 16));
 
-        str = str.substring(8, str.length);
-    }
 
-    return result;
-}
+var buf2hex = function( arr ) {
 
-/**
- * http://stackoverflow.com/questions/14603205/how-to-convert-hex-string-into-a-bytes-array-and-a-bytes-array-in-the-hex-strin
- *
- * @param arr
- * @returns {string}
- */
-function createHexString(arr) {
     var result = "";
-    var z;
 
     for (var i = 0; i < arr.length; i++) {
-        var str = arr[i].toString(16);
+        var hex = arr[i].toString(16);
+        if (hex.length == 1) {
+            hex = "0" + hex;
+        }
+        result += hex + "-";
+    }
+    result = result.substring(0, result.length - 1);
 
-        z = 8 - str.length + 1;
-        str = Array(z).join("0") + str;
+    return result.toUpperCase();
+};
 
-        result += str;
+var hex2buf = function ( hexStr ) {
+
+    var result = [];
+
+    hexStr = hexStr.replace( /-/g, ""); // remove "-"
+    if (Math.floor(hexStr.length % 2) == 0) {
+        for (var i = 0; i < hexStr.length; i = i + 2) {
+
+            var hex = hexStr.substr(i, 2).toUpperCase();
+            var number = parseInt(hex, 16);
+
+            result.push(number);
+        }
     }
 
     return result;
-}
+};
