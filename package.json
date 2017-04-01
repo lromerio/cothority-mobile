@@ -1,0 +1,30 @@
+{
+  "name": "cothority-mobile",
+  "version": "1.0.0",
+  "description": "Mobile application to perform distributed tasks using cothority-framework",
+  "main": "index.js",
+  "author": {
+    "name": "Lucio Romerio",
+    "email": "lucio.romerio@epfl.ch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lromerio/cothority-mobile.git"
+  },
+  "dependencies": {
+    "jasmine-node": "^1.14.5"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.3.0",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-chrome-launcher": "^2.0.0"
+  },
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "license": "ISC",
+  "homepage": "https://github.com/lromerio/cothority-mobile#readme"
+}
