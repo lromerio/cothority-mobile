@@ -4,5 +4,3 @@ platforms
 plugins
 www/bundle.js
 npm-debug.log
-www/spec
-coverage
