@@ -15,14 +15,16 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'www/js/**/*.js',
-      'test/**/*.specs.js'
+        'www/js/lib/protobuf.js',
+        'www/js/lib/cothority-messages.js',
+        'www/js/lib/crypto-js.js',
+        'www/js/**/*.js',
+        'test/**/*.specs.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-      'www/js/lib/*.js'
     ],
 
 
