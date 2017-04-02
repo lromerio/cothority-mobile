@@ -19,7 +19,8 @@ module.exports = function(config) {
         'www/js/lib/cothority-messages.js',
         'www/js/lib/crypto-js.js',
         'www/js/**/*.js',
-        'test/**/*.specs.js'
+        'test/**/*.specs.js',
+        'www/**/*.html'
     ],
 
 

@@ -1,4 +1,5 @@
 "use strict";
+
 var db = window.openDatabase("cothority_database", "1.0", "cothority_database", 1000000);
 
 var ready;
