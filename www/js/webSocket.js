@@ -1,11 +1,12 @@
-status = {};
+var status = {};
 
-var fail = function(e) {
-    document.getElementById("ws_result").innerHTML = '<span style = "color: red;">ERROR: </span>' + e.data;
-};
-
-var success = function(e) {
-    document.getElementById("ws_result").innerHTML = '<span style = "color: green;">SUCCESS: </span>' + e.data;
+var callbacks = {
+    fail: function (e) {
+        document.getElementById("ws_result").innerHTML = '<span style = "color: red;">ERROR: </span>' + e.data;
+    },
+    success: function (e) {
+        document.getElementById("ws_result").innerHTML = '<span style = "color: green;">SUCCESS: </span>' + e.data;
+    }
 };
 
 function getStatus() {
@@ -15,7 +16,7 @@ function getStatus() {
     this.status[address] = createSocket(
         this.status[address],
         address + '/Status/Request',
-        fail, success,
+        callbacks.fail, callbacks.success,
         new Uint8Array([])
     );
 }
@@ -32,7 +33,7 @@ function pinRequest() {
     this.pinSocket = createSocket(
         this.pinSocket,
         address + '/Pop/PinRequest',
-        fail, success,
+        callbacks.fail, callbacks.success,
         CothorityProtobuf.createPinRequest(pin, key)
     );
 }
