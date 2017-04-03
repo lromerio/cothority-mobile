@@ -77,11 +77,11 @@ module.exports = function(config) {
 
     coverageReporter: {
       includeAllSources: true,
-      type: 'lcov',
       dir: 'coverage/',
       reporters: [
           { type: "html", subdir: "html" },
-          { type: 'text-summary' }
+          { type: 'text-summary' },
+          { type: 'lcov' }
       ]
     },
 
