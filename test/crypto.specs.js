@@ -8,7 +8,7 @@ describe('crypto', function() {
 
         it('should generate hex', function() {
             const hex = generateKeyPair(true);
-            expect(hex.toString().length).toEqual(95);
+            expect(hex.toString().length).toEqual(64);
         });
 
     });
