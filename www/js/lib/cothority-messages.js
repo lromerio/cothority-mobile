@@ -118,11 +118,36 @@ var Field$17 = protobuf.Field;
 
 var finalStatement = new Type$18("FinalStatement").add(new Field$17('desc', 1, 'popDesc')).add(new Field$17('attendees', 2, 'bytes')).add(new Field$17('signature', 3, 'bytes'));
 
+var Type$19 = protobuf.Type;
+var Field$18 = protobuf.Field;
+var MapField$2 = protobuf.MapField;
+
+
+var config = new Type$19("Config").add(new Field$18('threshold', 1, 'sint32')).add(new MapField$2('device', 2, 'string', 'bytes')).add(new MapField$2('data', 3, 'string', 'string'));
+
+var Type$20 = protobuf.Type;
+var Field$19 = protobuf.Field;
+
+
+var configUpdate = new Type$20("ConfigUpdate").add(new Field$19('id', 1, 'bytes'));
+
+var Type$21 = protobuf.Type;
+var Field$20 = protobuf.Field;
+
+
+var configUpdateReply = new Type$21("ConfigUpdateReply").add(new Field$20('config', 1, 'int'));
+
+var Type$22 = protobuf.Type;
+var Field$21 = protobuf.Field;
+
+
+var proposeSend = new Type$22("ProposeSend").add(new Field$21('id', 1, 'bytes')).add(new Field$21('config', 2, 'Config'));
+
 var Root = protobuf.Root;
 
 
 var root = new Root();
-root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement);
+root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend);
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -442,6 +467,32 @@ var CothorityMessages = function (_CothorityProtobuf) {
       response = new Uint8Array(response);
 
       return this.decodeMessage('LatestBlockResponse', response);
+    }
+  }, {
+    key: 'createConfigUpdate',
+    value: function createConfigUpdate(id) {
+      var fields = {
+        id: id
+      };
+
+      return this.encodeMessage('ConfigUpdate', fields);
+    }
+  }, {
+    key: 'decodeConfigUpdateReply',
+    value: function decodeConfigUpdateReply(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('ConfigUpdateReply', response);
+    }
+  }, {
+    key: 'createProposeSend',
+    value: function createProposeSend(id, config) {
+      var fields = {
+        id: id,
+        config: config
+      };
+
+      return this.encodeMessage('ProposeSend', fields);
     }
   }]);
   return CothorityMessages;

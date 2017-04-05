@@ -38,6 +38,20 @@ function pinRequest() {
     );
 }
 
+// cisc://192.33.210.8:8002/5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0
+
+function configUpdate(){
+    var address = '192.33.210.8:8002';
+    var id = '5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0';
+
+    this.configSocket = createSocket(
+        this.configSocket,
+        address,
+        callbacks.fail, callbacks.success,
+        CothorityProtobuf.createConfigUpdate(id)
+    );
+}
+
 /**
  * Use the existing socket or create a new one if required
  * @param socket WebSocket old socket

@@ -1,9 +1,9 @@
  function buf2hex(buf) {
 
-    let result = '';
+    var result = '';
 
-    for (let i = 0; i < buf.length; i++) {
-        let hex = buf[i].toString(16);
+    for (var i = 0; i < buf.length; i++) {
+        var hex = buf[i].toString(16);
         if (hex.length === 1) {
             hex = '0' + hex;
         }
@@ -15,13 +15,13 @@
 
 function hex2buf(hexStr) {
 
-    let result = [];
+    var result = [];
 
     if (Math.floor(hexStr.length % 2) === 0) {
-        for (let i = 0; i < hexStr.length; i = i + 2) {
+        for (var i = 0; i < hexStr.length; i = i + 2) {
 
-            let hex = hexStr.substr(i, 2);
-            let number = parseInt(hex, 16);
+            var hex = hexStr.substr(i, 2);
+            var number = parseInt(hex, 16);
 
             result.push(number);
         }
@@ -40,7 +40,7 @@ function hex2buf(hexStr) {
   * @returns {Array}
   */
  function extractId(s) {
-    let res = [];
+    var res = [];
     if(s.startsWith('cisc://')) {
         res = s.substr(7).split('/');
     }
