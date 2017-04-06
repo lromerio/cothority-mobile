@@ -32,7 +32,7 @@ function pinRequest() {
 
     this.pinSocket = createSocket(
         this.pinSocket,
-        address + '/Pop/PinRequest',
+        address + '/PoPServer/PinRequest',
         callbacks.fail, callbacks.success,
         CothorityProtobuf.createPinRequest(pin, key)
     );
@@ -41,8 +41,9 @@ function pinRequest() {
 // cisc://192.33.210.8:8002/5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0
 
 function configUpdate(){
-    var address = '192.33.210.8:8002';
-    var id = '5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0';
+    //var address = '192.33.210.8:8003';
+    var address = document.getElementById("address").value;
+    var id = hex2buf('5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0');
 
     this.configSocket = createSocket(
         this.configSocket,
