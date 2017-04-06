@@ -135,7 +135,7 @@ var Type$21 = protobuf.Type;
 var Field$20 = protobuf.Field;
 
 
-var configUpdateReply = new Type$21("ConfigUpdateReply").add(new Field$20('config', 1, 'int'));
+var configUpdateReply = new Type$21("ConfigUpdateReply").add(new Field$20('config', 1, 'Config'));
 
 var Type$22 = protobuf.Type;
 var Field$21 = protobuf.Field;
