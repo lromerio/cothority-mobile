@@ -17,7 +17,7 @@
     <script src="js/sidebar.js"></script>
 </head>
 
-<body>
+<body onload="dbOpen()">
     <!-- Sidebar content -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -42,7 +42,7 @@
 
         <div data-role="main" class="ui-content">
             <p>
-                <a href="javascript:qrcodeCreate(generateKeyPair(true));">
+                <a href="javascript:cryptoGenerateAndStore('test', function(res){alert(res)});">
                     <button id="scan_button" type="button">Generate</button>
                 </a>
             </p>
@@ -57,6 +57,7 @@
     <script type="text/javascript" src="js/crypto.js"></script>
     <script type="text/javascript" src="js/qrcode.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/databaseHelper.js"></script>
 </body>
 
 </html>
