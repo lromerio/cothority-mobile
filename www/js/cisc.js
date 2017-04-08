@@ -12,6 +12,7 @@ var config;
  */
 function ciscQrScanned(s) {
     conodeInfo = extractId(s);
+    alert(s + '\n' + conodeInfo.length);
 
     if(conodeInfo.length === 2) {
 
