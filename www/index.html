@@ -41,7 +41,7 @@
 
         <div data-role="main" class="ui-content">
             <p>
-                <a target="_blank" href="javascript:qrcodeScan();">
+                <a target="_blank" href="javascript:qrcodeScan(function(r) {alert('not cisc scan')});">
                     <button id="scan_button" type="button">Scan</button>
                 </a>
             </p>
@@ -53,6 +53,7 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/qrcode.js"></script>
+
 </body>
 
 </html>

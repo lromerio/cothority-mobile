@@ -42,7 +42,7 @@
             <p id="cisc_result"></p>
 
             <p id="cisc_button">
-                <a target="_blank" href="javascript:ciscQrScanned(qrcodeScan());">
+                <a target="_blank" href="javascript:qrcodeScan(function(r) {ciscQrScanned(r)});">
                     <button id="scan_button" type="button">Scan</button>
                 </a>
             </p>

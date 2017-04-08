@@ -61,7 +61,7 @@ function hex2buf(hexStr) {
      var res = [];
 
      // Verify prefix
-     if(s.startsWith('cisc://')) {
+     if(s.indexOf('cisc://') === 0) {
         res = s.substr(7).split('/');
 
         // Verify content

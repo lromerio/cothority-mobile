@@ -1,25 +1,24 @@
 /**
- * Scan a qr-code using the official phonegap plugin.
- * In case of success returns the scanned string, otherwise an empty string
- * and alert the user.
+ * Scan a qr-code using the official phonegap plugin, then pass the resulting string
+ * (or an empty one in case of failure) to the given handler.
  *
- * @returns {string}
+ * @param handler
  */
-function qrcodeScan() {
+function qrcodeScan(handler) {
     cordova.plugins.barcodeScanner.scan(
         function (result) {
             if(!result.cancelled) {
-                return result.text;
+                handler(result.text.toString());
             } else {
                 alert("You have cancelled scan");
+                handler('');
             }
         },
         function (error) {
             alert("Scanning failed: " + error);
+            handler('');
         }
     );
-
-    return '';
 }
 
 /**

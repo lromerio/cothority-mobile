@@ -12,16 +12,19 @@ var config;
  */
 function ciscQrScanned(s) {
     conodeInfo = extractId(s);
-    alert(s + '\n' + conodeInfo.length);
+
+    var address = conodeInfo[0];
+    var ip = conodeInfo[1];
 
     if(conodeInfo.length === 2) {
 
         // Show conode information to the user
-        document.getElementById("scanned_addr").innerHTML = '<span>conodeInfo[0]</span>';
-        document.getElementById("scanned_skypchain").innerHTML = '<span>conodeInfo[1]</span>';
+        document.getElementById("scanned_addr").innerHTML = '<span>address</span>';
+        document.getElementById("scanned_skypchain").innerHTML = '<span>ip</span>';
 
         // Update cisc_button behavior
-        const html = '<a target="_blank" href="javascript:configUpdate(conodeInfo[0], conodeInfo[1], ciscUpdateReceived);">' +
+        // TODO: href="javascript:configUpdate(address, ip, function(){ciscUpdateReceived)};"
+        const html = '<a href="javascript:ciscUpdateReceived(ip);">' +
                         '<button id="scan_button" type="button">Send</button>' +
                      '</a>';
         document.getElementById("cisc_button").innerHTML = html;
@@ -38,6 +41,7 @@ function ciscQrScanned(s) {
  */
 function ciscUpdateReceived(message) {
 
+    alert('yo');
     // Decode conode message
     //config = CothorityProtobuf.decodeMessage('ConfigUpdateReply', message);
 
@@ -48,10 +52,10 @@ function ciscUpdateReceived(message) {
     document.getElementById("keyPairName").innerHTML = html;
 
     // Update cisc_button behavior
-    const buttonHtml = '<a target="_blank" href="javascript:ciscPropose();">' +
+    const buttonHtml = '<a href="javascript:ciscPropose();">' +
                             '<button id="scan_button" type="button">Propose</button>' +
                        '</a>';
-    document.getElementById("cisc_button").innerHTML = html;
+    document.getElementById("cisc_button").innerHTML = buttonHtml;
 }
 
 /**
@@ -74,7 +78,7 @@ function ciscPropose() {
 
             // Show success message
             const html = '<span style = "color: green;">Procedure successfully completed!</span>';
-            document.getElementById("keyPairName").innerHTML = html;
+            document.getElementById("cisc_button").innerHTML = html;
         }
     });
 }
