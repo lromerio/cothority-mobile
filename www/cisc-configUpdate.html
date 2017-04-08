@@ -36,14 +36,12 @@
     <!-- Page content -->
     <div data-role="page" id="main">
         <div data-role="main" class="ui-content">
-            <p id="scanned_addr"></p>
-            <p id="scanned_skypchain"></p>
-            <p id="keyPairName"></p>
-            <p id="cisc_result"></p>
+            <input type="text" id="address">
+            <p id="ws_result"></p>
 
-            <p id="cisc_button">
-                <a target="_blank" href="javascript:ciscQrScanned(qrcodeScan());">
-                    <button id="scan_button" type="button">Scan</button>
+            <p>
+                <a href="javascript:configUpdate();">
+                    <button id="scan_button" type="button">Test</button>
                 </a>
             </p>
         </div>
@@ -54,10 +52,8 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
 
-    <script type="text/javascript" src="js/cisc.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/webSocket.js"></script>
-    <script type="text/javascript" src="js/qrcode.js"></script>
     <script type="text/javascript" src="js/lib/protobuf.js"></script>
     <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
 </body>
