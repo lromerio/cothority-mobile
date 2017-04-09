@@ -44,7 +44,6 @@ function hex2buf(hexStr) {
             result.push(number);
         }
     }
-
     return result;
 }
 
@@ -80,7 +79,6 @@ function hex2buf(hexStr) {
             }
         }
     }
-
     // The string was malformed
     return [];
 }
