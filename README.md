@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lromerio/cothority-mobile.svg?branch=master)](https://travis-ci.org/lromerio/cothority-mobile) [![Coverage Status](https://coveralls.io/repos/github/lromerio/cothority-mobile/badge.svg?branch=master)](https://coveralls.io/github/lromerio/cothority-mobile?branch=master)
+[![Build Status](https://travis-ci.org/lromerio/cothority-mobile.svg?branch=master)](https://travis-ci.org/lromerio/cothority-mobile) [![Coverage Status](https://coveralls.io/repos/github/lromerio/cothority-mobile/badge.svg)](https://coveralls.io/github/lromerio/cothority-mobile)
 
 # CothorityMobile
 
