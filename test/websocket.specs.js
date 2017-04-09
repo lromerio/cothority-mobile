@@ -110,4 +110,10 @@ describe('websocket', function() {
         });
     });
 
+    describe('configUpdate', function() {
+        it('should send configUpdate', function() {
+            configUpdate('test', 'test');
+        })
+    })
+
 });

@@ -7,7 +7,7 @@ var ready;
 var dbCallbacks = {
 
     dbErrorHandler: function (e) {
-        alert(e.message);
+        alert('Database error: ' + e.message);
     },
 
     dbShowMessage: function (m) {

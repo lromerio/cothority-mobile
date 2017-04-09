@@ -7,6 +7,7 @@
  */
 function cryptoGenerateAndStore(keyName, handler) {
     dbContainsKeyPair(keyName, function(res) {
+
         if (!res) {
             var keyPair = cryptoJS.keyPair();
             var pubKey = cryptoJS.publicKey(keyPair);
