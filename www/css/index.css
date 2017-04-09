@@ -124,11 +124,8 @@ h1 {
 p {
     font-size: 20px;
     line-height: 150%;
-    padding: 30px;
-}
-
-input {
-    text-align: justify;
+    padding: 25px;
+    text-align: center;
 }
 
 /* Remove loading text */
@@ -136,7 +133,6 @@ input {
     display:none;
 }
 
- /* Scan button */
 button {
     background-color: #008CBA;
     border: none;
