@@ -1,24 +1,6 @@
-var phase = 0;
-
-var address = '';
-var ip = '';
+var conodeInfo = [];
 
 var config;
-
-function ciscPhasesHandler() {
-    alert('in');
-    switch (phase) {
-        case 0: ciscQrScan();
-                break;
-        case 1: ciscUpdateReceived();
-                break;
-        case 2: ciscPropose();
-                break;
-        default: // never happens
-                alert('lol wtf: ' + phase);
-                break;
-    }
-}
 
 /**
  * If a valid conode id was scanned it handle the result, otherwise simply does nothing.
@@ -28,27 +10,25 @@ function ciscPhasesHandler() {
  *
  * @param s
  */
-function ciscQrScan() {
-    qrcodeScan(function(s) {
-        var conodeInfo = extractId(s);
+function ciscQrScanned(s) {
+    conodeInfo = extractId(s);
 
-        address = conodeInfo[0];
-        ip = conodeInfo[1];
+    var address = conodeInfo[0];
+    var ip = conodeInfo[1];
 
-        if (conodeInfo.length === 2) {
+    if(conodeInfo.length === 2) {
 
-            // Show conode information to the user
-            document.getElementById("scanned_addr").innerHTML = '<span>' + address + '</span>';
-            document.getElementById("scanned_skypchain").innerHTML = '<span>' + ip + '</span>';
+        // Show conode information to the user
+        document.getElementById("scanned_addr").innerHTML = '<span>address</span>';
+        document.getElementById("scanned_skypchain").innerHTML = '<span>ip</span>';
 
-            // Update cisc_button behavior
-            const html = '<button id="scan_button" type="button">Send</button>';
-            document.getElementById("cisc_button").innerHTML = html;
-
-            // Update phase flag
-            phase = 1;
-        }
-    });
+        // Update cisc_button behavior
+        // TODO: href="javascript:configUpdate(address, ip, function(){ciscUpdateReceived)};"
+        const html = '<a href="javascript:ciscUpdateReceived(ip);">' +
+                        '<button id="scan_button" type="button">Send</button>' +
+                     '</a>';
+        document.getElementById("cisc_button").innerHTML = html;
+    }
 }
 
 /**
@@ -59,9 +39,7 @@ function ciscQrScan() {
  *
  * @param message
  */
-function ciscUpdateReceived() {
-
-    // TODO: call configUpdate(address, ip, function(){ciscUpdateReceived)};"
+function ciscUpdateReceived(message) {
 
     alert('yo');
     // Decode conode message
@@ -74,11 +52,10 @@ function ciscUpdateReceived() {
     document.getElementById("keyPairName").innerHTML = html;
 
     // Update cisc_button behavior
-    const buttonHtml = '<button id="scan_button" type="button">Propose</button>';
+    const buttonHtml = '<a href="javascript:ciscPropose();">' +
+                            '<button id="scan_button" type="button">Propose</button>' +
+                       '</a>';
     document.getElementById("cisc_button").innerHTML = buttonHtml;
-
-    // Update phase flag
-    phase = 2;
 }
 
 /**
@@ -101,11 +78,7 @@ function ciscPropose() {
 
             // Show success message
             const html = '<span style = "color: green;">Procedure successfully completed!</span>';
-            document.getElementById("cisc_button_container").innerHTML = html;
-
-            // TODO: evaluate
-            // Reset phase flag
-            phase = 0;
+            document.getElementById("cisc_button").innerHTML = html;
         }
     });
 }
