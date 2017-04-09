@@ -17,35 +17,46 @@
     <script src="js/sidebar.js"></script>
 </head>
 
-<body onload="dbOpen()">
+<body>
     <!-- Sidebar content -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="index.html" onclick="closeNav()">Scan</a>
+        <a href="index.html" onclick="closeNav()">Home</a>
+        <a href="cisc.html" onclick="closeNav()">Cisc</a>
         <a href="generateKey.html" onclick="closeNav()">Generate Keys</a>
         <a href="conodeStatus.html" onclick="closeNav()">Contact Conode</a>
-        <a href="pinRequest.html" onclick="closeNav()">Pin Request</a>
-        <a href="databaseDemo.html" onclick="closeNav()">Database</a>
+        <a href="pinRequest.html" onclick="closeNav()">Debug PinRequest</a>
+        <a href="cisc-configUpdate.html" onclick="closeNav()">Debug CU</a>
     </div>
     <!-- Sidebar open icon -->
     <span id="open_menu" onclick="openNav()">
             <img src="img/menu.png" alt="MENU">
-    </span>
+        </span>
     <hr>
 
     <!-- Page content -->
-    <input type="button" value="Click to Add" onclick="dbInsert('msg')">
-    <input type="button" value="Retrieve Database" onclick="dbRetrieveAll()">
-    <input type="button" value="Clean database" onclick="dbClean()">
+    <div data-role="page" id="main">
+        <div data-role="main" class="ui-content">
+            <input type="text" id="address">
+            <p id="ws_result"></p>
 
-    <div id="db_result"></div>
+            <p>
+                <a href="javascript:configUpdate();">
+                    <button id="scan_button" type="button">Test</button>
+                </a>
+            </p>
+        </div>
+    </div>
 
     <!-- Import .js files needed -->
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
 
-    <script type="text/javascript" src="js/databaseHelper.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/webSocket.js"></script>
+    <script type="text/javascript" src="js/lib/protobuf.js"></script>
+    <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
 </body>
 
 </html>

@@ -1,15 +1,21 @@
+
 describe('crypto', function() {
-    describe('generateKeyPair', function() {
 
-        it('should generate buf', function() {
-            const buf = generateKeyPair(false);
-            expect(buf.length).toEqual(32);
+    beforeEach(function() {
+        dbOpen();
+    });
+
+    it('should generate new key pair', function(done) {
+        cryptoGenerateAndStore('crypto', function(res) {
+            expect(res.length).toEqual(32);
+            done();
         });
+    });
 
-        it('should generate hex', function() {
-            const hex = generateKeyPair(true);
-            expect(hex.toString().length).toEqual(95);
+    it('should generate new key pair', function(done) {
+        cryptoGenerateAndStore('crypto', function(res) {
+            expect(res.length).toEqual(0);
+            done();
         });
-
     });
 });

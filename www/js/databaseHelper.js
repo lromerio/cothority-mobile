@@ -4,69 +4,140 @@ var db = window.openDatabase("cothority_database", "1.0", "cothority_database", 
 
 var ready;
 
-function dbOpen() {
-    db.transaction(dbSetup, dbErrorHandler, function() {ready = true;});
-}
+var dbCallbacks = {
 
-function dbSetup(tx) {
-    // Setup: create new database if doesn't exist one yet
-    var sql = "create table if not exists key(id INTEGER PRIMARY KEY AUTOINCREMENT, keyPair TEXT, created DATE)";
-    tx.executeSql(sql);
-}
+    dbErrorHandler: function (e) {
+        alert('Database error: ' + e.message);
+    },
 
-function dbInsert(keyPair) {
-    if (ready) {
-        db.transaction(
-            function (tx) {
-                var sql = "insert into key(keyPair, created) values(?,?)";
-                var d = Date.now();
-                tx.executeSql(sql, [keyPair, d]);
-            }, dbErrorHandler, dbShowMessage("Row added.")
-        );
-    } else {
-        dbShowMessage("Database not ready yet");
+    dbShowMessage: function (m) {
+        alert(m);
+    },
+
+    dbReady: function () {
+        ready = true;
     }
 }
 
-function dbRetrieveAll() {
-    db.transaction(function (tx) {
-        var sql = "select * from key";
-        tx.executeSql(sql, [], dbBuildLog, dbErrorHandler);
-    }, dbErrorHandler, function() {});
+/**
+ * Open the database.
+ */
+function dbOpen() {
+    db.transaction(dbSetup, dbCallbacks.dbErrorHandler, dbCallbacks.dbReady);
 }
 
-function dbClean() {
+/**
+ * Create tables if they don't exist yet. Ideally, in a given device, they will be created
+ * only the very first time the application is launched.
+ *
+ * @param tx
+ */
+function dbSetup(tx) {
+    var sql = "create table if not exists key(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, keyPair TEXT)";
+    tx.executeSql(sql);
+}
+
+/**
+ * Insert a new key pair into the database.
+ * Once the operation is completed the handler function, received as
+ * a parameter, is called.
+ *
+ * @param name
+ * @param keyPair
+ * @param handler
+ */
+function dbInsertKeyPair(name, keyPair, handler) {
+
+    if (keyPair.match(/[0-9|a-f]{128}/)) {
+        if (ready) {
+            dbContainsKeyPair(name, function(res) {
+                if(!res) {
+                    db.transaction(
+                        function (tx) {
+                            var sql = "insert into key(name, keyPair) values(?,?)";
+                            tx.executeSql(sql, [name, keyPair]);
+                        }, dbCallbacks.dbErrorHandler, function () {
+                            handler(true);
+                        }
+                    );
+                } else {
+                    dbCallbacks.dbShowMessage('The key pair - ' + name + ' - already exists.');
+                    handler(false);
+                }
+            });
+        } else {
+            dbCallbacks.dbShowMessage("Database not ready yet");
+            handler(false);
+        }
+    } else {
+        dbCallbacks.dbShowMessage("Invalid key pair");
+        handler(false);
+    }
+}
+
+/**
+ * Verify whether a key pair associated with the given name exists into the database or not.
+ * Once the operation is completed the handler function, received as
+ * a parameter, is called.
+ *
+ * @param name
+ * @param handler
+ */
+function dbContainsKeyPair(name, handler) {
+    if (ready) {
+        db.transaction(function (tx) {
+            var sql = "select K.keyPair from key K where K.name = ?";
+            tx.executeSql(sql, [name], function (tx, result) {
+                handler(result.rows.length === 1);
+            }, dbCallbacks.dbErrorHandler);
+        }, dbCallbacks.dbErrorHandler, function () {});
+    } else {
+        dbCallbacks.dbShowMessage("Database not ready yet");
+        handler(false);
+    }
+}
+
+/**
+ * Retrieve the key pair associated with the given name.
+ * Once the operation is completed the handler function, received as
+ * a parameter, is called.
+ *
+ * @param name
+ * @param handler
+ */
+function dbRetrieveKeyPair(name, handler) {
+    if (ready) {
+        db.transaction(function (tx) {
+            var sql = "select K.keyPair from key K where K.name = ?";
+            tx.executeSql(sql, [name], function (tx, result) {
+                handler(result);
+            }, dbCallbacks.dbErrorHandler);
+        }, dbCallbacks.dbErrorHandler, function () {});
+    } else {
+        dbCallbacks.dbShowMessage("Database not ready yet");
+        handler(false);
+    }
+}
+
+/**
+ * Delete the whole database.
+ * Once the operation is completed the handler function, received as
+ * a parameter, is called.
+ *
+ * @param handler
+ */
+function dbCleanAll(handler) {
     if (ready) {
         db.transaction(
             function (tx) {
                 var sql = "delete from key";
                 tx.executeSql(sql);
-            }, dbErrorHandler, dbShowMessage("Database deleted.")
+            }, dbCallbacks.dbErrorHandler, function() {
+                handler(true);
+            }
         );
     } else {
-        dbShowMessage("Database not ready yet");
+        dbCallbacks.dbShowMessage("Database not ready yet");
+        handler(false);
     }
-}
-
-function dbBuildLog(tx, result) {
-    if (result.rows.length === 0) {
-        dbShowMessage("No data.");
-        return false;
-    }
-
-    var s = "";
-    for (var i = 0; i < result.rows.length; ++i) {
-        var d = new Date();
-        d.setTime(result.rows.item(i).created);
-        s += d.toDateString() + " " + d.toTimeString() + "<br/>";
-    }
-    dbShowMessage(s);
-}
-
-function dbErrorHandler(e) {
-    alert(e.message);
-}
-
-function dbShowMessage(m) {
-    document.getElementById("db_result").innerHTML = '<span style = "color: green;">' + m + '</span>';
 }

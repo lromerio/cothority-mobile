@@ -68,15 +68,14 @@ describe('CothorityProtobuf', function() {
 
 describe('websocket', function() {
 
-    // inject the HTML fixture for the tests
     beforeEach(function() {
-        var fixture = '<div id="ws_result">test</div>' +
+        var html = '<div id="ws_result">test</div>' +
             '<div id="address">192.33.210.8:7771</div>' +
             '<input id="pin" value="test">';
 
         document.body.insertAdjacentHTML(
             'afterbegin',
-            fixture);
+            html);
     });
 
     describe('fail', function() {
@@ -110,5 +109,11 @@ describe('websocket', function() {
             pinRequest();
         });
     });
+
+    describe('configUpdate', function() {
+        it('should send configUpdate', function() {
+            configUpdate('test', 'test');
+        })
+    })
 
 });

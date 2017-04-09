@@ -103,11 +103,11 @@ body {
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
+    margin:0;
+    padding:0;
     width:100%;
     overflow: hidden;
+    color: white;
 }
 
 h1 {
@@ -118,6 +118,18 @@ h1 {
     overflow:visible;
     padding:0px;
     text-align:center;
+    text-transform:uppercase;
+}
+
+p {
+    font-size: 20px;
+    line-height: 150%;
+    padding: 25px;
+    text-align: center;
+}
+
+label {
+    font-size: 13px;
 }
 
 /* Remove loading text */
@@ -125,8 +137,7 @@ h1 {
     display:none;
 }
 
- /* Scan button */
-#scan_button {
+button {
     background-color: #008CBA;
     border: none;
     color: white;
@@ -140,7 +151,7 @@ h1 {
     position: fixed;
     width: 50%;
     left: 25%;
-    top: 70%
+    top: 80%
 }
 
 /* Sidebar iconn */
