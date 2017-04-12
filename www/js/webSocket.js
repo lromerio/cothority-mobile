@@ -54,10 +54,10 @@ function pinRequest() {
 /**
  * Use user's input to create a ConfigUpdate and send it.
  */
-function configUpdate(address, id){
-    //var address = '192.33.210.8:8003';
+function configUpdate(){
+    var address = '192.33.210.8:8003';
     //var address = document.getElementById("address").value;
-    //var id = hex2buf('5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0');
+    var id = hex2buf('5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0');
 
     this.configSocket[address] = createSocket(
         this.configSocket[address],

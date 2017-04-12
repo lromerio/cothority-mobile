@@ -37,7 +37,7 @@ function ciscPropose(handler) {
 
     // Get key name
     var keyName = document.getElementById("keyPairName").value;
-    
+
     if(keyName !== '') {
         // Generate and store a new keys pair
         cryptoGenerateAndStore(keyName, function(res) {
