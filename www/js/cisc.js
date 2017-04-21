@@ -15,15 +15,23 @@ function ciscQrScanned(s) {
     if(conodeInfo.length === 2) {
 
         address = conodeInfo[0];
-        skipchain = conodeInfo[1];
+        skipchain = hex2buf(conodeInfo[1]);
 
         // TODO: remove this (debug alert)
         alert('Address: ' + address + '\n Skipchain: ' + skipchain);
 
-        // TODO: send ConfigUpdate and pass below code as handler
-        // Update buttons
-        document.getElementById("cisc_first").style.display = 'none';
-        document.getElementById("cisc_second").style.display = 'block';
+        // Create ConfigUpdate
+        var message = CothorityProtobuf.createConfigUpdate(id);
+
+        configUpdate(address, message, function(response) {
+
+            // Decode message and store config
+            config = CothorityProtobuf.decodeConfigUpdateReply(response);
+
+            // Update buttons
+            document.getElementById("cisc_first").style.display = 'none';
+            document.getElementById("cisc_second").style.display = 'block';
+        });
     } else {
         alert('Invalid qr-code');
     }
@@ -41,7 +49,7 @@ function ciscPropose(handler) {
     if(keyName !== '') {
         // Generate and store a new keys pair
         cryptoGenerateAndStore(keyName, function(res) {
-            handler(res);
+            handler(keyName, res);
         });
     } else {
         alert('Id field cannot be empty!');
@@ -50,26 +58,35 @@ function ciscPropose(handler) {
 }
 
 /**
- * If the input is a valid publi key: send a ProposeSend to the conode
+ * If the input is a valid public key (and her name): send a ProposeSend to the conode
  * and handle the result.
  *
+ * @param keyName
  * @param key
  */
-function ciscPropose_handler(key) {
+function ciscPropose_handler(keyName, key) {
     if (key.length === 32) {
-        /**
-         * TODO
-         * 1) Update Config with pubkey and key name
-         * 2) Send Propose send passing as an handler what
-         *      bellow (adapted to handle a failure)
-         */
 
-            // Show success message
-        const html = '<span style = "color: green;">Procedure successfully completed!</span>';
-        document.getElementById("cisc_third").innerHTML = html;
+        // Create ProposeSend
+        config.device[keyName] = key;
+        var message = CothorityProtobuf.createProposeSend(id, config);
 
-        // Update buttons
-        document.getElementById("cisc_second").style.display = 'none';
-        document.getElementById("cisc_third").style.display = 'block';
+        proposeSend(address, message, function(response) {
+
+            var device = CothorityProtobuf.decodeConfigUpdateReply(response).device;
+
+            // Prepare result message
+            var html;
+            if(keyName in device && device[keyName] === key) {
+                 html = '<span style = "color: green;">Procedure successfully completed!</span>';
+            } else {
+                html = '<span style = "color: red;">Propose refused by the conode.</span>';
+            }
+
+            // Update GUI
+            document.getElementById("cisc_third").innerHTML = html;
+            document.getElementById("cisc_second").style.display = 'none';
+            document.getElementById("cisc_third").style.display = 'block';
+        });
     }
 }

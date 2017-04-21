@@ -54,18 +54,26 @@ function pinRequest() {
 /**
  * Use user's input to create a ConfigUpdate and send it.
  */
-function configUpdate(){
-    var address = '192.33.210.8:8003';
-    //var address = document.getElementById("address").value;
-    var id = hex2buf('5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0');
+function configUpdate(address, message, handler){
 
     this.configSocket[address] = createSocket(
         this.configSocket[address],
-        address,
-        callbacks.fail, callbacks.success,
-        CothorityProtobuf.createConfigUpdate(id)
+        address + '/Identity/ConfigUpdate',
+        callbacks.fail, function(r) {handler(r)},
+        message
     );
 }
+
+function proposeSend(address, message, handler) {
+
+    this.configSocket[address] = createSocket(
+        this.configSocket[address],
+        address + '/Identity/ConfigUpdate',
+        callbacks.fail, function(r) {handler(r)},
+        message
+    );
+}
+
 
 /**
  * Adapted from: https://github.com/Gilthoniel/cothority-web
