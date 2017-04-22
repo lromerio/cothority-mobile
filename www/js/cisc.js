@@ -4,6 +4,10 @@ var skipchain = '';
 var config;
 var keyName = '';
 
+//TODO
+var resp;
+
+
 /**
  * If a valid conode qr-code was scanned: extract conode information, use them to
  * send a ConfigUpdate and handle the result.
@@ -26,11 +30,13 @@ function ciscQrScanned(s) {
 
         configUpdate(address, message, function(response) {
 
-            console.log(new Uint8Array(response));
+
+            resp = new Uint8Array(response);
 
             // Decode message and store config
             config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
 
+            console.log(new Uint8Array(response));
             console.log(config)
 
             const fields = {
@@ -80,18 +86,26 @@ function ciscPropose_handler(key) {
     if (key.length === 32) {
 
         // Create ProposeSend
-        var newDevice = CothorityProtobuf.createDevice(key);
+        //var newDevice = CothorityProtobuf.createDevice(key);
         //config.device[keyName] = newDevice;
 
-        console.log(config);
-
         var message = CothorityProtobuf.createProposeSend(skipchain, config);
+        console.log(message);
+/*
+        // TODO: hardcoded 10 (instead of 18)
+        var x = message.slice(0, 34);
+        var y = new Uint8Array(92);
+        y.set(x, 0);
+        y.set(resp, 34);
+        console.log(y);
+        console.log(resp);
+*/
 
         proposeSend(address, message, function(response) {
 
             var device = CothorityProtobuf.decodeConfigUpdateReply(response).config.Device;
 
-            console.log(device);
+            //console.log(device);
 
             // Prepare result message
             var html;

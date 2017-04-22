@@ -67,8 +67,6 @@ function configUpdate(address, message, handler){
 
 function proposeSend(address, message, handler) {
 
-    console.log(message);
-
     this.psSocket[address] = createSocket(
         this.psSocket[address],
         address + '/Identity/ProposeSend',
