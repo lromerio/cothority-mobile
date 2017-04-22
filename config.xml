@@ -25,6 +25,7 @@
         <param name="ios-package" value="CDVStatusBar" onload="true" />
     </feature>
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="UIWebViewBounce" value="false" />
 
     <plugin spec="https://github.com/phonegap/phonegap-plugin-barcodescanner" source="git"/>
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
