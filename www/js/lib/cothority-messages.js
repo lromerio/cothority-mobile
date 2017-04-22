@@ -123,7 +123,7 @@ var Field$18 = protobuf.Field;
 var MapField$2 = protobuf.MapField;
 
 
-var config = new Type$19("Config").add(new Field$18('threshold', 1, 'sint32')).add(new MapField$2('device', 2, 'string', 'bytes')).add(new MapField$2('data', 3, 'string', 'string'));
+var config = new Type$19("Config").add(new Field$18('Threshold', 1, 'sint32')).add(new MapField$2('Device', 2, 'string', 'Device')).add(new MapField$2('Data', 3, 'string', 'string'));
 
 var Type$20 = protobuf.Type;
 var Field$19 = protobuf.Field;
@@ -141,13 +141,19 @@ var Type$22 = protobuf.Type;
 var Field$21 = protobuf.Field;
 
 
-var proposeSend = new Type$22("ProposeSend").add(new Field$21('id', 1, 'bytes')).add(new Field$21('config', 2, 'Config'));
+var proposeSend = new Type$22("ProposeSend").add(new Field$21('id', 1, 'bytes')).add(new Field$21('config', 2, 'Config', 'repeated'));
+
+var Type$23 = protobuf.Type;
+var Field$22 = protobuf.Field;
+
+
+var device = new Type$23("Device").add(new Field$22('point', 1, 'bytes'));
 
 var Root = protobuf.Root;
 
 
 var root = new Root();
-root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend);
+root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend);
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -478,6 +484,18 @@ var CothorityMessages = function (_CothorityProtobuf) {
       return this.encodeMessage('ConfigUpdate', fields);
     }
   }, {
+    key: 'createDevice',
+    value: function createDevice(key) {
+
+      var model = this.getModel('Device');
+
+      var fields = {
+        point: key
+      };
+
+      return model.create(fields);
+    }
+  }, {
     key: 'decodeConfigUpdateReply',
     value: function decodeConfigUpdateReply(response) {
       response = new Uint8Array(response);
@@ -489,7 +507,11 @@ var CothorityMessages = function (_CothorityProtobuf) {
     value: function createProposeSend(id, config) {
       var fields = {
         id: id,
-        config: config
+        config: {
+          Threshold: config.Threshold,
+          Device: config.Device,
+          Data: config.Data
+        }
       };
 
       return this.encodeMessage('ProposeSend', fields);

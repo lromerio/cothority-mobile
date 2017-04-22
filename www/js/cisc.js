@@ -2,6 +2,7 @@ var address = '';
 var skipchain = '';
 
 var config;
+var keyName = '';
 
 /**
  * If a valid conode qr-code was scanned: extract conode information, use them to
@@ -10,31 +11,42 @@ var config;
  * @param s
  */
 function ciscQrScanned(s) {
-    conodeInfo = extractId(s);
+    //conodeInfo = extractId(s);
 
-    if(conodeInfo.length === 2) {
+    //if(conodeInfo.length === 2) {
 
-        address = conodeInfo[0];
-        skipchain = hex2buf(conodeInfo[1]);
+        //address = conodeInfo[0];
+        //skipchain = hex2buf(conodeInfo[1]);
 
-        // TODO: remove this (debug alert)
-        alert('Address: ' + address + '\n Skipchain: ' + skipchain);
+        address = "192.33.210.8:8003";
+        skipchain = hex2buf("382b3d8fee898cb4e4b978bad0481ecdc994d2a78ff3e1e97c2811d16b68679e");
 
         // Create ConfigUpdate
-        var message = CothorityProtobuf.createConfigUpdate(id);
+        var message = CothorityProtobuf.createConfigUpdate(skipchain);
 
         configUpdate(address, message, function(response) {
 
+            console.log(new Uint8Array(response));
+
             // Decode message and store config
-            config = CothorityProtobuf.decodeConfigUpdateReply(response);
+            config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+            console.log(config)
+
+            const fields = {
+                config: config
+            };
+
+            console.log(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields));
+            console.log(CothorityProtobuf.decodeConfigUpdateReply(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields)).config)
 
             // Update buttons
             document.getElementById("cisc_first").style.display = 'none';
             document.getElementById("cisc_second").style.display = 'block';
         });
-    } else {
-        alert('Invalid qr-code');
-    }
+    //} else {
+      //  alert('Invalid qr-code');
+    //}
 }
 
 /**
@@ -44,12 +56,13 @@ function ciscQrScanned(s) {
 function ciscPropose(handler) {
 
     // Get key name
-    var keyName = document.getElementById("keyPairName").value;
+    keyName = document.getElementById("keyPairName").value;
 
     if(keyName !== '') {
         // Generate and store a new keys pair
         cryptoGenerateAndStore(keyName, function(res) {
-            handler(keyName, res);
+
+            handler(res);
         });
     } else {
         alert('Id field cannot be empty!');
@@ -58,22 +71,27 @@ function ciscPropose(handler) {
 }
 
 /**
- * If the input is a valid public key (and her name): send a ProposeSend to the conode
+ * If the input is a valid public key: send a ProposeSend to the conode
  * and handle the result.
  *
- * @param keyName
  * @param key
  */
-function ciscPropose_handler(keyName, key) {
+function ciscPropose_handler(key) {
     if (key.length === 32) {
 
         // Create ProposeSend
-        config.device[keyName] = key;
-        var message = CothorityProtobuf.createProposeSend(id, config);
+        var newDevice = CothorityProtobuf.createDevice(key);
+        //config.device[keyName] = newDevice;
+
+        console.log(config);
+
+        var message = CothorityProtobuf.createProposeSend(skipchain, config);
 
         proposeSend(address, message, function(response) {
 
-            var device = CothorityProtobuf.decodeConfigUpdateReply(response).device;
+            var device = CothorityProtobuf.decodeConfigUpdateReply(response).config.Device;
+
+            console.log(device);
 
             // Prepare result message
             var html;

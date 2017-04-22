@@ -1,6 +1,7 @@
 var status = {};
 
-var configSocket = {};
+var cuSocket = {};
+var psSocket = {};
 
 /**
  * Contains two function used as callback, they takes care to show a success or an error message.
@@ -56,8 +57,8 @@ function pinRequest() {
  */
 function configUpdate(address, message, handler){
 
-    this.configSocket[address] = createSocket(
-        this.configSocket[address],
+    this.cuSocket[address] = createSocket(
+        this.cuSocket[address],
         address + '/Identity/ConfigUpdate',
         callbacks.fail, function(r) {handler(r)},
         message
@@ -66,9 +67,11 @@ function configUpdate(address, message, handler){
 
 function proposeSend(address, message, handler) {
 
-    this.configSocket[address] = createSocket(
-        this.configSocket[address],
-        address + '/Identity/ConfigUpdate',
+    console.log(message);
+
+    this.psSocket[address] = createSocket(
+        this.psSocket[address],
+        address + '/Identity/ProposeSend',
         callbacks.fail, function(r) {handler(r)},
         message
     );
