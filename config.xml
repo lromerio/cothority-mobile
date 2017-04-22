@@ -17,7 +17,7 @@
     <preference name="android-windowSoftInputMode" value="adjustPan|stateHidden" />
 
     <!-- iOS -->
-    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <plugin spec="https://github.com/apache/cordova-plugin-statusbar"  source="git"/>
     <preference name="StatusBarOverlaysWebView" value="false" />
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" onload="true" />
