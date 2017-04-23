@@ -90,7 +90,10 @@ function ciscPropose_handler(key) {
         //config.device[keyName] = newDevice;
 
         var message = CothorityProtobuf.createProposeSend(skipchain, config);
+
+        //TODO: debug print
         console.log(message);
+        console.log(CothorityProtobuf.decodeMessage('ProposeSend', message))
 /*
         // TODO: hardcoded 10 (instead of 18)
         var x = message.slice(0, 34);

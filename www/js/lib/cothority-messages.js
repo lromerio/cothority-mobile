@@ -507,7 +507,11 @@ var CothorityMessages = function (_CothorityProtobuf) {
     value: function createProposeSend(id, config) {
       var fields = {
         id: id,
-        config: config
+        config: {
+          threshold: config.threshold,
+          device: config.device,
+          data: config.data
+        }
       };
 
       return this.encodeMessage('ProposeSend', fields);
