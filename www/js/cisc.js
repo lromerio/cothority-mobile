@@ -15,11 +15,12 @@ var resp;
  * @param s
  */
 function ciscQrScanned(s) {
+
     //conodeInfo = extractId(s);
 
     //if(conodeInfo.length === 2) {
 
-        //address = conodeInfo[0];
+        //ddress = conodeInfo[0];
         //skipchain = hex2buf(conodeInfo[1]);
 
         address = "192.33.210.8:8003";
@@ -47,6 +48,8 @@ function ciscQrScanned(s) {
             console.log(CothorityProtobuf.decodeConfigUpdateReply(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields)).config)
 
             // Update buttons
+            document.getElementById("threshold").innerHTML = config.threshold;
+
             document.getElementById("cisc_first").style.display = 'none';
             document.getElementById("cisc_second").style.display = 'block';
         });
@@ -85,10 +88,9 @@ function ciscPropose(handler) {
 function ciscPropose_handler(key) {
     if (key.length === 32) {
 
-        // Create ProposeSend
+        // Add new device to config and create ProposeSend
         var newDevice = CothorityProtobuf.createDevice(key);
         config.device[keyName] = newDevice;
-
         var message = CothorityProtobuf.createProposeSend(skipchain, config);
 
         //TODO: debug print
@@ -97,24 +99,34 @@ function ciscPropose_handler(key) {
 
         proposeSend(address, message, function(response) {
 
-            console.log(new Uint8Array(response));
-
-            var device = CothorityProtobuf.decodeConfigUpdateReply(response);
-
-            console.log(device);
-
-            // Prepare result message
-            var html;
-            if(keyName in device && device[keyName] === key) {
-                 html = '<span style = "color: green;">Procedure successfully completed!</span>';
-            } else {
-                html = '<span style = "color: red;">Propose refused by the conode.</span>';
-            }
-
             // Update GUI
-            document.getElementById("cisc_third").innerHTML = html;
+            document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
             document.getElementById("cisc_second").style.display = 'none';
             document.getElementById("cisc_third").style.display = 'block';
         });
     }
+}
+
+function ciscVerification() {
+
+    var message = CothorityProtobuf.createConfigUpdate(skipchain);
+
+    configUpdate(address, message, function(response) {
+
+        // Decode message
+        config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+        // Prepare result message
+        var html;
+        if(keyName in device && device[keyName] === key) {
+            html = '<span style = "color: green;">Procedure successfully completed!</span>';
+        } else {
+            html = '<span style = "color: red;">Proposition refused by the conode.</span>';
+        }
+
+        // Update GUI
+        document.getElementById("cisc_fourth").innerHTML = html;
+        document.getElementById("cisc_third").style.display = 'none';
+        document.getElementById("cisc_fourth").style.display = 'block';
+    });
 }

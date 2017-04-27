@@ -46,8 +46,8 @@
     <div data-role="page" id="main">
         <div data-role="main" class="ui-content">
 
-            <!-- Phase 1 -->
-            <p id="cisc_first">
+            <!-- Phase 1 (ConfigUpdate -->
+            <p id="cisc_first" style="display: block">
                 Print conode qr-code using <i>cisc id qr</i>, then scan it in order to connect the
                 device to the conode and start the procedure. <br/>
 
@@ -56,9 +56,9 @@
                     <button type="button">Scan</button>
                 </a>
             </p>
-            <!-- Phase 2 -->
+            <!-- Phase 2 (ProposeSend) -->
             <p id="cisc_second" style="display: none">
-                Successfully paired! <br/><br>
+                Successfully paired! <br/><br/>
 
                 <label for="keyPairName">Insert a unique id: </label><br/>
                 <input id="keyPairName"/> <br/><br/>
@@ -70,8 +70,20 @@
                     <button type="button">Propose</button>
                 </a>
             </p>
-            <!-- Phase 3 (done) -->
-            <p id="cisc_third" style="display: none"></p>
+            <!-- Phase 3 (Verification) -->
+            <p id="cisc_third" style="display: none">
+                Threshold: <b id="threshold"></b> <br/><br/>
+
+                Vote your proposition from your conode using <i>cisc config vote</i>.
+                Once the threshold is reached, your proposition we'll be accepted, and you'll be able
+                to verify that the procedure has been completed with success. <br/>
+
+                <a href="javascript:ciscPropose(function() {ciscVerification()});">
+                    <button type="button">Verify</button>
+                </a>
+            </p>
+            <!-- Phase 4 (done) -->
+            <p id="cisc_fourth" style="display: none"></p>
 
         </div>
     </div>

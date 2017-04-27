@@ -74,6 +74,11 @@ function hex2buf(hexStr) {
                 if(ip.length === 4 && address[0].match(/([0-9]{1,3}\.){3}[0-9]{1,3}/) &&
                     address[1].length <= 4 && address[1].match(/([0-9]{1,4})/)) {
 
+                    // Increase port by 1
+                    var port = parseInt(address[1]) + 1;
+                    address[1] = port.toString();
+                    res[0] = address[0] + ':' + port;
+
                     return res;
                 }
             }
