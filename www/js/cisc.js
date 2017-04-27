@@ -86,29 +86,22 @@ function ciscPropose_handler(key) {
     if (key.length === 32) {
 
         // Create ProposeSend
-        //var newDevice = CothorityProtobuf.createDevice(key);
-        //config.device[keyName] = newDevice;
+        var newDevice = CothorityProtobuf.createDevice(key);
+        config.device[keyName] = newDevice;
 
         var message = CothorityProtobuf.createProposeSend(skipchain, config);
 
         //TODO: debug print
         console.log(message);
-        console.log(CothorityProtobuf.decodeMessage('ProposeSend', message))
-/*
-        // TODO: hardcoded 10 (instead of 18)
-        var x = message.slice(0, 34);
-        var y = new Uint8Array(92);
-        y.set(x, 0);
-        y.set(resp, 34);
-        console.log(y);
-        console.log(resp);
-*/
+        console.log(CothorityProtobuf.decodeMessage('ProposeSend', message));
 
         proposeSend(address, message, function(response) {
 
-            var device = CothorityProtobuf.decodeConfigUpdateReply(response).config.Device;
+            console.log(new Uint8Array(response));
 
-            //console.log(device);
+            var device = CothorityProtobuf.decodeConfigUpdateReply(response);
+
+            console.log(device);
 
             // Prepare result message
             var html;
