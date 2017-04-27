@@ -8,6 +8,10 @@ function openNav() {
 /**
  * Close the sidebar.
  */
-function closeNav() {
+function closeNav(url) {
     document.getElementById("mySidenav").style.width = "0";
+
+    if (url !== '') {
+        window.location = url;
+    }
 }
