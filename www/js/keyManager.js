@@ -9,7 +9,7 @@ function displayKeys() {
         var html = '<hr>';
         for (var i = 0; i < res.rows.length; ++i) {
             var keyName  = res.rows.item(i).name;
-            html += '<span onclick="showPubKey(keyName);">&ensp;' + keyName + '</span><br/><hr>';
+            html += '<a target="_blank" onclick="showPubKey(keyName);">&ensp;' + keyName + '</a><br/><hr>';
         }
 
         // Update GUI

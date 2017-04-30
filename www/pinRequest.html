@@ -52,7 +52,7 @@
             <p id="ws_result"></p>
 
             <p>
-                <a href="javascript:pinRequest();">
+                <a target="_blank" href="javascript:qrcodeCreate('test');">
                     <button id="scan_button" type="button">SendMessage</button>
                 </a>
             </p>
@@ -65,10 +65,11 @@
     <script type="text/javascript" src="cordova.js"></script>
 
     <script type="text/javascript" src="js/webSocket.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/qrcode.js"></script>
     <script type="text/javascript" src="js/lib/protobuf.js"></script>
     <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
     <script type="text/javascript" src="js/lib/crypto-js.js"></script>
-    <script type="text/javascript" src="js/utils.js"></script>
 </body>
 
 </html>
