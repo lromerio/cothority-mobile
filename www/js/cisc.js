@@ -1,13 +1,12 @@
+
+// Conode information
 var address = '';
 var skipchain = '';
 
+// Session information
 var config;
 var keyName = '';
 var pubKey = '';
-
-//TODO
-var resp;
-
 
 /**
  * If a valid conode qr-code was scanned: extract conode information, use them to
@@ -17,50 +16,36 @@ var resp;
  */
 function ciscQrScanned(s) {
 
-    //conodeInfo = extractId(s);
+    conodeInfo = extractId(s);
 
-    //if(conodeInfo.length === 2) {
+    if(conodeInfo.length === 2) {
 
-        //ddress = conodeInfo[0];
-        //skipchain = hex2buf(conodeInfo[1]);
-
-        address = "192.33.210.8:8003";
-        skipchain = hex2buf("382b3d8fee898cb4e4b978bad0481ecdc994d2a78ff3e1e97c2811d16b68679e");
+        address = conodeInfo[0];
+        skipchain = hex2buf(conodeInfo[1]);
 
         // Create ConfigUpdate
-        var message = CothorityProtobuf.createConfigUpdate(skipchain);
+        const message = CothorityProtobuf.createConfigUpdate(skipchain);
 
         configUpdate(address, message, function(response) {
 
-
-            resp = new Uint8Array(response);
-
             // Decode message and store config
             config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
-
-            console.log(config);
-            console.log(buf2hex(config.device['test1212'].point));
-
-            const fields = {
-                config: config
-            };
-
-            //console.log(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields));
-            //console.log(CothorityProtobuf.decodeConfigUpdateReply(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields)).config)
 
             // Update GUI
             document.getElementById("threshold").innerHTML = config.threshold;
             document.getElementById("cisc_first").style.display = 'none';
             document.getElementById("cisc_second").style.display = 'block';
         });
-    //} else {
-      //  alert('Invalid qr-code');
-    //}
+    } else {
+        alert('Invalid qr-code');
+    }
 }
 
 /**
- * If a valid unqiue id has been inserted: generate a new keys pair
- * and call the given handler.
+ * If a valid unique id has been inserted: generate a new keys pair
+ * and return the public one to the given handler.
+ *
+ * @param handler
  */
 function ciscPropose(handler) {
 
@@ -87,9 +72,8 @@ function ciscPropose(handler) {
 function ciscPropose_handler(key) {
     if (key.length === 32) {
 
-        // Sore pubKey
+        // Store pubKey
         pubKey =  key;
-        console.log(pubKey);
 
         // Add new device to config and create ProposeSend
         config.device[keyName] = CothorityProtobuf.createDevice(pubKey);
@@ -105,26 +89,26 @@ function ciscPropose_handler(key) {
     }
 }
 
+/**
+ * Send a ConfigUpdate to the conode and verifies whether the proposition was accepted or not.
+ * Show a message with the result to the user.
+ */
 function ciscVerification() {
 
-    var message = CothorityProtobuf.createConfigUpdate(skipchain);
+    const message = CothorityProtobuf.createConfigUpdate(skipchain);
 
     configUpdate(address, message, function(response) {
 
-        // Decode message
+        // Decode response
         device = CothorityProtobuf.decodeConfigUpdateReply(response).config.device;
 
-        console.log(device);
-
-        // Prepare result message
+        // Update GUI
         var html;
         if(keyName in device && config.device[keyName].point === pubKey) {
             html = '<span style = "color: green;">Procedure successfully completed!</span>';
         } else {
             html = '<span style = "color: red;">Proposition refused by the conode.</span>';
         }
-
-        // Update GUI
         document.getElementById("cisc_fourth").innerHTML = html;
         document.getElementById("cisc_third").style.display = 'none';
         document.getElementById("cisc_fourth").style.display = 'block';
