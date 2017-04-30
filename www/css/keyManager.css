@@ -1,6 +1,38 @@
 .list {
     font-size: 20px;
     text-align: left;
-    line-height: 150%;
-    text-indent: 50px;
+    line-height: 100%;
+    background-color: #4B946A;
+    border: none;
+    color: white;
+    padding: 0;
+    text-indent: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    width: 100%;
+    height: 50px;
+    alignment: center;
+    margin: 2px;
+    position: static;
+}
+
+.key_action {
+    background-color: transparent;
+    text-align: center;
+    position: static;
+    width: 35%;
+    padding: 0;
+}
+
+#share_button {
+    color: #008CBA;
+    margin-left: 10%;
+    margin-right: 5%;
+}
+
+#delete_button {
+    color: #999999;
+    margin-left: 5%;
+    margin-right: 10%;
 }

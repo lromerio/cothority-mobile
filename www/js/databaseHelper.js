@@ -101,13 +101,14 @@ function dbRetrieveKeyPair(name, handler) {
 }
 
 /**
- * Retrieve the whole key table.
- * Once the operation is completed the handler function, received as
- * a parameter, is called.
+ * Perform the sql query contained in 'sql' with 'arg' as parameters.
+ * Once the query is completed trigger the given handler
  *
+ * @param sql
+ * @param arg
  * @param handler
  */
-function dbRetrieve(sql, arg, handler) {
+function dbAction(sql, arg, handler) {
 
     db.transaction(function (tx) {
         tx.executeSql(sql, arg, function (tx, result) {
