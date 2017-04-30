@@ -3,6 +3,7 @@ var skipchain = '';
 
 var config;
 var keyName = '';
+var pubKey = '';
 
 //TODO
 var resp;
@@ -37,19 +38,18 @@ function ciscQrScanned(s) {
             // Decode message and store config
             config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
 
-            console.log(new Uint8Array(response));
-            console.log(config)
+            console.log(config);
+            console.log(buf2hex(config.device['test1212'].point));
 
             const fields = {
                 config: config
             };
 
-            console.log(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields));
-            console.log(CothorityProtobuf.decodeConfigUpdateReply(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields)).config)
+            //console.log(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields));
+            //console.log(CothorityProtobuf.decodeConfigUpdateReply(CothorityProtobuf.encodeMessage('ConfigUpdateReply', fields)).config)
 
-            // Update buttons
+            // Update GUI
             document.getElementById("threshold").innerHTML = config.threshold;
-
             document.getElementById("cisc_first").style.display = 'none';
             document.getElementById("cisc_second").style.display = 'block';
         });
@@ -70,7 +70,6 @@ function ciscPropose(handler) {
     if(keyName !== '') {
         // Generate and store a new keys pair
         cryptoGenerateAndStore(keyName, function(res) {
-
             handler(res);
         });
     } else {
@@ -88,14 +87,13 @@ function ciscPropose(handler) {
 function ciscPropose_handler(key) {
     if (key.length === 32) {
 
-        // Add new device to config and create ProposeSend
-        var newDevice = CothorityProtobuf.createDevice(key);
-        config.device[keyName] = newDevice;
-        var message = CothorityProtobuf.createProposeSend(skipchain, config);
+        // Sore pubKey
+        pubKey =  key;
+        console.log(pubKey);
 
-        //TODO: debug print
-        console.log(message);
-        console.log(CothorityProtobuf.decodeMessage('ProposeSend', message));
+        // Add new device to config and create ProposeSend
+        config.device[keyName] = CothorityProtobuf.createDevice(pubKey);
+        const message = CothorityProtobuf.createProposeSend(skipchain, config);
 
         proposeSend(address, message, function(response) {
 
@@ -114,11 +112,13 @@ function ciscVerification() {
     configUpdate(address, message, function(response) {
 
         // Decode message
-        config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+        device = CothorityProtobuf.decodeConfigUpdateReply(response).config.device;
+
+        console.log(device);
 
         // Prepare result message
         var html;
-        if(keyName in device && device[keyName] === key) {
+        if(keyName in device && config.device[keyName].point === pubKey) {
             html = '<span style = "color: green;">Procedure successfully completed!</span>';
         } else {
             html = '<span style = "color: red;">Proposition refused by the conode.</span>';

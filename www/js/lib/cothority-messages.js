@@ -139,10 +139,9 @@ var configUpdateReply = new Type$21("ConfigUpdateReply").add(new Field$20('confi
 
 var Type$22 = protobuf.Type;
 var Field$21 = protobuf.Field;
-var MapField$3 = protobuf.MapField;
 
 
-var proposeSend = new Type$22("ProposeSend").add(new Field$21('id', 1, 'bytes')).add(new Field$21('threshold', 2, 'sint32')).add(new MapField$3('device', 3, 'string', 'Device')).add(new MapField$3('data', 4, 'string', 'string'));
+var proposeSend = new Type$22("ProposeSend").add(new Field$21('id', 1, 'bytes')).add(new Field$21('config', 2, 'Config'));
 
 var Type$23 = protobuf.Type;
 var Field$22 = protobuf.Field;
@@ -508,9 +507,11 @@ var CothorityMessages = function (_CothorityProtobuf) {
     value: function createProposeSend(id, config) {
       var fields = {
         id: id,
-        threshold: config.threshold,
-        device: config.device,
-        data: config.data
+        config: {
+          threshold: config.threshold,
+          device: config.device,
+          data: config.data
+        }
       };
 
       return this.encodeMessage('ProposeSend', fields);
