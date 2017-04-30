@@ -2,8 +2,6 @@
 
 var db = window.openDatabase("cothority_database", "1.0", "cothority_database", 1000000);
 
-var ready;
-
 var dbCallbacks = {
 
     dbErrorHandler: function (e) {
@@ -12,18 +10,16 @@ var dbCallbacks = {
 
     dbShowMessage: function (m) {
         alert(m);
-    },
-
-    dbReady: function () {
-        ready = true;
     }
-}
+};
 
 /**
- * Open the database.
+ * Open the database, once the db is ready the handler passed as parameter will be triggered.
+ *
+ * @param handler
  */
-function dbOpen() {
-    db.transaction(dbSetup, dbCallbacks.dbErrorHandler, dbCallbacks.dbReady);
+function dbOpen(handler) {
+    db.transaction(dbSetup, dbCallbacks.dbErrorHandler, handler);
 }
 
 /**
@@ -49,26 +45,21 @@ function dbSetup(tx) {
 function dbInsertKeyPair(name, keyPair, handler) {
 
     if (keyPair.match(/[0-9|a-f]{128}/)) {
-        if (ready) {
-            dbContainsKeyPair(name, function(res) {
-                if(!res) {
-                    db.transaction(
-                        function (tx) {
-                            var sql = "insert into key(name, keyPair) values(?,?)";
-                            tx.executeSql(sql, [name, keyPair]);
-                        }, dbCallbacks.dbErrorHandler, function () {
-                            handler(true);
-                        }
-                    );
-                } else {
-                    dbCallbacks.dbShowMessage('The key pair - ' + name + ' - already exists.');
-                    handler(false);
-                }
-            });
-        } else {
-            dbCallbacks.dbShowMessage("Database not ready yet");
-            handler(false);
-        }
+        dbContainsKeyPair(name, function(res) {
+            if(!res) {
+                db.transaction(
+                    function (tx) {
+                        var sql = "insert into key(name, keyPair) values(?,?)";
+                        tx.executeSql(sql, [name, keyPair]);
+                    }, dbCallbacks.dbErrorHandler, function () {
+                        handler(true);
+                    }
+                );
+            } else {
+                dbCallbacks.dbShowMessage('The key pair - ' + name + ' - already exists.');
+                handler(false);
+            }
+        });
     } else {
         dbCallbacks.dbShowMessage("Invalid key pair");
         handler(false);
@@ -84,17 +75,12 @@ function dbInsertKeyPair(name, keyPair, handler) {
  * @param handler
  */
 function dbContainsKeyPair(name, handler) {
-    if (ready) {
-        db.transaction(function (tx) {
-            var sql = "select K.keyPair from key K where K.name = ?";
-            tx.executeSql(sql, [name], function (tx, result) {
-                handler(result.rows.length === 1);
-            }, dbCallbacks.dbErrorHandler);
-        }, dbCallbacks.dbErrorHandler, function () {});
-    } else {
-        dbCallbacks.dbShowMessage("Database not ready yet");
-        handler(false);
-    }
+    db.transaction(function (tx) {
+        var sql = "select K.keyPair from key K where K.name = ?";
+        tx.executeSql(sql, [name], function (tx, result) {
+            handler(result.rows.length === 1);
+        }, dbCallbacks.dbErrorHandler);
+    }, dbCallbacks.dbErrorHandler, function () {});
 }
 
 /**
@@ -106,17 +92,27 @@ function dbContainsKeyPair(name, handler) {
  * @param handler
  */
 function dbRetrieveKeyPair(name, handler) {
-    if (ready) {
-        db.transaction(function (tx) {
-            var sql = "select K.keyPair from key K where K.name = ?";
-            tx.executeSql(sql, [name], function (tx, result) {
-                handler(result);
-            }, dbCallbacks.dbErrorHandler);
-        }, dbCallbacks.dbErrorHandler, function () {});
-    } else {
-        dbCallbacks.dbShowMessage("Database not ready yet");
-        handler(false);
-    }
+    db.transaction(function (tx) {
+        var sql = "select K.keyPair from key K where K.name = ?";
+        tx.executeSql(sql, [name], function (tx, result) {
+            handler(result);
+        }, dbCallbacks.dbErrorHandler);
+    }, dbCallbacks.dbErrorHandler, function () {});
+}
+
+/**
+ * Retrieve the whole key table.
+ * Once the operation is completed the handler function, received as
+ * a parameter, is called.
+ *
+ * @param handler
+ */
+function dbRetrieve(sql, arg, handler) {
+    db.transaction(function (tx) {
+        tx.executeSql(sql, arg, function (tx, result) {
+            handler(result);
+        }, dbCallbacks.dbErrorHandler);
+    }, dbCallbacks.dbErrorHandler, function () {});
 }
 
 /**
@@ -127,17 +123,41 @@ function dbRetrieveKeyPair(name, handler) {
  * @param handler
  */
 function dbCleanAll(handler) {
-    if (ready) {
-        db.transaction(
-            function (tx) {
-                var sql = "delete from key";
-                tx.executeSql(sql);
-            }, dbCallbacks.dbErrorHandler, function() {
-                handler(true);
-            }
-        );
-    } else {
-        dbCallbacks.dbShowMessage("Database not ready yet");
-        handler(false);
-    }
+    db.transaction(
+        function (tx) {
+            var sql = "delete from key";
+            tx.executeSql(sql);
+        }, dbCallbacks.dbErrorHandler, function() {
+            handler(true);
+        }
+    );
+}
+
+/**
+ * Generate a new key pair, store it in the database and return the public key.
+ * The key pair is identified by 'keyName'.
+ *
+ * @param keyName
+ * @returns {*}
+ */
+function dbGenerateAndStoreKeyPair(keyName, handler) {
+    dbContainsKeyPair(keyName, function(res) {
+
+        if (!res) {
+            var keyPair = cryptoJS.keyPair();
+            var pubKey = cryptoJS.publicKey(keyPair);
+            var hexKeyPair = buf2hex(keyPair);
+
+            dbInsertKeyPair(keyName, hexKeyPair, function(done) {
+                if (done) {
+                    return handler(pubKey);
+                } else {
+                    return handler([]);
+                }
+            });
+        } else {
+            alert('Key pair ID already used.');
+            return handler([]);
+        }
+    });
 }

@@ -20,6 +20,7 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
     <title>Cothority Mobile</title>
 
     <script src="js/sidebar.js"></script>
@@ -31,7 +32,6 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
         <a onclick="closeNav('index.html')">Home</a>
         <a onclick="closeNav('cisc.html')">Cisc</a>
-        <a onclick="closeNav('generateKey.html')">Generate Keys</a>
         <a onclick="closeNav('conodeStatus.html')">Contact Conode</a>
         <a onclick="closeNav('pinRequest.html')">Debug PinRequest</a>
         <a onclick="closeNav('cisc-configUpdate.html')">Debug CU</a>
@@ -44,7 +44,6 @@
 
     <!-- Page content -->
     <div data-role="page" id="main">
-
         <div data-role="main" class="ui-content">
 
             <input type="text" id="address">
@@ -66,7 +65,6 @@
     <script type="text/javascript" src="cordova.js"></script>
 
     <script type="text/javascript" src="js/webSocket.js"></script>
-    <script type="text/javascript" src="js/crypto.js"></script>
     <script type="text/javascript" src="js/lib/protobuf.js"></script>
     <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
     <script type="text/javascript" src="js/lib/crypto-js.js"></script>

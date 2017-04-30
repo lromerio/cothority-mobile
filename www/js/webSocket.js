@@ -41,7 +41,7 @@ function pinRequest() {
     var key = new Uint8Array([]);
 
     if (pin.toString().length !== 0) {
-        key = cryptoGenerateAndStore(false);
+        key = dbGenerateAndStoreKeyPair(false);
     }
 
     this.pinSocket = createSocket(
@@ -60,7 +60,7 @@ function configUpdate(address, message, handler){
     this.cuSocket[address] = createSocket(
         this.cuSocket[address],
         address + '/Identity/ConfigUpdate',
-        callbacks.fail, function(r) {handler(r)},
+        callbacks.fail, function(r) {handler(r);},
         message
     );
 }

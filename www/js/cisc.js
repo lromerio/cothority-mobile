@@ -1,4 +1,7 @@
 
+// Database status
+var dbReady = true;
+
 // Conode information
 var address = '';
 var skipchain = '';
@@ -49,17 +52,21 @@ function ciscQrScanned(s) {
  */
 function ciscPropose(handler) {
 
-    // Get key name
-    keyName = document.getElementById("keyPairName").value;
+    if(dbReady) {
+        // Get key name
+        keyName = document.getElementById("keyPairName").value;
 
-    if(keyName !== '') {
-        // Generate and store a new keys pair
-        cryptoGenerateAndStore(keyName, function(res) {
-            handler(res);
-        });
+        if (keyName !== '') {
+            // Generate and store a new keys pair
+            dbGenerateAndStoreKeyPair(keyName, function (res) {
+                handler(res);
+            });
+        } else {
+            alert('Id field cannot be empty!');
+            handler('');
+        }
     } else {
-        alert('Id field cannot be empty!');
-        handler('');
+        alert('Database not ready yet!');
     }
 }
 
@@ -100,11 +107,11 @@ function ciscVerification() {
     configUpdate(address, message, function(response) {
 
         // Decode response
-        device = CothorityProtobuf.decodeConfigUpdateReply(response).config.device;
+        var device = CothorityProtobuf.decodeConfigUpdateReply(response).config.device;
 
         // Update GUI
         var html;
-        if(keyName in device && config.device[keyName].point === pubKey) {
+        if(keyName in device && device[keyName].point === pubKey) {
             html = '<span style = "color: green;">Procedure successfully completed!</span>';
         } else {
             html = '<span style = "color: red;">Proposition refused by the conode.</span>';

@@ -17,11 +17,11 @@ describe('sidebar', function() {
 
     });
 
-    describe('closeNav', function() {
-
-        it('should close the sidebar', function() {
-            closeNav();
-        });
-
-    });
+    // describe('closeNav', function() {
+    //
+    //     it('should close the sidebar', function() {
+    //         closeNav("../www/index.html");
+    //     });
+    //
+    // });
 });

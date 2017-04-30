@@ -20,21 +20,22 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+
     <title>Cothority Mobile</title>
 
     <script src="js/sidebar.js"></script>
 </head>
 
-<body>
+<body onload="dbOpen()">
     <!-- Sidebar content -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
         <a onclick="closeNav('index.html')">Home</a>
         <a onclick="closeNav('cisc.html')">Cisc</a>
-        <a onclick="closeNav('generateKey.html')">Generate Keys</a>
+        <a onclick="closeNav('keyManager.html')">Key Manager</a>
         <a onclick="closeNav('conodeStatus.html')">Contact Conode</a>
         <a onclick="closeNav('pinRequest.html')">Debug PinRequest</a>
-        <a onclick="closeNav('cisc-configUpdate.html')">Debug CU</a>
     </div>
     <!-- Sidebar open icon -->
     <span id="open_menu" onclick="openNav()">

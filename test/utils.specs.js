@@ -28,16 +28,17 @@ describe('utils', function() {
     describe('extractId', function() {
 
         const prefix =  'cisc://';
-        const addr = '192.33.210.8:8003';
+        const scanAddr = '192.33.210.8:8003';
+        const resAddr = '192.33.210.8:8004';
         const skipchain = '5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c0';
 
-        const validInput = prefix + addr + '/' + skipchain;
+        const validInput = prefix + scanAddr + '/' + skipchain;
 
         it('should extract address', function() {
             const res = extractId(validInput);
 
             expect(res.length).toEqual(2);
-            expect(res[0]).toEqual(addr);
+            expect(res[0]).toEqual(resAddr);
         });
 
         it('should extract skipchainId', function() {
@@ -50,7 +51,7 @@ describe('utils', function() {
         describe('Bad input', function() {
 
             it('should return empty array with wrong prefix', function () {
-                const res = extractId('test://' + addr + '/' + skipchain);
+                const res = extractId('test://' + scanAddr + '/' + skipchain);
 
                 expect(res.length).toEqual(0);
             });
@@ -62,19 +63,19 @@ describe('utils', function() {
             });
 
             it('should return empty array without skipchain id', function () {
-                const res = extractId(prefix + addr + '/');
+                const res = extractId(prefix + scanAddr + '/');
 
                 expect(res.length).toEqual(0);
             });
 
             it('should return empty array with extra info', function () {
-                const res = extractId(validInput + '/' + addr);
+                const res = extractId(validInput + '/' + scanAddr);
 
                 expect(res.length).toEqual(0);
             });
 
             it('should return empty array with wrong skipchain_id/address', function () {
-                const res = extractId(prefix + skipchain + '/' + addr);
+                const res = extractId(prefix + skipchain + '/' + scanAddr);
 
                 expect(res.length).toEqual(0);
             });
@@ -97,9 +98,9 @@ describe('utils', function() {
             });
 
             it('should return empty array with malformed skipchain', function () {
-                const res1 = extractId(prefix + addr + '/' +
+                const res1 = extractId(prefix + scanAddr + '/' +
                     '5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fb03e9e49fdd9caa2c');  // length 63
-                const res2 = extractId(prefix + addr + '/' +
+                const res2 = extractId(prefix + scanAddr + '/' +
                     '5fe16b9de09a8b1731ab53d3278aabd3cba3c57a15629fg03e9e49fdd9caa2c0'); // invalid char (g)
 
 
