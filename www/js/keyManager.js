@@ -22,12 +22,12 @@ function showPubKey(keyName) {
     // Retrieve all keyPairs
     var sql = "select K.keyPair from key K where K.name = ?";
 
-    dbRetrieve(sql, [keyName], function(res) {
+    dbRetrieve(sql, [keyName.toString()], function(res) {
 
         if (res.rows.length === 1) {
 
-            var key = buf2hex(cryptoJS.publicKey(res.rows.item(0)));
-
+            // Extract public key and create qr-code
+            var key = buf2hex(cryptoJS.publicKey(hex2buf(res.rows.item(0).keyPair)));
             qrcodeCreate(key);
         }
     });

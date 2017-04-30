@@ -108,6 +108,7 @@ function dbRetrieveKeyPair(name, handler) {
  * @param handler
  */
 function dbRetrieve(sql, arg, handler) {
+
     db.transaction(function (tx) {
         tx.executeSql(sql, arg, function (tx, result) {
             handler(result);
