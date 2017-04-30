@@ -7,9 +7,9 @@ function displayKeys() {
 
         // Populate key list
         var html = '<hr>';
-        for (var i = 0; i < res.rows.length; ++i) {
+        for (var i = 0; i < 1; ++i) {
             var keyName  = res.rows.item(i).name;
-            html += '<span onclick="showPubKey($(this).text());">' + keyName + '</span><br/><hr>';
+            html += '<button onclick="showPubKey(this.innerHTML);">' + keyName + '</button>';
         }
 
         // Update GUI
