@@ -49,8 +49,10 @@ function keyAction(keyName) {
         });
     } else {
         // Delete key
-        sql = "delete from key where name = ?";
-        dbAction(sql, [keyName.toString()], function(r){displayKeys()});
+        if (confirm("Are you sure you want to delete this key pair?")) {
+            sql = "delete from key where name = ?";
+            dbAction(sql, [keyName.toString()], function(r){displayKeys()});
+        }
     }
 }
 
