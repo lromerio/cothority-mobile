@@ -28,8 +28,16 @@ function qrcodeScan(handler) {
  * @param toEncode
  */
 function qrcodeCreate(toEncode) {
+
+    alert(toEncode);
+
     cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, toEncode,
-        function (success) {alert("Encode succes: " + success)},
-        function (fail) {alert("Encoding failed: " + fail)}
+        function (success) {
+            alert('succes');
+            alert("Encode succes: " + success);
+        },
+        function (fail) {
+            alert("Encoding failed: " + fail);
+        }
     );
 }

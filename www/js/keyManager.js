@@ -9,7 +9,7 @@ function displayKeys() {
         var html = '<hr>';
         for (var i = 0; i < res.rows.length; ++i) {
             var keyName  = res.rows.item(i).name;
-            html += '<span target="_blank" onclick="showPubKey($(this).text());">' + keyName + '</span><br/><hr>';
+            html += '<span onclick="showPubKey($(this).text());">' + keyName + '</span><br/><hr>';
         }
 
         // Update GUI
@@ -28,7 +28,19 @@ function showPubKey(keyName) {
 
             // Extract public key and create qr-code
             var key = buf2hex(cryptoJS.publicKey(hex2buf(res.rows.item(0).keyPair)));
-            qrcodeCreate(key);
+
+            alert(key);
+
+            cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, key,
+                function (success) {
+                    alert('succes');
+                    alert("Encode succes: " + success);
+                },
+                function (fail) {
+                    alert('fail');
+                    alert("Encoding failed: " + fail);
+                }
+            );
         }
     });
 }
