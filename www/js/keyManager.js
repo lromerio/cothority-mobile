@@ -9,7 +9,7 @@ function displayKeys() {
         var html = '<hr>';
         for (var i = 0; i < res.rows.length; ++i) {
             var keyName  = res.rows.item(i).name;
-            html += '<a target="_blank" onclick="showPubKey(keyName);">&ensp;' + keyName + '</a><br/><hr>';
+            html += '<span target="_blank" onclick="showPubKey($(this).text());">' + keyName + '</span><br/><hr>';
         }
 
         // Update GUI
@@ -18,6 +18,7 @@ function displayKeys() {
 }
 
 function showPubKey(keyName) {
+
     // Retrieve all keyPairs
     var sql = "select K.keyPair from key K where K.name = ?";
 
