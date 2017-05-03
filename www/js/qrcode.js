@@ -28,9 +28,7 @@ function qrcodeScan(handler) {
  * @param toEncode
  */
 function qrcodeCreate(toEncode) {
-
-    alert(toEncode);
-
+    
     cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, toEncode,
         function (success) {
             alert('succes');
