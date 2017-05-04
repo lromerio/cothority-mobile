@@ -17,7 +17,7 @@
     position: static;
 }
 
-.key_action {
+.tabs {
     background-color: transparent;
     text-align: center;
     position: static;
@@ -25,14 +25,25 @@
     padding: 0;
 }
 
-#share_button {
+#share_button, #state {
     color: #008CBA;
     margin-left: 10%;
     margin-right: 5%;
 }
 
-#delete_button {
+#delete_button, #updates {
     color: #999999;
     margin-left: 5%;
     margin-right: 10%;
+}
+
+#show_config {
+    font-size: 13px;
+    text-align: left;
+    word-wrap: break-word;
+    width: 80%;
+}
+
+#show_config a {
+    text-indent: 100px;
 }

@@ -80,15 +80,14 @@ function ciscPropose(handler) {
             // Generate keys pair
             var keyPair = cryptoJS.keyPair();
             var hexKeyPair = buf2hex(keyPair);
+            var hexId = buf2hex(skipchain)
 
             // Add new entry to database
             var sql = "insert into conodes(address, serverId, deviceId, keyPair) values(?,?,?,?)";
 
             //var sql = "select * from key";
 
-            dbAction(sql, [address, skipchain, keyName, hexKeyPair], function() {
-
-                alert('db ok');
+            dbAction(sql, [address, hexId, keyName, hexKeyPair], function() {
 
                 // Add new device to config and create ProposeSend
                 var pubKey = cryptoJS.publicKey(keyPair);

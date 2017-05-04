@@ -149,11 +149,23 @@ var Field$22 = protobuf.Field;
 
 var device = new Type$23("Device").add(new Field$22('point', 1, 'bytes'));
 
+var Type$24 = protobuf.Type;
+var Field$23 = protobuf.Field;
+
+
+var proposeUpdate = new Type$24("ProposeUpdate").add(new Field$23('id', 1, 'bytes'));
+
+var Type$25 = protobuf.Type;
+var Field$24 = protobuf.Field;
+
+
+var proposeUpdateReply = new Type$25("ProposeUpdateReply").add(new Field$24('propose', 1, 'Config'));
+
 var Root = protobuf.Root;
 
 
 var root = new Root();
-root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend);
+root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend).add(proposeUpdate).add(proposeUpdateReply);
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -484,6 +496,13 @@ var CothorityMessages = function (_CothorityProtobuf) {
       return this.encodeMessage('ConfigUpdate', fields);
     }
   }, {
+    key: 'decodeConfigUpdateReply',
+    value: function decodeConfigUpdateReply(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('ConfigUpdateReply', response);
+    }
+  }, {
     key: 'createDevice',
     value: function createDevice(key) {
 
@@ -494,13 +513,6 @@ var CothorityMessages = function (_CothorityProtobuf) {
       };
 
       return model.create(fields);
-    }
-  }, {
-    key: 'decodeConfigUpdateReply',
-    value: function decodeConfigUpdateReply(response) {
-      response = new Uint8Array(response);
-
-      return this.decodeMessage('ConfigUpdateReply', response);
     }
   }, {
     key: 'createProposeSend',
@@ -515,6 +527,22 @@ var CothorityMessages = function (_CothorityProtobuf) {
       };
 
       return this.encodeMessage('ProposeSend', fields);
+    }
+  }, {
+    key: 'createProposeUpdate',
+    value: function createProposeUpdate(id) {
+      var fields = {
+        id: id
+      };
+
+      return this.encodeMessage('ProposeUpdate', fields);
+    }
+  }, {
+    key: 'decodeProposeUpdateReply',
+    value: function decodeProposeUpdateReply(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('ProposeUpdateReply', response);
     }
   }]);
   return CothorityMessages;

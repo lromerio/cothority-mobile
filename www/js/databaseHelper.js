@@ -5,7 +5,7 @@ var db = window.openDatabase("cothority_database", "2.0", "cothority_database", 
 var dbCallbacks = {
 
     dbErrorHandler: function (e) {
-        console.log('Database error: ' + e);
+        console.log('Database error: ' + e.code + ' ' + e.message);
     }
 };
 

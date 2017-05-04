@@ -20,7 +20,6 @@
     </script>
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
-
     <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
 
     <title>Cothority Mobile</title>
@@ -28,7 +27,7 @@
     <script src="js/sidebar.js"></script>
 </head>
 
-<body>
+<body onload="dbOpen(function() {ciscDbReady()})">
     <!-- Sidebar content -->
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
@@ -41,20 +40,43 @@
     <!-- Sidebar open icon -->
     <span id="open_menu" onclick="openNav()">
             <img src="img/menu.png" alt="MENU">
-    </span>
+        </span>
     <hr>
 
     <!-- Page content -->
     <div data-role="page" id="main">
         <div data-role="main" class="ui-content">
 
-            <input type="text" id="address">
-            <p id="ws_result"></p>
+            <!-- Phase 1 (ConfigUpdate -->
+            <p id="cisc_first" style="display: block">
+                Print conode qr-code using <i>cisc id qr</i>, then scan it in order to connect the
+                device to the conode and start the procedure. <br/>
 
-            <p>
-                <a href="javascript:getStatus();">
-                    <button id="scan_button" type="button">SendMessage</button>
+                <a target="_blank" href="javascript:qrcodeScan(function(r) {ciscQrScanned(r)});">
+                    <button type="button">Scan</button>
                 </a>
+            </p>
+            <!-- Phase 2 (ProposeSend) -->
+            <p id="cisc_second" style="display: none">
+                Successfully paired! <br/><br/>
+
+                <label for="keyPairName">Insert a unique id: </label><br/>
+                <input id="keyPairName"/> <br/><br/>
+
+                Now insert a unique id for this conode. This id will identify the device between
+                all devices registered to the conode, as well as your keys pair locally.
+
+                <a href="javascript:ciscPropose();">
+                    <button type="button">Propose</button>
+                </a>
+            </p>
+            <!-- Phase 3 (Verification) -->
+            <p id="cisc_third" style="display: none">
+                Threshold: <b id="threshold"></b> <br/><br/>
+
+                Proposition done.
+                Once the threshold is reached, your proposition we'll be accepted, and you'll be able
+                to verify that the procedure has been completed with success. <br/>
             </p>
         </div>
     </div>
@@ -64,7 +86,14 @@
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
 
+    <script type="text/javascript" src="js/registerDevice.js"></script>
+    <script type="text/javascript" src="js/utils.js"></script>
     <script type="text/javascript" src="js/webSocket.js"></script>
+    <script type="text/javascript" src="js/qrcode.js"></script>
+    <script type="text/javascript" src="js/databaseHelper.js"></script>
+    <script type="text/javascript" src="js/lib/protobuf.js"></script>
+    <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
+    <script type="text/javascript" src="js/lib/crypto-js.js"></script>
 </body>
 
 </html>

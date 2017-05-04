@@ -1,6 +1,7 @@
 var status = {};
 
 var cuSocket = {};
+var puSocket = {};
 var psSocket = {};
 
 /**
@@ -60,6 +61,16 @@ function configUpdate(address, message, handler){
     this.cuSocket[address] = createSocket(
         this.cuSocket[address],
         address + '/Identity/ConfigUpdate',
+        callbacks.fail, function(r) {handler(r);},
+        message
+    );
+}
+
+function proposeUpdate(address, message, handler){
+
+    this.puSocket[address] = createSocket(
+        this.puSocket[address],
+        address + '/Identity/ProposeUpdate',
         callbacks.fail, function(r) {handler(r);},
         message
     );
