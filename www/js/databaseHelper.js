@@ -26,11 +26,11 @@ function dbOpen(handler) {
  */
 function dbSetup(tx) {
 
-    // tx.executeSql('drop table if exists key');
-    // tx.executeSql('drop table if exists server');
+    var conodes = "create table if not exists conodes(id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT, serverId TEXT, deviceId TEXT, keyPair TEXT)";
+    tx.executeSql(conodes);
 
-    var sql = "create table if not exists conodes(id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT, serverId TEXT, deviceId TEXT, keyPair TEXT)";
-    tx.executeSql(sql);
+    var ssh = "create table if not exists ssh(id INTEGER PRIMARY KEY AUTOINCREMENT, serverAddr TEXT, sshName TEXT, sshKeyPair TEXT)";
+    tx.executeSql(ssh);
 }
 
 /**

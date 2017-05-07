@@ -55,55 +55,49 @@ function ciscQrScanned(s) {
  */
 function ciscPropose(handler) {
 
-    if (true) {
-        // Get key name
-        keyName = document.getElementById("keyPairName").value;
+    // Get key name
+    keyName = document.getElementById("keyPairName").value;
 
-        if (keyName === '') {
-            alert('Id field cannot be empty!');
-            handler('');
-        } else if (keyName in config.device) {
-            alert('Device name not available');
-            handler('');
-        } else {
-
-            // TODO: più server diversi, ma al massimo una per server?
-            //
-            // var sql = "select * from key K where K address = ? AND K.serverId = ?";
-            // dbAction(sql, [address, skipchain], function(res) {
-            //     if (res.rows.length >= 1) {
-            //         alert('Server already registered');
-            //         handler('');
-            //     }
-            // });
-
-            // Generate keys pair
-            var keyPair = cryptoJS.keyPair();
-            var hexKeyPair = buf2hex(keyPair);
-            var hexId = buf2hex(skipchain)
-
-            // Add new entry to database
-            var sql = "insert into conodes(address, serverId, deviceId, keyPair) values(?,?,?,?)";
-
-            //var sql = "select * from key";
-
-            dbAction(sql, [address, hexId, keyName, hexKeyPair], function() {
-
-                // Add new device to config and create ProposeSend
-                var pubKey = cryptoJS.publicKey(keyPair);
-                config.device[keyName] = CothorityProtobuf.createDevice(pubKey);
-                const message = CothorityProtobuf.createProposeSend(skipchain, config);
-
-                proposeSend(address, message, function () {
-
-                    // Update GUI
-                    document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
-                    document.getElementById("cisc_second").style.display = 'none';
-                    document.getElementById("cisc_third").style.display = 'block';
-                });
-            });
-        }
+    if (keyName === '') {
+        alert('Id field cannot be empty!');
+        handler('');
+    } else if (keyName in config.device) {
+        alert('Device name not available');
+        handler('');
     } else {
-        alert('Database not ready yet!');
+
+        // TODO: più server diversi, ma al massimo una per server?
+        //
+        // var sql = "select * from key K where K address = ? AND K.serverId = ?";
+        // dbAction(sql, [address, skipchain], function(res) {
+        //     if (res.rows.length >= 1) {
+        //         alert('Server already registered');
+        //         handler('');
+        //     }
+        // });
+
+        // Generate keys pair
+        var keyPair = cryptoJS.keyPair();
+        var hexKeyPair = buf2hex(keyPair);
+        var hexId = buf2hex(skipchain)
+
+        // Add new entry to database
+        var sql = "insert into conodes(address, serverId, deviceId, keyPair) values(?,?,?,?)";
+
+        dbAction(sql, [address, hexId, keyName, hexKeyPair], function() {
+
+            // Add new device to config and create ProposeSend
+            var pubKey = cryptoJS.publicKey(keyPair);
+            config.device[keyName] = CothorityProtobuf.createDevice(pubKey);
+            const message = CothorityProtobuf.createProposeSend(skipchain, config);
+
+            proposeSend(address, message, function () {
+
+                // Update GUI
+                document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
+                document.getElementById("cisc_second").style.display = 'none';
+                document.getElementById("cisc_third").style.display = 'block';
+            });
+        });
     }
 }
