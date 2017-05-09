@@ -79,7 +79,7 @@ function ciscPropose(handler) {
         // Generate keys pair
         var keyPair = cryptoJS.keyPair();
         var hexKeyPair = buf2hex(keyPair);
-        var hexId = buf2hex(skipchain)
+        var hexId = buf2hex(skipchain);
 
         // Add new entry to database
         var sql = "insert into conodes(address, serverId, deviceId, keyPair) values(?,?,?,?)";

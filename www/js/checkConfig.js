@@ -1,6 +1,9 @@
 
 var updates = false;
 
+var config;
+var address;
+
 function displayConodes() {
 
     // Retrieve all keyPairs
@@ -42,11 +45,14 @@ function updatesCallback() {
 
 function conodeAction(addr) {
 
+    // Store address
+    address = addr;
+
     var sql = "select C.serverId from conodes C where C.address = ?";
 
-    dbAction(sql, [addr], function(res) {
+    dbAction(sql, [address], function(res) {
 
-        //TODO: should be === 1 ...can not register multiple time to same server
+        //TODO: should be === 1 ...can not register multiple time to same server?
         //if (res.rows.length >= 1) {
 
             var  id = hex2buf(res.rows.item(0).serverId);
@@ -55,33 +61,33 @@ function conodeAction(addr) {
                 // Create ProposeUpdate
                 const pu = CothorityProtobuf.createProposeUpdate(id);
 
-                proposeUpdate(addr, pu, function(response) {
+                proposeUpdate(address, pu, function(response) {
 
-                    // Decode message
-                    var config = CothorityProtobuf.decodeProposeUpdateReply(response).propose;
+                    // Decode message and store config
+                    config = CothorityProtobuf.decodeProposeUpdateReply(response).propose;
 
-                    showConfig(addr, config);
+                    showConfig();
                 });
             } else {
 
                 // Create ConfigUpdate
                 const cu = CothorityProtobuf.createConfigUpdate(id);
 
-                configUpdate(addr, cu, function(response) {
+                configUpdate(address, cu, function(response) {
 
-                    // Decode message
-                    var config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+                    // Decode message and store config
+                    config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
 
-                    showConfig(addr, config);
+                    showConfig();
                 });
             }
         //}
     })
 }
 
-function showConfig(addr, config) {
+function showConfig() {
 
-    var html = addr + '<hr>';
+    var html = address + '<hr>';
 
     if (updates && config === undefined) {
         html += 'No updates to vote.';
@@ -102,12 +108,33 @@ function showConfig(addr, config) {
         }
     }
 
-    if (updates) {
-       //TODO: add vote button
+    if (updates && config !== undefined) {
+       html += '<button onclick="voteUpdate()">Vote</button>';
     }
 
     // Update GUI
     document.getElementById("conodes_list").style.display = 'none';
     document.getElementById("show_config").style.display = 'block';
     document.getElementById("show_config").innerHTML = html;
+}
+
+function voteUpdate() {
+
+    var sql = "select * from conodes C where C.address = ?";
+
+    dbAction(sql, [address], function(res) {
+
+        var hash = cryptoJS.hashConfig(config);
+
+        alert(hash);
+        alert(res.rows.item(0).keyPair);
+
+        // TODO: sign con key privata, ma non posso averla "da sola" ... ok keyPair?
+        var signature = cryptoJS.sign(res.rows.item(0).keyPair, hash);
+
+        // const pv = CothorityProtobuf.createProposeVote(id, res.rows.item(0).deviceId, signature);
+        // proposeVote(address, pv, function (response) {
+        //     // TODO: Do nothing..giusto?
+        // });
+    });
 }

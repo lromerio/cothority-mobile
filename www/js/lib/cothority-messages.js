@@ -161,11 +161,17 @@ var Field$24 = protobuf.Field;
 
 var proposeUpdateReply = new Type$25("ProposeUpdateReply").add(new Field$24('propose', 1, 'Config'));
 
+var Type$26 = protobuf.Type;
+var Field$25 = protobuf.Field;
+
+
+var proposeVote = new Type$26("ProposeVote").add(new Field$25('id', 1, 'bytes')).add(new Field$25('signer', 2, 'string')).add(new Field$25('signature', 3, 'bytes'));
+
 var Root = protobuf.Root;
 
 
 var root = new Root();
-root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend).add(proposeUpdate).add(proposeUpdateReply);
+root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend).add(proposeUpdate).add(proposeUpdateReply).add(proposeVote);
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -543,6 +549,17 @@ var CothorityMessages = function (_CothorityProtobuf) {
       response = new Uint8Array(response);
 
       return this.decodeMessage('ProposeUpdateReply', response);
+    }
+  }, {
+    key: 'createProposeVote',
+    value: function createProposeVote(id, signer, signature) {
+      var fields = {
+        id: id,
+        signer: signer,
+        signature: signature
+      };
+
+      return this.encodeMessage('ProposeVote', fields);
     }
   }]);
   return CothorityMessages;

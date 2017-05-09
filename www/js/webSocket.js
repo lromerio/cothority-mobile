@@ -3,6 +3,7 @@ var status = {};
 var cuSocket = {};
 var puSocket = {};
 var psSocket = {};
+var pvSocket = {};
 
 /**
  * Contains two function used as callback, they takes care to show a success or an error message.
@@ -81,6 +82,16 @@ function proposeSend(address, message, handler) {
     this.psSocket[address] = createSocket(
         this.psSocket[address],
         address + '/Identity/ProposeSend',
+        callbacks.fail, function(r) {handler(r)},
+        message
+    );
+}
+
+function proposeVote(address, message, handler) {
+
+    this.pvSocket[address] = createSocket(
+        this.pvSocket[address],
+        address + '/Identity/ProposeVote',
         callbacks.fail, function(r) {handler(r)},
         message
     );
