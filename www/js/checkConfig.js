@@ -89,15 +89,15 @@ function showConfig() {
 
     var html = address + '<hr>';
 
-    if (updates && config === undefined) {
+    if (updates && config === null) {
         html += 'No updates to vote.';
     } else {
 
         //html += '<b>Threshold: </b>' + config.threshold + '</br></br>';
 
         html += '<b>Devices:</b></br>';
-        for (var key in config.device) {
-            html += '<i>' + key + '</i> ' + buf2hex(config.device[key].point) + '</br></br>';
+        for (var device in config.device) {
+            html += '<i>' + device + '</i> ' + buf2hex(config.device[device].point) + '</br></br>';
         }
 
         html += '</br>';
@@ -108,7 +108,7 @@ function showConfig() {
         }
     }
 
-    if (updates && config !== undefined) {
+    if (updates && config !== null) {
        html += '<button onclick="voteUpdate()">Vote</button>';
     }
 
@@ -126,15 +126,17 @@ function voteUpdate() {
 
         var hash = cryptoJS.hashConfig(config);
 
-        alert(hash);
+        alert(buf2hex(hash));
         alert(res.rows.item(0).keyPair);
 
         // TODO: sign con key privata, ma non posso averla "da sola" ... ok keyPair?
-        var signature = cryptoJS.sign(res.rows.item(0).keyPair, hash);
+        var signature = cryptoJS.sign(hex2buf(res.rows.item(0).keyPair), hash);
 
-        // const pv = CothorityProtobuf.createProposeVote(id, res.rows.item(0).deviceId, signature);
-        // proposeVote(address, pv, function (response) {
-        //     // TODO: Do nothing..giusto?
-        // });
+        alert(signature);
+
+        const pv = CothorityProtobuf.createProposeVote(res.rows.item(0).serverId, res.rows.item(0).deviceId, signature);
+        proposeVote(address, pv, function (response) {
+            // TODO: Do nothing..giusto?
+        });
     });
 }

@@ -71,6 +71,8 @@ function sshPropose() {
         dbAction(sql, [conodeEntry.address, sshName, hexKeyPair], function(res) {
 
             // Add new ssh key to config and create ProposeSend
+            //TODO test this
+            config.data[sshName] = hexKeyPair;
             const ps = CothorityProtobuf.createProposeSend(hex2buf(conodeEntry.serverId), config);
 
             proposeSend(conodeEntry.address, ps, function () {

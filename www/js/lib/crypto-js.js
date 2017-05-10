@@ -30363,8 +30363,8 @@ $packages["./crypto"] = (function() {
 	sliceType$3 = $sliceType($emptyInterface);
 	sliceType$4 = $sliceType(abstract$1.Point);
 	HashConfig = function(config) {
-		var $ptr, _entry, _i, _i$1, _keys, _r, _r$1, _r$2, _r$3, _ref, _ref$1, config, data, hash, owners, s, s$1, x, $s, $r;
-		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _i = $f._i; _i$1 = $f._i$1; _keys = $f._keys; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _ref = $f._ref; _ref$1 = $f._ref$1; config = $f.config; data = $f.data; hash = $f.hash; owners = $f.owners; s = $f.s; s$1 = $f.s$1; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
+		var $ptr, _entry, _i, _i$1, _keys, _r, _r$1, _r$2, _r$3, _r$4, _ref, _ref$1, config, data, hash, owners, s, s$1, x, $s, $r;
+		/* */ $s = 0; var $f, $c = false; if (this !== undefined && this.$blk !== undefined) { $f = this; $c = true; $ptr = $f.$ptr; _entry = $f._entry; _i = $f._i; _i$1 = $f._i$1; _keys = $f._keys; _r = $f._r; _r$1 = $f._r$1; _r$2 = $f._r$2; _r$3 = $f._r$3; _r$4 = $f._r$4; _ref = $f._ref; _ref$1 = $f._ref$1; config = $f.config; data = $f.data; hash = $f.hash; owners = $f.owners; s = $f.s; s$1 = $f.s$1; x = $f.x; $s = $f.$s; $r = $f.$r; } s: while (true) { switch ($s) { case 0:
 		hash = sha256.New();
 		_r = binary.Write(hash, (x = binary.LittleEndian, new x.constructor.elem(x)), new $Int(($parseInt(config.threshold) >> 0))); /* */ $s = 1; case 1: if($c) { $c = false; _r = _r.$blk(); } if (_r && _r.$blk !== undefined) { break s; }
 		_r;
@@ -30398,11 +30398,13 @@ $packages["./crypto"] = (function() {
 				_r$2 = hash.Write(new sliceType$1($stringToBytes(data))); /* */ $s = 8; case 8: if($c) { $c = false; _r$2 = _r$2.$blk(); } if (_r$2 && _r$2.$blk !== undefined) { break s; }
 				_r$2;
 			/* } */ case 7:
+			_r$3 = hash.Write($assertType($internalize(config.device[$externalize(s$1, $String)].point, $emptyInterface), sliceType$1)); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
+			_r$3;
 			_i$1++;
 		/* } */ $s = 3; continue; case 4:
-		_r$3 = hash.Sum(sliceType$1.nil); /* */ $s = 9; case 9: if($c) { $c = false; _r$3 = _r$3.$blk(); } if (_r$3 && _r$3.$blk !== undefined) { break s; }
-		$s = -1; return _r$3;
-		/* */ } return; } if ($f === undefined) { $f = { $blk: HashConfig }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._i$1 = _i$1; $f._keys = _keys; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._ref = _ref; $f._ref$1 = _ref$1; $f.config = config; $f.data = data; $f.hash = hash; $f.owners = owners; $f.s = s; $f.s$1 = s$1; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
+		_r$4 = hash.Sum(sliceType$1.nil); /* */ $s = 10; case 10: if($c) { $c = false; _r$4 = _r$4.$blk(); } if (_r$4 && _r$4.$blk !== undefined) { break s; }
+		$s = -1; return _r$4;
+		/* */ } return; } if ($f === undefined) { $f = { $blk: HashConfig }; } $f.$ptr = $ptr; $f._entry = _entry; $f._i = _i; $f._i$1 = _i$1; $f._keys = _keys; $f._r = _r; $f._r$1 = _r$1; $f._r$2 = _r$2; $f._r$3 = _r$3; $f._r$4 = _r$4; $f._ref = _ref; $f._ref$1 = _ref$1; $f.config = config; $f.data = data; $f.hash = hash; $f.owners = owners; $f.s = s; $f.s$1 = s$1; $f.x = x; $f.$s = $s; $f.$r = $r; return $f;
 	};
 	$pkg.HashConfig = HashConfig;
 	Sha256 = function(bytes) {
