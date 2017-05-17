@@ -126,17 +126,22 @@ function voteUpdate() {
 
         var hash = cryptoJS.hashConfig(config);
 
-        alert(buf2hex(hash));
-        alert(res.rows.item(0).keyPair);
 
-        // TODO: sign con key privata, ma non posso averla "da sola" ... ok keyPair?
-        var signature = cryptoJS.sign(hex2buf(res.rows.item(0).keyPair), hash);
+        var signature = cryptoJS.schnorrSign(hex2buf(res.rows.item(0).keyPair), hash);
 
-        alert(signature);
+        console.log(JSON.stringify(signature, null, 4));
 
-        const pv = CothorityProtobuf.createProposeVote(res.rows.item(0).serverId, res.rows.item(0).deviceId, signature);
+        var challenge = hex2buf(buf2hex(signature).substring(0, 64));
+        var response = hex2buf(buf2hex(signature).substring(64));
+
+        console.log(buf2hex(signature).substring(0, 64));
+
+        const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.item(0).serverId), res.rows.item(0).deviceId, challenge, response);
+
+        console.log(JSON.stringify(CothorityProtobuf.decodeMessage("ProposeVote", pv), null, 4));
+
         proposeVote(address, pv, function (response) {
-            // TODO: Do nothing..giusto?
+            // TODO: Do nothing..giusto? 01f892467683505dfc93f93e5bcf580307cf735043365e3d95ad42c7dac0ed3f
         });
     });
 }

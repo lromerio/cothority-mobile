@@ -165,13 +165,19 @@ var Type$26 = protobuf.Type;
 var Field$25 = protobuf.Field;
 
 
-var proposeVote = new Type$26("ProposeVote").add(new Field$25('id', 1, 'bytes')).add(new Field$25('signer', 2, 'string')).add(new Field$25('signature', 3, 'bytes'));
+var schnorrSig = new Type$26("SchnorrSig").add(new Field$25('challenge', 1, 'bytes')).add(new Field$25('response', 2, 'bytes'));
+
+var Type$27 = protobuf.Type;
+var Field$26 = protobuf.Field;
+
+
+var proposeVote = new Type$27("ProposeVote").add(new Field$26('id', 1, 'bytes')).add(new Field$26('signer', 2, 'string')).add(new Field$26('signature', 3, 'SchnorrSig'));
 
 var Root = protobuf.Root;
 
 
 var root = new Root();
-root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend).add(proposeUpdate).add(proposeUpdateReply).add(proposeVote);
+root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(device).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend).add(proposeUpdate).add(proposeUpdateReply).add(schnorrSig).add(proposeVote);
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -552,11 +558,14 @@ var CothorityMessages = function (_CothorityProtobuf) {
     }
   }, {
     key: 'createProposeVote',
-    value: function createProposeVote(id, signer, signature) {
+    value: function createProposeVote(id, signer, challenge, response) {
       var fields = {
         id: id,
         signer: signer,
-        signature: signature
+        signature: {
+          challenge: challenge,
+          response: response
+        }
       };
 
       return this.encodeMessage('ProposeVote', fields);
