@@ -129,16 +129,16 @@ function voteUpdate() {
 
         var signature = cryptoJS.schnorrSign(hex2buf(res.rows.item(0).keyPair), hash);
 
-        console.log(JSON.stringify(signature, null, 4));
+        //console.log(JSON.stringify(signature, null, 4));
 
         var challenge = hex2buf(buf2hex(signature).substring(0, 64));
         var response = hex2buf(buf2hex(signature).substring(64));
 
-        console.log(buf2hex(signature).substring(0, 64));
+        //console.log(buf2hex(signature).substring(0, 64));
 
         const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.item(0).serverId), res.rows.item(0).deviceId, challenge, response);
 
-        console.log(JSON.stringify(CothorityProtobuf.decodeMessage("ProposeVote", pv), null, 4));
+        //console.log(JSON.stringify(CothorityProtobuf.decodeMessage("ProposeVote", pv), null, 4));
 
         proposeVote(address, pv, function (response) {
             // TODO: Do nothing..giusto? 01f892467683505dfc93f93e5bcf580307cf735043365e3d95ad42c7dac0ed3f
