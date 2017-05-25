@@ -43,6 +43,7 @@ function updatesCallback() {
     document.getElementById("show_config").style.display = 'none';
 }
 
+
 function conodeAction(addr) {
 
     // Store address
@@ -85,6 +86,9 @@ function conodeAction(addr) {
     })
 }
 
+/**
+ * Show the 'config' to the screen.
+ */
 function showConfig() {
 
     var html = address + '<hr>';
@@ -118,30 +122,32 @@ function showConfig() {
     document.getElementById("show_config").innerHTML = html;
 }
 
+/**
+ * Create a ProposeVote message and send.
+ */
 function voteUpdate() {
 
     var sql = "select * from conodes C where C.address = ?";
 
     dbAction(sql, [address], function(res) {
 
+        // Compute hash
         var hash = cryptoJS.hashConfig(config);
 
-
+        // Sign and extract challenge/response
         var signature = cryptoJS.schnorrSign(hex2buf(res.rows.item(0).keyPair), hash);
-
-        //console.log(JSON.stringify(signature, null, 4));
-
         var challenge = hex2buf(buf2hex(signature).substring(0, 64));
         var response = hex2buf(buf2hex(signature).substring(64));
 
-        //console.log(buf2hex(signature).substring(0, 64));
-
-        const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.item(0).serverId), res.rows.item(0).deviceId, challenge, response);
-
-        //console.log(JSON.stringify(CothorityProtobuf.decodeMessage("ProposeVote", pv), null, 4));
+        // Create ProposeVote
+        const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.item(0).serverId),
+            res.rows.item(0).deviceId, challenge, response);
 
         proposeVote(address, pv, function (response) {
-            // TODO: Do nothing..giusto? 01f892467683505dfc93f93e5bcf580307cf735043365e3d95ad42c7dac0ed3f
+
+            // Update GUI
+            document.getElementById("show_config").style.display = 'none';
+            document.getElementById("success_msg").style.display = 'block';
         });
     });
 }
