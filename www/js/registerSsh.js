@@ -65,13 +65,10 @@ function sshPropose() {
 
         // Add new entry to database
         var sql = "insert into ssh(serverAddr, sshName, sshKeyPair) values(?,?,?)";
-
-        alert(hex2buf(conodeEntry.serverId));
-
+        
         dbAction(sql, [conodeEntry.address, sshName, hexKeyPair], function(res) {
 
             // Add new ssh key to config and create ProposeSend
-            //TODO test this
             config.data[sshName] = hexKeyPair;
             const ps = CothorityProtobuf.createProposeSend(hex2buf(conodeEntry.serverId), config);
 
