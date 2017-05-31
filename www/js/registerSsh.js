@@ -65,7 +65,7 @@ function sshPropose() {
 
         // Add new entry to database
         var sql = "insert into ssh(serverAddr, sshName, sshKeyPair) values(?,?,?)";
-        
+
         dbAction(sql, [conodeEntry.address, sshName, hexKeyPair], function(res) {
 
             // Add new ssh key to config and create ProposeSend
