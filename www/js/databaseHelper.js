@@ -38,12 +38,14 @@ function dbOpen(handler) {
 function dbSetup(tx) {
 
     var conodes = "create table if not exists conodes(address TEXT PRIMARY KEY, " +
-        "serverId TEXT, deviceId TEXT, keyPair TEXT)";
+        "serverId TEXT NOT NULL, deviceId TEXT NOT NULL, keyPair TEXT NOT NULL, " +
+        "UNIQUE(serverId), UNIQUE(keypair))";
 
     tx.executeSql(conodes);
 
     var ssh = "create table if not exists ssh(serverAddr TEXT, sshName TEXT, " +
-        "sshKeyPair TEXT, PRIMARY KEY(serverAddr, sshName))";
+        "sshKeyPair TEXT NOT NULL, PRIMARY KEY(serverAddr, sshName), " +
+        "FOREIGN KEY(serverAddr) REFERENCES conodes(address), UNIQUE(sshKeyPair))";
     tx.executeSql(ssh);
 }
 
