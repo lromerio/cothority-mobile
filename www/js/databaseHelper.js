@@ -37,12 +37,13 @@ function dbOpen(handler) {
  */
 function dbSetup(tx) {
 
-    var conodes = "create table if not exists conodes(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        "address TEXT, serverId TEXT, deviceId TEXT, keyPair TEXT)";
+    var conodes = "create table if not exists conodes(address TEXT PRIMARY KEY, " +
+        "serverId TEXT, deviceId TEXT, keyPair TEXT)";
+
     tx.executeSql(conodes);
 
-    var ssh = "create table if not exists ssh(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        "serverAddr TEXT, sshName TEXT, sshKeyPair TEXT)";
+    var ssh = "create table if not exists ssh(serverAddr TEXT, sshName TEXT, " +
+        "sshKeyPair TEXT, PRIMARY KEY(serverAddr, sshName))";
     tx.executeSql(ssh);
 }
 
