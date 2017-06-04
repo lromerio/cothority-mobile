@@ -1,4 +1,11 @@
 /**
+ * Sidebar handlers.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
+
+
+/**
  * Open the sidebar.
  */
 function openNav() {

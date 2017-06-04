@@ -1,12 +1,20 @@
-var status = {};
+/**
+ * Use the CothorityProtoBuf library (https://github.com/Gilthoniel/CothorityProtoBuf)
+ * to communicate with the  DEDIS conodes.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
 
+// A series of Socket arrays, one for type of message, used to avoid creating
+// multiple sockets when sending multiple messages to the same conode.
+var srSocket = {};
 var cuSocket = {};
 var puSocket = {};
 var psSocket = {};
 var pvSocket = {};
 
 /**
- * Contains two function used as callback, they takes care to show a success or an error message.
+ * Contains two function used as callbacks, they takes care to show success and error messages.
  *
  * @type {{fail: callbacks.fail, success: callbacks.success}}
  */
@@ -20,14 +28,12 @@ var callbacks = {
 };
 
 /**
- * Use user's input to send a StatusRequest.
+ * Send a Status request to the given address.
  */
-function getStatus() {
+function getStatus(address) {
 
-    var address = document.getElementById("address").value;
-
-    this.status[address] = createSocket(
-        this.status[address],
+    this.srSocket[address] = createSocket(
+        this.srSocket[address],
         address + '/Status/Request',
         callbacks.fail, callbacks.success,
         new Uint8Array([])
@@ -35,27 +41,11 @@ function getStatus() {
 }
 
 /**
- * Use user's input to create a PinRequest and send it.
- */
-function pinRequest() {
-    var address = document.getElementById("address").value;
-    var pin = document.getElementById("pin").value;
-    var key = new Uint8Array([]);
-
-    if (pin.toString().length !== 0) {
-        key = dbGenerateAndStoreKeyPair(false);
-    }
-
-    this.pinSocket = createSocket(
-        this.pinSocket,
-        address + '/PoPServer/PinRequest',
-        callbacks.fail, callbacks.success,
-        CothorityProtobuf.createPinRequest(pin, key)
-    );
-}
-
-/**
  * Use user's input to create a ConfigUpdate and send it.
+ *
+ * @param address
+ * @param message
+ * @param handler
  */
 function configUpdate(address, message, handler){
 
@@ -67,6 +57,13 @@ function configUpdate(address, message, handler){
     );
 }
 
+/**
+ * Use user's input to create a ProposeUpdate and send it.
+ *
+ * @param address
+ * @param message
+ * @param handler
+ */
 function proposeUpdate(address, message, handler){
 
     this.puSocket[address] = createSocket(
@@ -77,6 +74,13 @@ function proposeUpdate(address, message, handler){
     );
 }
 
+/**
+ * Use user's input to create a ProposeSend and send it.
+ *
+ * @param address
+ * @param message
+ * @param handler
+ */
 function proposeSend(address, message, handler) {
 
     this.psSocket[address] = createSocket(
@@ -87,6 +91,13 @@ function proposeSend(address, message, handler) {
     );
 }
 
+/**
+ * Use user's input to create a ProposeVote and send it.
+ *
+ * @param address
+ * @param message
+ * @param handler
+ */
 function proposeVote(address, message, handler) {
 
     this.pvSocket[address] = createSocket(
@@ -97,11 +108,10 @@ function proposeVote(address, message, handler) {
     );
 }
 
-
 /**
- * Adapted from: https://github.com/Gilthoniel/cothority-web
+ * Adapted from: https://github.com/Gilthoniel/cothority-web (3 June 2017)
  *
- * Use the existing socket or create a new one if required
+ * Use the existing socket or create a new one if required.
  *
  * @param socket WebSocket old socket
  * @param address String ws address
@@ -117,12 +127,15 @@ function createSocket(socket, address, error, callback, message) {
     }
 
     function onError(e) {
+
+        alert(e);
         socket.removeEventListener('error', onError);
         error(e);
     }
     socket.addEventListener('error', onError);
 
     function onMessage(e) {
+
         socket.removeEventListener('message', onMessage);
         callback(e.data);
     }

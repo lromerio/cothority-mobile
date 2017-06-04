@@ -1,13 +1,24 @@
-"use strict";
+/**
+ * Group a series of functions to interact with PhoneGap built-in database.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
 
-var db = window.openDatabase("cothority_database", "2.0", "cothority_database", 1000000);
+/**
+ *  Global instance that represent the database itself.
+ *
+ * @type {Database}
+ */
+var db = window.openDatabase("cothority_database", "1.0", "cothority_database", 1000000);
 
-var dbCallbacks = {
-
-    dbErrorHandler: function (e) {
+/**
+ * Given a database error print an error message to the console.
+ *
+ * @param e
+ */
+function dbErrorHandler(e) {
         console.log('Database error: ' + e.code + ' ' + e.message);
-    }
-};
+}
 
 /**
  * Open the database, once the db is ready the handler passed as parameter will be triggered.
@@ -15,7 +26,7 @@ var dbCallbacks = {
  * @param handler
  */
 function dbOpen(handler) {
-    db.transaction(dbSetup, dbCallbacks.dbErrorHandler, handler);
+    db.transaction(dbSetup, dbErrorHandler, handler);
 }
 
 /**
@@ -26,16 +37,18 @@ function dbOpen(handler) {
  */
 function dbSetup(tx) {
 
-    var conodes = "create table if not exists conodes(id INTEGER PRIMARY KEY AUTOINCREMENT, address TEXT, serverId TEXT, deviceId TEXT, keyPair TEXT)";
+    var conodes = "create table if not exists conodes(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "address TEXT, serverId TEXT, deviceId TEXT, keyPair TEXT)";
     tx.executeSql(conodes);
 
-    var ssh = "create table if not exists ssh(id INTEGER PRIMARY KEY AUTOINCREMENT, serverAddr TEXT, sshName TEXT, sshKeyPair TEXT)";
+    var ssh = "create table if not exists ssh(id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "serverAddr TEXT, sshName TEXT, sshKeyPair TEXT)";
     tx.executeSql(ssh);
 }
 
 /**
  * Perform the sql query contained in 'sql' with 'arg' as parameters.
- * Once the query is completed trigger the given handler
+ * Once the query is completed the given handler is trigger.
  *
  * @param sql
  * @param arg
@@ -46,6 +59,6 @@ function dbAction(sql, arg, handler) {
     db.transaction(function (tx) {
         tx.executeSql(sql, arg, function (tx, result) {
             handler(result);
-        }, dbCallbacks.dbErrorHandler);
-    }, dbCallbacks.dbErrorHandler, function () {});
+        }, dbErrorHandler);
+    }, dbErrorHandler, function () {});
 }

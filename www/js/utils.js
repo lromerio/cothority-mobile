@@ -1,4 +1,11 @@
 /**
+ * Define a series utility function used through the mobile application.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
+
+
+/**
  * Transform a byte buffer into an hex-string.
  *
  * @param buf
@@ -84,6 +91,38 @@ function hex2buf(hexStr) {
             }
         }
     }
+
     // The string was malformed
     return [];
+}
+
+/**
+ * Vote for a proposition by creating a ProposeVote and sending it.
+ *
+ * @param config
+ * @param address
+ * @param handler
+ */
+function voteConfigUpdate(config, address, handler) {
+
+    var sql = "select * from conodes C where C.address = ?";
+
+    dbAction(sql, [address], function(res) {
+
+        // Compute hash
+        var hash = cryptoJS.hashConfig(config);
+
+        // Sign and extract challenge/response
+        var signature = cryptoJS.schnorrSign(hex2buf(res.rows.item(0).keyPair), hash);
+        var challenge = hex2buf(buf2hex(signature).substring(0, 64));
+        var response = hex2buf(buf2hex(signature).substring(64));
+
+        // Create ProposeVote
+        const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.item(0).serverId),
+            res.rows.item(0).deviceId, challenge, response);
+
+        proposeVote(address, pv, function (r) {
+            handler();
+        });
+    });
 }

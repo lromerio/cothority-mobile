@@ -1,7 +1,16 @@
+/**
+ * Wrap all functions specific to 'www/checkConfig.html'.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
 
+// Single conode information
 var config;
 var conodeEntry;
 
+/**
+ * Display - as buttons - all conodes to which the device is registered.
+ */
 function displayConodes() {
 
     // Retrieve all keyPairs
@@ -21,31 +30,43 @@ function displayConodes() {
     });
 }
 
-function sshGetConfig(addr) {
+/**
+ * Send a ConfigUpdate message to the given conode and update the GUI.
+ *
+ * @param address
+ */
+function sshGetConfig(address) {
 
     var sql = "select * from conodes C where C.address = ?";
 
-    dbAction(sql, [addr], function(res) {
+    dbAction(sql, [address], function(res) {
 
-        // TODO: check number of item? should be 1...
-        conodeEntry = res.rows.item(0)
+        if (res.rows.length >= 1) {
 
-        var id = hex2buf(conodeEntry.serverId);
+            conodeEntry = res.rows.item(0)
 
-        // Create ConfigUpdate
-        const cu = CothorityProtobuf.createConfigUpdate(id);
+            var id = hex2buf(conodeEntry.serverId);
 
-        configUpdate(addr, cu, function (response) {
+            // Create ConfigUpdate
+            const cu = CothorityProtobuf.createConfigUpdate(id);
 
-            // Decode message
-            config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+            configUpdate(address, cu, function (response) {
 
-            document.getElementById("ssh_conodes_list").style.display = 'none';
-            document.getElementById("ssh_propose").style.display = 'block';
-        });
+                // Decode message
+                config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+                document.getElementById("ssh_conodes_list").style.display = 'none';
+                document.getElementById("ssh_propose").style.display = 'block';
+            });
+        } else {
+            alert("Database corrupted: duplicate conode.");
+        }
     });
 }
 
+/**
+ * Make a proposition to the previously selected conode.
+ */
 function sshPropose() {
 
     // Get key name
@@ -68,16 +89,19 @@ function sshPropose() {
 
         dbAction(sql, [conodeEntry.address, sshName, hexKeyPair], function(res) {
 
-            // Add new ssh key to config and create ProposeSend
+            // Add new public key to config and create ProposeSend
             config.data[sshName] = hexKeyPair;
             const ps = CothorityProtobuf.createProposeSend(hex2buf(conodeEntry.serverId), config);
 
             proposeSend(conodeEntry.address, ps, function () {
 
-                // Update GUI
-                document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
-                document.getElementById("ssh_propose").style.display = 'none';
-                document.getElementById("ssh_verify").style.display = 'block';
+                // Vote your proposition
+                voteConfigUpdate(config, conodeEntry.address, function() {
+                    // Update GUI
+                    document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
+                    document.getElementById("ssh_propose").style.display = 'none';
+                    document.getElementById("ssh_verify").style.display = 'block';
+                });
             });
         });
     }

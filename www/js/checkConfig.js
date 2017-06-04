@@ -1,9 +1,20 @@
+/**
+ * Wrap all functions bounded to 'www/checkConfig.html'.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
 
+// Indicates whether the current tab is the 'update' one or not.
 var updates = false;
 
+// Single conode information
 var config;
 var address;
 
+/**
+ * Display all conodesto which the device is registered.
+ * The conodes are displayed as buttons.
+ */
 function displayConodes() {
 
     // Retrieve all keyPairs
@@ -23,6 +34,9 @@ function displayConodes() {
     });
 }
 
+/**
+ * Display the 'State' tab.
+ */
 function stateCallback() {
     updates = false;
 
@@ -33,6 +47,9 @@ function stateCallback() {
     document.getElementById("show_config").style.display = 'none';
 }
 
+/**
+ * Display the 'Update' tab.
+ */
 function updatesCallback() {
     updates = true;
 
@@ -43,7 +60,12 @@ function updatesCallback() {
     document.getElementById("show_config").style.display = 'none';
 }
 
-
+/**
+ * Depending on the current tab send a ConfigUpdate or ProposeUpdate to
+ * the given conode.
+ *
+ * @param address
+ */
 function conodeAction(addr) {
 
     // Store address
@@ -53,8 +75,7 @@ function conodeAction(addr) {
 
     dbAction(sql, [address], function(res) {
 
-        //TODO: should be === 1 ...can not register multiple time to same server?
-        //if (res.rows.length >= 1) {
+        if (res.rows.length >= 1) {
 
             var  id = hex2buf(res.rows.item(0).serverId);
 
@@ -82,12 +103,14 @@ function conodeAction(addr) {
                     showConfig();
                 });
             }
-        //}
+        } else {
+            alert("Database corrupted: duplicate conode.");
+        }
     })
 }
 
 /**
- * Show the 'config' to the screen.
+ * Display a config file.
  */
 function showConfig() {
 
@@ -101,14 +124,14 @@ function showConfig() {
 
         html += '<b>Devices:</b></br>';
         for (var device in config.device) {
-            html += '<i>' + device + '</i> ' + buf2hex(config.device[device].point) + '</br></br>';
+            html += '<i>' + device + '</i> ' + buf2hex(config.device[device].point) + '</br>';
         }
 
         html += '</br>';
 
         html += '<b>Data:</b></br>';
         for (var key in config.data) {
-            html += '<i>' + key + '</i> ' + buf2hex(config.data[key]) + '</br></br>';
+            html += '<i>' + key + '</i></br>';
         }
     }
 
@@ -127,27 +150,9 @@ function showConfig() {
  */
 function voteUpdate() {
 
-    var sql = "select * from conodes C where C.address = ?";
-
-    dbAction(sql, [address], function(res) {
-
-        // Compute hash
-        var hash = cryptoJS.hashConfig(config);
-
-        // Sign and extract challenge/response
-        var signature = cryptoJS.schnorrSign(hex2buf(res.rows.item(0).keyPair), hash);
-        var challenge = hex2buf(buf2hex(signature).substring(0, 64));
-        var response = hex2buf(buf2hex(signature).substring(64));
-
-        // Create ProposeVote
-        const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.item(0).serverId),
-            res.rows.item(0).deviceId, challenge, response);
-
-        proposeVote(address, pv, function (response) {
-
+    voteConfigUpdate(config, address, function() {
             // Update GUI
             document.getElementById("show_config").style.display = 'none';
             document.getElementById("success_msg").style.display = 'block';
-        });
     });
 }

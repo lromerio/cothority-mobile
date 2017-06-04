@@ -63,12 +63,12 @@ describe('cisc', function() {
         });*/
     });
 
-    describe('ciscPropose', function() {
+    describe('registerDevice', function() {
         it('should do nothing with invalid key', function(done) {
             var html = '<input id="keyPairName" value="" />';
             document.body.insertAdjacentHTML('afterbegin', html);
 
-            ciscPropose(function(r) {
+            registerDevice(function(r) {
                 expect(r).toEqual('');
                 done();
             });
@@ -78,7 +78,7 @@ describe('cisc', function() {
             var html = '<input id="keyPairName" value="nome_uniqco" />';
             document.body.insertAdjacentHTML('afterbegin', html);
 
-            ciscPropose(function(res) {
+            registerDevice(function(res) {
                 expect(res.length).toEqual(32);
                 done();
             });
@@ -89,7 +89,7 @@ describe('cisc', function() {
             document.body.insertAdjacentHTML('afterbegin', html);
 
             dbGenerateAndStoreKeyPair('ciscDuplicate', function(r) {
-                ciscPropose(function(r) {
+                registerDevice(function(r) {
                     expect(r.length).toEqual(0);
                     done();
                 });

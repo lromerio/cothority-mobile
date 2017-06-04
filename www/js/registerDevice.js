@@ -1,6 +1,8 @@
-
-// Database status
-var dbReady = false;
+/**
+ * Wrap all functions specific to 'www/registerDevice.html'.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
 
 // Conode information
 var address = '';
@@ -10,50 +12,55 @@ var skipchain = '';
 var config;
 var keyName = '';
 
-function ciscDbReady() {
-    dbReady = true;
-}
-
 /**
- * If a valid conode qr-code was scanned: extract conode information, use them to
- * send a ConfigUpdate and handle the result.
+ * Used as a callback for a qr-code scan.
+ * Extract conode information from the scanned qr-code and send a ConfigUpdate to it.
  *
- * @param s
+ * @param scanResult
  */
-function ciscQrScanned(s) {
+function ciscQrScanned(scanResult) {
 
-    conodeInfo = extractId(s);
+    conodeInfo = extractId(scanResult);
 
     if(conodeInfo.length === 2) {
 
         address = conodeInfo[0];
-        skipchain = hex2buf(conodeInfo[1]);
 
-        // Create ConfigUpdate
-        const message = CothorityProtobuf.createConfigUpdate(skipchain);
+        // Check whether the device is already paired to this conode.
+        var sql = "select C.serverId from conodes C where C.address = ?";
+        dbAction(sql, [address], function(res) {
+            if (res.rows.length !== 0) {
+                alert("Device already registered to this conode.");
+            } else {
+                skipchain = hex2buf(conodeInfo[1]);
 
-        configUpdate(address, message, function(response) {
+                // Create ConfigUpdate
+                const message = CothorityProtobuf.createConfigUpdate(skipchain);
 
-            // Decode message and store config
-            config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+                configUpdate(address, message, function(response) {
 
-            // Update GUI
-            document.getElementById("threshold").innerHTML = config.threshold;
-            document.getElementById("cisc_first").style.display = 'none';
-            document.getElementById("cisc_second").style.display = 'block';
+                    // Decode message and store config
+                    config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+                    // Update GUI
+                    document.getElementById("threshold").innerHTML = config.threshold;
+                    document.getElementById("cisc_first").style.display = 'none';
+                    document.getElementById("cisc_second").style.display = 'block';
+                });
+            }
         });
     } else {
-        alert('Invalid qr-code');
+        alert('Invalid qr-code.');
     }
 }
 
 /**
- * If a valid unique id has been inserted: generate a new keys pair
- * and return the public one to the given handler.
+ * If a valid unique id has been inserted: generate a new keys pair and return
+ * the public one to the given handler.
  *
  * @param handler
  */
-function ciscPropose(handler) {
+function registerDevice(handler) {
 
     // Get key name
     keyName = document.getElementById("keyPairName").value;
@@ -65,16 +72,6 @@ function ciscPropose(handler) {
         alert('Device name not available');
         handler('');
     } else {
-
-        // TODO: più server diversi, ma al massimo una per server?
-        //
-        // var sql = "select * from key K where K address = ? AND K.serverId = ?";
-        // dbAction(sql, [address, skipchain], function(res) {
-        //     if (res.rows.length >= 1) {
-        //         alert('Server already registered');
-        //         handler('');
-        //     }
-        // });
 
         // Generate keys pair
         var keyPair = cryptoJS.keyPair();
