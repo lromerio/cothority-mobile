@@ -45,6 +45,7 @@ function stateCallback() {
 
     document.getElementById("conodes_list").style.display = 'block';
     document.getElementById("show_config").style.display = 'none';
+    document.getElementById("success_msg").style.display = 'none';
 }
 
 /**
@@ -58,6 +59,7 @@ function updatesCallback() {
 
     document.getElementById("conodes_list").style.display = 'block';
     document.getElementById("show_config").style.display = 'none';
+    document.getElementById("success_msg").style.display = 'none';
 }
 
 /**
@@ -106,7 +108,7 @@ function conodeAction(addr) {
         } else {
             alert("Database corrupted: duplicate conode.");
         }
-    })
+    });
 }
 
 /**

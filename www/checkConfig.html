@@ -1,75 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta name="author" content="Lucio Romerio">
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 
-<html>
+        <title>Cothority Mobile</title>
 
-<head>
-    <meta name="author" content="Lucio Romerio">
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-
-    <!-- Prevent scroll on iOS -->
-    <script type="text/javascript">
-        window.addEventListener('load', function() {
-            document.body.addEventListener('touchmove', function(e) {
-                e.preventDefault();
+        <!-- Prevent scroll on iOS -->
+        <script type="text/javascript">
+            window.addEventListener('load', function() {
+                document.body.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, false);
             }, false);
-        }, false);
-    </script>
+        </script>
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
-    <link rel="stylesheet" type="text/css" href="css/keyManager.css" />
+        <!-- Import CSS files -->
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+        <link rel="stylesheet" type="text/css" href="css/tabMenu.css" />
 
-    <title>Cothority Mobile</title>
+        <!-- Import .js files -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
 
-    <script src="js/sidebar.js"></script>
-</head>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/checkConfig.js"></script>
+        <script type="text/javascript" src="js/databaseHelper.js"></script>
+        <script type="text/javascript" src="js/webSocket.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
 
-<body onload="displayConodes('conodes_list')">
-    <!-- Sidebar content -->
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
-        <a onclick="closeNav('index.html')">Home</a>
-        <a onclick="closeNav('registerDevice.html')">Cisc</a>
-        <a onclick="closeNav('registerSsh.html')">Ssh</a>
-        <a onclick="closeNav('checkConfig.html')">Check Config</a>
-        <a onclick="closeNav('conodeStatus.html')">Contact Conode</a>
-    </div>
-    <!-- Sidebar open icon -->
-    <span id="open_menu" onclick="openNav()">
-                <img src="img/menu.png" alt="MENU">
-            </span>
-    <hr>
+        <script type="text/javascript" src="js/lib/protobuf.js"></script>
+        <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
+        <script type="text/javascript" src="js/lib/crypto-js.js"></script>
+    </head>
 
-    <!-- Page content -->
-    <div data-role="page" id="main">
-        <button class="tabs" id="state"
-                onclick="stateCallback()">State</button><button class="tabs" id="updates"
-                                                                onclick="updatesCallback()">Update</button>
-        <div data-role="main" class="ui-content">
-            <p id="conodes_list"></p>
-            <p id="show_config" style="display: none"></p>
-
-            <p id="success_msg" style="display: none">
-                Proposition successfully voted!
-            </p>
+    <body onload="displayConodes('conodes_list')">
+        <!-- Sidebar content -->
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
+            <a onclick="closeNav('index.html')">Home</a>
+            <a onclick="closeNav('conodeStatus.html')">Conode Status</a>
+            <a onclick="closeNav('registerDevice.html')">Register Device</a>
+            <a onclick="closeNav('checkConfig.html')">Check Config</a>
+            <a onclick="closeNav('registerSsh.html')">Add Ssh key</a>
         </div>
-    </div>
+        <!-- Sidebar open icon -->
+        <span id="open_menu" onclick="openNav()">
+                    <img src="img/menu.png" alt="MENU">
+                </span>
+        <hr>
 
-    <!-- Import .js files needed -->
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/checkConfig.js"></script>
-    <script type="text/javascript" src="js/databaseHelper.js"></script>
-    <script type="text/javascript" src="js/webSocket.js"></script>
-    <script type="text/javascript" src="js/utils.js"></script>
-    <script type="text/javascript" src="js/lib/protobuf.js"></script>
-    <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
-    <script type="text/javascript" src="js/lib/crypto-js.js"></script>
-</body>
+        <!-- Page content -->
+        <div data-role="page" id="main">
 
+            <!-- Tab menu -->
+            <button class="tabs" id="state"
+                    onclick="stateCallback()">Status</button><button class="tabs" id="updates"
+                                                                    onclick="updatesCallback()">Update</button>
+            <div data-role="main" class="ui-content">
+
+                <!-- Conodes list -->
+                <p id="conodes_list" style="display: block"></p>
+
+                <!-- Display Config -->
+                <p id="show_config" style="display: none"></p>
+
+                <!-- Informative message -->
+                <p id="success_msg" style="display: none">
+                    Proposition successfully voted!
+                </p>
+
+            </div>
+        </div>
+    </body>
 </html>

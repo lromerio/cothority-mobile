@@ -1,3 +1,23 @@
+/* Tabs buttons */
+.tabs {
+    background-color: transparent;
+    text-align: center;
+    position: static;
+    width: 35%;
+    padding: 0;
+}
+#state {
+    color: #008CBA;
+    margin-left: 10%;
+    margin-right: 5%;
+}
+#updates {
+    color: #999999;
+    margin-left: 5%;
+    margin-right: 10%;
+}
+
+/* Conodes list */
 .list {
     font-size: 20px;
     text-align: left;
@@ -17,33 +37,14 @@
     position: static;
 }
 
-.tabs {
-    background-color: transparent;
-    text-align: center;
-    position: static;
-    width: 35%;
-    padding: 0;
-}
 
-#share_button, #state {
-    color: #008CBA;
-    margin-left: 10%;
-    margin-right: 5%;
-}
-
-#delete_button, #updates {
-    color: #999999;
-    margin-left: 5%;
-    margin-right: 10%;
-}
-
+/* Display Config */
 #show_config {
     font-size: 13px;
     text-align: left;
     word-wrap: break-word;
     width: 80%;
 }
-
 #show_config a {
     text-indent: 100px;
 }

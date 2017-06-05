@@ -1,70 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta name="author" content="Lucio Romerio">
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 
-<html>
+        <title>Cothority Mobile</title>
 
-<head>
-    <meta name="author" content="Lucio Romerio">
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-
-    <!-- Prevent scroll on iOS -->
-    <script type="text/javascript">
-        window.addEventListener('load', function() {
-            document.body.addEventListener('touchmove', function(e) {
-                e.preventDefault();
+        <!-- Prevent scroll on iOS -->
+        <script type="text/javascript">
+            window.addEventListener('load', function() {
+                document.body.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                }, false);
             }, false);
-        }, false);
-    </script>
+        </script>
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <!-- Import CSS files -->
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
 
-    <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+        <!-- Import .js files -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
 
-    <title>Cothority Mobile</title>
+        <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/webSocket.js"></script>
+    </head>
 
-    <script src="js/sidebar.js"></script>
-</head>
-
-<body>
-    <!-- Sidebar content -->
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
-        <a onclick="closeNav('index.html')">Home</a>
-        <a onclick="closeNav('registerDevice.html')">Cisc</a>
-        <a onclick="closeNav('registerSsh.html')">Ssh</a>
-        <a onclick="closeNav('checkConfig.html')">Check Config</a>
-        <a onclick="closeNav('conodeStatus.html')">Contact Conode</a>
-    </div>
-    <!-- Sidebar open icon -->
-    <span id="open_menu" onclick="openNav()">
-            <img src="img/menu.png" alt="MENU">
-    </span>
-    <hr>
-
-    <!-- Page content -->
-    <div data-role="page" id="main">
-        <div data-role="main" class="ui-content">
-
-            <input type="text" id="address">
-            <p id="ws_result"></p>
-
-            <p>
-                <a href="javascript:getStatus();">
-                    <button id="scan_button" type="button">SendMessage</button>
-                </a>
-            </p>
+    <body>
+        <!-- Sidebar content -->
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
+            <a onclick="closeNav('index.html')">Home</a>
+            <a onclick="closeNav('conodeStatus.html')">Conode Status</a>
+            <a onclick="closeNav('registerDevice.html')">Register Device</a>
+            <a onclick="closeNav('checkConfig.html')">Check Config</a>
+            <a onclick="closeNav('registerSsh.html')">Add Ssh key</a>
         </div>
-    </div>
+        <!-- Sidebar open icon -->
+        <span id="open_menu" onclick="openNav()">
+                <img src="img/menu.png" alt="MENU">
+        </span>
+        <hr>
 
-    <!-- Import .js files needed -->
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
+        <!-- Page content -->
+        <div data-role="page" id="main">
+            <div data-role="main" class="ui-content">
 
-    <script type="text/javascript" src="js/webSocket.js"></script>
-</body>
+                <input type="text" id="address">
+                <p id="ws_result"></p>
 
+                <p>
+                    <a href="javascript:getStatus();">
+                        <button id="scan_button" type="button">SendMessage</button>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </body>
 </html>

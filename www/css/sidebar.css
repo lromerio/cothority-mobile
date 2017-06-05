@@ -3,7 +3,7 @@ img {
     width: 20%;
 }
 
-/* The side navigation menu */
+/* Navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
@@ -17,7 +17,7 @@ img {
     transition: 0.2s; /* 0.2 second transition effect to slide in the sidenav */
 }
 
-/* The navigation menu links */
+/* Navigation menu links */
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -26,13 +26,11 @@ img {
     display: block;
     transition: 0.2s
 }
-
-/* When you mouse over the navigation links, change their color */
 .sidenav a:hover, .offcanvas a:focus{
     color: #f1f1f1;
 }
 
-/* Position and style the close button (top right corner) */
+/* Close button (top right corner) */
 .sidenav .closebtn {
     position: absolute;
     top: 0;
@@ -41,7 +39,7 @@ img {
     margin-left: 50px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+/* Adapt to smaller screens */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}

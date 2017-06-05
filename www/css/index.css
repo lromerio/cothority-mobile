@@ -95,9 +95,9 @@
  */
 
 body {
-    //-webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    //-webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    -webkit-touch-callout: none;        /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;     /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;          /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#242325;
 
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
@@ -132,9 +132,8 @@ label {
     font-size: 13px;
 }
 
-/* Remove loading text */
 .ui-loader {
-    display:none;
+    display:none;   /* Remove loading text */
 }
 
 button {
