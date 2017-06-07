@@ -152,3 +152,36 @@ button {
     left: 25%;
     top: 80%
 }
+
+/* Tables */
+table {
+    margin-left:auto;
+    margin-right:auto;
+    font-size: 13px;
+}
+th {
+    text-align: left;
+}
+td {
+    text-align: right;
+}
+
+/* Conodes list */
+.list {
+    font-size: 20px;
+    text-align: left;
+    line-height: 100%;
+    background-color: #4B946A;
+    border: none;
+    color: white;
+    padding: 0;
+    text-indent: 25px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 3px;
+    width: 100%;
+    height: 50px;
+    alignment: center;
+    margin: 2px;
+    position: static;
+}

@@ -1,0 +1,10 @@
+/* Display Config */
+#show_config {
+    font-size: 13px;
+    text-align: left;
+    word-wrap: break-word;
+    width: 80%;
+}
+#show_config a {
+    text-indent: 100px;
+}

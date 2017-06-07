@@ -20,10 +20,11 @@ function displayConodes() {
     // Retrieve all keyPairs
     var sql = "select C.address from conodes C";
 
+    var html = 'Conodes<hr>';
+
     dbAction(sql, [], function(res) {
 
         // Populate conodes list
-        var html = 'Conodes<hr>';
         for (var i = 0; i < res.rows.length; ++i) {
             var addr  = res.rows.item(i).address;
             html += '<button class="list" onclick="conodeAction(this.innerHTML);">' + addr + '</button>';
@@ -152,9 +153,15 @@ function showConfig() {
  */
 function voteUpdate() {
 
-    voteConfigUpdate(config, address, function() {
+    var sql = "select * from conodes C where C.address = ?";
+    dbAction(sql, [address], function(res) {
+
+        //TODO: check length == 1
+        var pv = voteConfigUpdate(config, res.rows.item(0));
+        proposeVote(address, pv, function () {
             // Update GUI
             document.getElementById("show_config").style.display = 'none';
             document.getElementById("success_msg").style.display = 'block';
+        });
     });
 }

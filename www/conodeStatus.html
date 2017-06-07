@@ -21,6 +21,7 @@
         <!-- Import CSS files -->
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+        <link rel="stylesheet" type="text/css" href="css/tabMenu.css" />
 
         <!-- Import .js files -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -29,9 +30,15 @@
 
         <script type="text/javascript" src="js/sidebar.js"></script>
         <script type="text/javascript" src="js/webSocket.js"></script>
+        <script type="text/javascript" src="js/conodeStatus.js"></script>
+        <script type="text/javascript" src="js/databaseHelper.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+
+        <script type="text/javascript" src="js/lib/protobuf.js"></script>
+        <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
     </head>
 
-    <body>
+    <body onload="displayConodes(function(r) {conodeStatus(r)})">
         <!-- Sidebar content -->
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
@@ -49,16 +56,16 @@
 
         <!-- Page content -->
         <div data-role="page" id="main">
+
             <div data-role="main" class="ui-content">
 
-                <input type="text" id="address">
+                <!-- Conodes list -->
+                <p id="conodes_list"></p>
+
+                <!-- Display Status -->
+                <p id="show_status" style="display: none"></p>
                 <p id="ws_result"></p>
 
-                <p>
-                    <a href="javascript:getStatus();">
-                        <button id="scan_button" type="button">SendMessage</button>
-                    </a>
-                </p>
             </div>
         </div>
     </body>

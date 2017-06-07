@@ -30,12 +30,12 @@ var callbacks = {
 /**
  * Send a Status request to the given address.
  */
-function getStatus(address) {
+function getStatus(address, handler) {
 
     this.srSocket[address] = createSocket(
         this.srSocket[address],
         address + '/Status/Request',
-        callbacks.fail, callbacks.success,
+        callbacks.fail, function(r){handler(r);},
         new Uint8Array([])
     );
 }
