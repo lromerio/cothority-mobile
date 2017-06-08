@@ -5,22 +5,22 @@ EPFL Bachelor Project, Spring 2017.
 
 A mobile application developed with [PhoneGap][phonegap], it allows to manage SSH-keys using the [cothority-framework][cothority].
 
-###Installation
+### Installation
 First install [npm][npm], then run `npm i` to install dependencies and `npm i -g phonegap` to install PhoneGap.
  
-###Run
+### Run
 [Here][tutorial] you find the official tutorial which explains how to preview a PhoneGap application on a real device.
 
 Alternatively - if you are using an Android device - you can directly install the _cothority_mobile-debug.apk_ on your phone.
 
-###Features
+### Features
 - Overview conode status
 - Add device to an existing access-control-list (via qr-code)
 - Overview all devices and data stored in an access-control-list
 - Vote on proposal
 - Make proposition
 
-###Requirements
+### Requirements
 - Camera permission
 - A running Cothority
 
