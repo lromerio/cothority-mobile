@@ -42,23 +42,31 @@ function sshGetConfig(address) {
 
     dbAction(sql, [address], function(res) {
 
-        if (res.rows.length >= 1) {
+        if (res.rows.length === 1) {
 
-            conodeEntry = res.rows.item(0)
+            conodeEntry = res.rows.item(0);
 
             var id = hex2buf(conodeEntry.serverId);
 
             // Create ConfigUpdate
             const cu = CothorityProtobuf.createConfigUpdate(id);
 
-            configUpdate(address, cu, function (response) {
+            configUpdate(address, cu, function(e) {
 
-                // Decode message
-                config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+                    document.getElementById("ssh_propose").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                        + e.data;
+                    document.getElementById("ssh_conodes_list").style.display = 'none';
+                    document.getElementById("ssh_propose").style.display = 'block';
 
-                document.getElementById("ssh_conodes_list").style.display = 'none';
-                document.getElementById("ssh_propose").style.display = 'block';
-            });
+                }, function (response) {
+
+                    // Decode message
+                    config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+                    document.getElementById("ssh_conodes_list").style.display = 'none';
+                    document.getElementById("ssh_propose").style.display = 'block';
+                }
+            );
         } else {
             alert("Database corrupted: duplicate conode.");
         }
@@ -86,30 +94,42 @@ function sshPropose() {
         var hexKeyPair = buf2hex(keyPair);
 
         // Add new entry to database
-        var sql = "insert into ssh(serverAddr, sshName, sshKeyPair) values(?,?,?)";
+        var sql_1 = "insert into ssh(serverAddr, sshName, sshKeyPair) values(?,?,?)";
 
-        dbAction(sql, [conodeEntry.address, sshName, hexKeyPair], function(res) {
+        dbAction(sql_1, [conodeEntry.address, sshName, hexKeyPair], function() {
 
             // Add new public key to config and create ProposeSend
             config.data[sshName] = hexKeyPair;
             const ps = CothorityProtobuf.createProposeSend(hex2buf(conodeEntry.serverId), config);
 
-            proposeSend(conodeEntry.address, ps, function () {
+            proposeSend(conodeEntry.address, ps, function(e) {
 
-                var sql = "select * from conodes C where C.address = ?";
-                dbAction(sql, [address], function(res) {
+                    document.getElementById("ssh_verify").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                        + e.data;
+                    document.getElementById("ssh_propose").style.display = 'none';
+                    document.getElementById("ssh_verify").style.display = 'block';
 
-                    //TODO: check length == 1
+                }, function () {
+
                     // Vote your proposition
-                    var pv = voteConfigUpdate(config, res.rows.item(0));
-                    proposeVote(address, pv, function () {
-                        // Update GUI
-                        document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
-                        document.getElementById("ssh_propose").style.display = 'none';
-                        document.getElementById("ssh_verify").style.display = 'block';
-                    });
-                });
-            });
+                    var pv = createProposeVote(config, conodeEntry);
+                    proposeVote(conodeEntry.address, pv, function(e) {
+
+                            document.getElementById("ssh_verify").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                                + e.data;
+                            document.getElementById("ssh_propose").style.display = 'none';
+                            document.getElementById("ssh_verify").style.display = 'block';
+
+                        }, function () {
+                            // Update GUI
+                            document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
+                            document.getElementById("ssh_propose").style.display = 'none';
+                            document.getElementById("ssh_verify").style.display = 'block';
+                        }
+                    );
+
+                }
+            );
         });
     }
 }

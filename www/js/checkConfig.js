@@ -67,7 +67,7 @@ function updatesCallback() {
  * Depending on the current tab send a ConfigUpdate or ProposeUpdate to
  * the given conode.
  *
- * @param address
+ * @param addr
  */
 function conodeAction(addr) {
 
@@ -78,7 +78,7 @@ function conodeAction(addr) {
 
     dbAction(sql, [address], function(res) {
 
-        if (res.rows.length >= 1) {
+        if (res.rows.length === 1) {
 
             var  id = hex2buf(res.rows.item(0).serverId);
 
@@ -86,25 +86,41 @@ function conodeAction(addr) {
                 // Create ProposeUpdate
                 const pu = CothorityProtobuf.createProposeUpdate(id);
 
-                proposeUpdate(address, pu, function(response) {
+                proposeUpdate(address, pu, function(e) {
 
-                    // Decode message and store config
-                    config = CothorityProtobuf.decodeProposeUpdateReply(response).propose;
+                        document.getElementById("show_config").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                            + e.data;
+                        document.getElementById("conodes_list").style.display = 'none';
+                        document.getElementById("show_config").style.display = 'block';
 
-                    showConfig();
-                });
+                    }, function(response) {
+
+                        // Decode message and store config
+                        config = CothorityProtobuf.decodeProposeUpdateReply(response).propose;
+
+                        showConfig();
+                    }
+                );
             } else {
 
                 // Create ConfigUpdate
                 const cu = CothorityProtobuf.createConfigUpdate(id);
 
-                configUpdate(address, cu, function(response) {
+                configUpdate(address, cu, function(e) {
 
-                    // Decode message and store config
-                    config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+                        document.getElementById("show_config").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                            + e.data;
+                        document.getElementById("conodes_list").style.display = 'none';
+                        document.getElementById("show_config").style.display = 'block';
 
-                    showConfig();
-                });
+                    }, function(response) {
+
+                        // Decode message and store config
+                        config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+                        showConfig();
+                    }
+                );
             }
         } else {
             alert("Database corrupted: duplicate conode.");
@@ -156,12 +172,23 @@ function voteUpdate() {
     var sql = "select * from conodes C where C.address = ?";
     dbAction(sql, [address], function(res) {
 
-        //TODO: check length == 1
-        var pv = voteConfigUpdate(config, res.rows.item(0));
-        proposeVote(address, pv, function () {
-            // Update GUI
-            document.getElementById("show_config").style.display = 'none';
-            document.getElementById("success_msg").style.display = 'block';
-        });
+        if (res.rows.length === 1) {
+            var pv = createProposeVote(config, res.rows.item(0));
+            proposeVote(address, pv, function(e) {
+
+                    document.getElementById("success_msg").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                        + e.data;
+                    document.getElementById("show_config").style.display = 'none';
+                    document.getElementById("success_msg").style.display = 'block';
+
+                }, function () {
+                    // Update GUI
+                    document.getElementById("show_config").style.display = 'none';
+                    document.getElementById("success_msg").style.display = 'block';
+                }
+            );
+        } else {
+            alert("Database corrupted: duplicate conode.");
+        }
     });
 }

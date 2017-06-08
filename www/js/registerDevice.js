@@ -37,16 +37,23 @@ function ciscQrScanned(scanResult) {
                 // Create ConfigUpdate
                 const message = CothorityProtobuf.createConfigUpdate(skipchain);
 
-                configUpdate(address, message, function(response) {
+                configUpdate(address, message, function(e) {
 
-                    // Decode message and store config
-                    config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+                        document.getElementById("cisc_second").innerHTML = "<span style = 'color: red;'>ERROR: </span>" + e.data;
+                        document.getElementById("cisc_first").style.display = 'none';
+                        document.getElementById("cisc_second").style.display = 'block';
 
-                    // Update GUI
-                    document.getElementById("threshold").innerHTML = config.threshold;
-                    document.getElementById("cisc_first").style.display = 'none';
-                    document.getElementById("cisc_second").style.display = 'block';
-                });
+                    }, function(response) {
+
+                        // Decode message and store config
+                        config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
+
+                        // Update GUI
+                        document.getElementById("threshold").innerHTML = config.threshold;
+                        document.getElementById("cisc_first").style.display = 'none';
+                        document.getElementById("cisc_second").style.display = 'block';
+                    }
+                );
             }
         });
     } else {
@@ -88,13 +95,21 @@ function registerDevice(handler) {
             config.device[keyName] = CothorityProtobuf.createDevice(pubKey);
             const message = CothorityProtobuf.createProposeSend(skipchain, config);
 
-            proposeSend(address, message, function () {
+            proposeSend(address, message, function(e) {
 
-                // Update GUI
-                document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
-                document.getElementById("cisc_second").style.display = 'none';
-                document.getElementById("cisc_third").style.display = 'block';
-            });
+                    document.getElementById("cisc_third").innerHTML = "<span style = 'color: red;'>ERROR: </span>"
+                        + e.data;
+                    document.getElementById("cisc_second").style.display = 'none';
+                    document.getElementById("cisc_third").style.display = 'block';
+
+                }, function () {
+
+                    // Update GUI
+                    //document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
+                    document.getElementById("cisc_second").style.display = 'none';
+                    document.getElementById("cisc_third").style.display = 'block';
+                }
+            );
         });
     }
 }

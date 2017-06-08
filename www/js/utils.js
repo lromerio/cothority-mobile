@@ -1,5 +1,5 @@
 /**
- * Define a series utility function used through the mobile application.
+ * Define a series utility function used through the whole mobile application.
  *
  * @author Lucio Romerio (lucio.romerio@epfl.ch)
  */
@@ -97,13 +97,13 @@ function hex2buf(hexStr) {
 }
 
 /**
- * Vote for a proposition by creating a ProposeVote and sending it.
+ * Crete a ProposeVote message by signing the hash of the given config.
  *
  * @param config
- * @param address
- * @param handler
+ * @param res
+ * @returns {*}
  */
-function voteConfigUpdate(config, res) {
+function createProposeVote(config, res) {
 
     // Compute hash
     var hash = cryptoJS.hashConfig(config);
@@ -114,7 +114,7 @@ function voteConfigUpdate(config, res) {
     var response = hex2buf(buf2hex(signature).substring(64));
 
     // Create ProposeVote
-    const pv = CothorityProtobuf.createProposeVote(hex2buf(res.rows.serverId),
+    const pv = CothorityProtobuf.createProposeVote(hex2buf(res.serverId),
         res.deviceId, challenge, response);
 
     return pv;

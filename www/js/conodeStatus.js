@@ -1,5 +1,5 @@
 /**
- * Wrap all functions specific to 'www/checkConfig.html'.
+ * Wrap all functions specific to 'www/conodeStatus.html'.
  *
  * @author Lucio Romerio (lucio.romerio@epfl.ch)
  */
@@ -34,17 +34,24 @@ function displayConodes() {
  */
 function conodeStatus(address) {
 
-    getStatus(address, function (response) {
+    getStatus(address, function(r) {
 
-        // Get status from response and update GUI
-        var data = CothorityProtobuf.decodeStatusResponse(response).system.Status.field;
+            document.getElementById("show_status").innerHTML = "<span style = 'color: red;'>ERROR: </span>" + e.data;
+            document.getElementById("conodes_list").style.display = 'none';
+            document.getElementById("show_status").style.display = 'block';
 
-        console.log(JSON.stringify(data, null, 4));
+        }, function (response) {
 
-        document.getElementById("show_status").innerHTML = showStatus(data);
-        document.getElementById("conodes_list").style.display = 'none';
-        document.getElementById("show_status").style.display = 'block';
-    });
+            // Get status from response and update GUI
+            var data = CothorityProtobuf.decodeStatusResponse(response).system.Status.field;
+
+            console.log(JSON.stringify(data, null, 4));
+
+            document.getElementById("show_status").innerHTML = showStatus(data);
+            document.getElementById("conodes_list").style.display = 'none';
+            document.getElementById("show_status").style.display = 'block';
+        }
+    );
 
 }
 

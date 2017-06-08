@@ -1,6 +1,5 @@
 /**
- * Use the CothorityProtoBuf library (https://github.com/Gilthoniel/CothorityProtoBuf)
- * to communicate with the  DEDIS conodes.
+ * Use the CothorityProtoBuf library to communicate with the DEDIS conodes.
  *
  * @author Lucio Romerio (lucio.romerio@epfl.ch)
  */
@@ -14,28 +13,18 @@ var psSocket = {};
 var pvSocket = {};
 
 /**
- * Contains two function used as callbacks, they takes care to show success and error messages.
- *
- * @type {{fail: callbacks.fail, success: callbacks.success}}
- */
-var callbacks = {
-    fail: function (e) {
-        document.getElementById("ws_result").innerHTML = '<span style = "color: red;">ERROR: </span>' + e.data;
-    },
-    success: function (e) {
-        document.getElementById("ws_result").innerHTML = '<span style = "color: green;">SUCCESS: </span>' + e.data;
-    }
-};
-
-/**
  * Send a Status request to the given address.
+ *
+ * @param address
+ * @param error     Function callback for errors
+ * @param success   Function callback for success
  */
-function getStatus(address, handler) {
+function getStatus(address, error, success) {
 
     this.srSocket[address] = createSocket(
         this.srSocket[address],
         address + '/Status/Request',
-        callbacks.fail, function(r){handler(r);},
+        function(e) {error(e);}, function(r){success(r);},
         new Uint8Array([])
     );
 }
@@ -45,14 +34,15 @@ function getStatus(address, handler) {
  *
  * @param address
  * @param message
- * @param handler
+ * @param error     Function callback for errors
+ * @param success   Function callback for success
  */
-function configUpdate(address, message, handler){
+function configUpdate(address, message, error, success){
 
     this.cuSocket[address] = createSocket(
         this.cuSocket[address],
         address + '/Identity/ConfigUpdate',
-        callbacks.fail, function(r) {handler(r);},
+        function(e) {error(e);}, function(r){success(r);},
         message
     );
 }
@@ -62,14 +52,15 @@ function configUpdate(address, message, handler){
  *
  * @param address
  * @param message
- * @param handler
+ * @param error     Function callback for errors
+ * @param success   Function callback for success
  */
-function proposeUpdate(address, message, handler){
+function proposeUpdate(address, message, error, success){
 
     this.puSocket[address] = createSocket(
         this.puSocket[address],
         address + '/Identity/ProposeUpdate',
-        callbacks.fail, function(r) {handler(r);},
+        function(e) {error(e);}, function(r){success(r);},
         message
     );
 }
@@ -79,14 +70,15 @@ function proposeUpdate(address, message, handler){
  *
  * @param address
  * @param message
- * @param handler
+ * @param error     Function callback for errors
+ * @param success   Function callback for success
  */
-function proposeSend(address, message, handler) {
+function proposeSend(address, message, error, success) {
 
     this.psSocket[address] = createSocket(
         this.psSocket[address],
         address + '/Identity/ProposeSend',
-        callbacks.fail, function(r) {handler(r)},
+        function(e) {error(e);}, function(r){success(r);},
         message
     );
 }
@@ -96,14 +88,15 @@ function proposeSend(address, message, handler) {
  *
  * @param address
  * @param message
- * @param handler
+ * @param error     Function callback for errors
+ * @param success   Function callback for success
  */
-function proposeVote(address, message, handler) {
+function proposeVote(address, message, error, success) {
 
     this.pvSocket[address] = createSocket(
         this.pvSocket[address],
         address + '/Identity/ProposeVote',
-        callbacks.fail, function(r) {handler(r)},
+        function(e) {error(e);}, function(r){success(r);},
         message
     );
 }
@@ -113,11 +106,11 @@ function proposeVote(address, message, handler) {
  *
  * Use the existing socket or create a new one if required.
  *
- * @param socket WebSocket old socket
- * @param address String ws address
- * @param error Function callback if an error occurred
- * @param callback Function callback when a message is received
- * @param message ArrayBuffer the message to send
+ * @param socket    WebSocket old socket
+ * @param address   String ws address
+ * @param error     Function callback if an error occurred
+ * @param callback  Function callback when a message is received
+ * @param message   ArrayBuffer the message to send
  * @returns {*}
  */
 function createSocket(socket, address, error, callback, message) {

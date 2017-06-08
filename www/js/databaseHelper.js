@@ -1,5 +1,5 @@
 /**
- * Group a series of functions to interact with PhoneGap built-in database.
+ * Group a series of functions to interact with the PhoneGap built-in database.
  *
  * @author Lucio Romerio (lucio.romerio@epfl.ch)
  */

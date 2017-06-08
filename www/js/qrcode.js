@@ -1,13 +1,6 @@
 /**
- * using the official phonegap plugin
- *
- * @author Lucio Romerio (lucio.romerio@epfl.ch)
- */
-
-
-/**
  * Scan a qr-code, then pass the resulting string (or an empty one in case of failure)
- * to the given handler.
+ * to the given handler. Those methods are using the official "phonegap-plugin-barcodescanner".
  *
  * @param handler
  */
