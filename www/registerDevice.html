@@ -10,6 +10,7 @@
         <title>Cothority Mobile</title>
 
         <!-- Prevent scroll on iOS -->
+        <!--  Uncomment if needed.
         <script type="text/javascript">
             window.addEventListener('load', function() {
                 document.body.addEventListener('touchmove', function(e) {
@@ -17,6 +18,7 @@
                 }, false);
             }, false);
         </script>
+        -->
 
         <!-- Import CSS files -->
         <link rel="stylesheet" type="text/css" href="css/index.css" />
@@ -28,10 +30,18 @@
         <script type="text/javascript" src="cordova.js"></script>
 
         <script type="text/javascript" src="js/sidebar.js"></script>
+        <script type="text/javascript" src="js/registerDevice.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/webSocket.js"></script>
         <script type="text/javascript" src="js/qrcode.js"></script>
+        <script type="text/javascript" src="js/databaseHelper.js"></script>
+
+        <script type="text/javascript" src="js/lib/protobuf.js"></script>
+        <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
+        <script type="text/javascript" src="js/lib/crypto-js.js"></script>
     </head>
 
-    <body onload="dbOpen()">
+    <body onload="dbOpen(function() {})">
         <!-- Sidebar content -->
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
@@ -49,12 +59,36 @@
 
         <!-- Page content -->
         <div data-role="page" id="main">
-            <div data-role="header">
-                <h1>cothority-mobile</h1>
-            </div>
-
             <div data-role="main" class="ui-content">
-                <p>A mobile application to perform distributed tasks using the cothority-framework.</p>
+
+                <!-- Phase 1 (qr-code scan) -->
+                <p id="cisc_first" style="display: block">
+                    Print conode qr-code using <i>cisc id qr</i>, then scan it in order to gather conode information. <br/>
+
+                    <a target="_blank" href="javascript:qrcodeScan(function(r) {ciscQrScanned(r)});">
+                        <button type="button">Scan</button>
+                    </a>
+                </p>
+
+                <!-- Phase 2 (Proposition) -->
+                <p id="cisc_second" style="display: none">
+                    <label for="keyPairName">Insert a unique id: </label><br/>
+                    <input id="keyPairName"/> <br/><br/>
+
+                    Now insert a unique id for this conode. This id will identify the device between
+                    all devices added to the access-control-list, as well as your keys pair locally.
+
+                    <a href="javascript:registerDevice();">
+                        <button type="button">Propose</button>
+                    </a>
+                </p>
+
+                <!-- Phase 3 (Inforative message) -->
+                <p id="cisc_third" style="display: none">
+                    Threshold: <b id="threshold"></b> <br/><br/>
+
+                    Proposition done.<br/>
+                </p>
             </div>
         </div>
     </body>

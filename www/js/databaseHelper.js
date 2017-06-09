@@ -1,29 +1,32 @@
-"use strict";
+/**
+ * Group a series of functions to interact with the PhoneGap built-in database.
+ *
+ * @author Lucio Romerio (lucio.romerio@epfl.ch)
+ */
 
+/**
+ *  Global instance that represent the database itself.
+ *
+ * @type {Database}
+ */
 var db = window.openDatabase("cothority_database", "1.0", "cothority_database", 1000000);
 
-var ready;
-
-var dbCallbacks = {
-
-    dbErrorHandler: function (e) {
-        alert('Database error: ' + e.message);
-    },
-
-    dbShowMessage: function (m) {
-        alert(m);
-    },
-
-    dbReady: function () {
-        ready = true;
-    }
+/**
+ * Given a database error print an error message to the console.
+ *
+ * @param e
+ */
+function dbErrorHandler(e) {
+        console.log('Database error: ' + e.code + ' ' + e.message);
 }
 
 /**
- * Open the database.
+ * Open the database, once the db is ready the handler passed as parameter will be triggered.
+ *
+ * @param handler
  */
-function dbOpen() {
-    db.transaction(dbSetup, dbCallbacks.dbErrorHandler, dbCallbacks.dbReady);
+function dbOpen(handler) {
+    db.transaction(dbSetup, dbErrorHandler, handler);
 }
 
 /**
@@ -33,111 +36,32 @@ function dbOpen() {
  * @param tx
  */
 function dbSetup(tx) {
-    var sql = "create table if not exists key(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, keyPair TEXT)";
-    tx.executeSql(sql);
+
+    var conodes = "create table if not exists conodes(address TEXT PRIMARY KEY, " +
+        "serverId TEXT NOT NULL, deviceId TEXT NOT NULL, keyPair TEXT NOT NULL, " +
+        "UNIQUE(serverId), UNIQUE(keypair))";
+
+    tx.executeSql(conodes);
+
+    var ssh = "create table if not exists ssh(serverAddr TEXT, sshName TEXT, " +
+        "sshKeyPair TEXT NOT NULL, PRIMARY KEY(serverAddr, sshName), " +
+        "FOREIGN KEY(serverAddr) REFERENCES conodes(address), UNIQUE(sshKeyPair))";
+    tx.executeSql(ssh);
 }
 
 /**
- * Insert a new key pair into the database.
- * Once the operation is completed the handler function, received as
- * a parameter, is called.
+ * Perform the sql query contained in 'sql' with 'arg' as parameters.
+ * Once the query is completed the given handler is trigger.
  *
- * @param name
- * @param keyPair
+ * @param sql
+ * @param arg
  * @param handler
  */
-function dbInsertKeyPair(name, keyPair, handler) {
+function dbAction(sql, arg, handler) {
 
-    if (keyPair.match(/[0-9|a-f]{128}/)) {
-        if (ready) {
-            dbContainsKeyPair(name, function(res) {
-                if(!res) {
-                    db.transaction(
-                        function (tx) {
-                            var sql = "insert into key(name, keyPair) values(?,?)";
-                            tx.executeSql(sql, [name, keyPair]);
-                        }, dbCallbacks.dbErrorHandler, function () {
-                            handler(true);
-                        }
-                    );
-                } else {
-                    dbCallbacks.dbShowMessage('The key pair - ' + name + ' - already exists.');
-                    handler(false);
-                }
-            });
-        } else {
-            dbCallbacks.dbShowMessage("Database not ready yet");
-            handler(false);
-        }
-    } else {
-        dbCallbacks.dbShowMessage("Invalid key pair");
-        handler(false);
-    }
-}
-
-/**
- * Verify whether a key pair associated with the given name exists into the database or not.
- * Once the operation is completed the handler function, received as
- * a parameter, is called.
- *
- * @param name
- * @param handler
- */
-function dbContainsKeyPair(name, handler) {
-    if (ready) {
-        db.transaction(function (tx) {
-            var sql = "select K.keyPair from key K where K.name = ?";
-            tx.executeSql(sql, [name], function (tx, result) {
-                handler(result.rows.length === 1);
-            }, dbCallbacks.dbErrorHandler);
-        }, dbCallbacks.dbErrorHandler, function () {});
-    } else {
-        dbCallbacks.dbShowMessage("Database not ready yet");
-        handler(false);
-    }
-}
-
-/**
- * Retrieve the key pair associated with the given name.
- * Once the operation is completed the handler function, received as
- * a parameter, is called.
- *
- * @param name
- * @param handler
- */
-function dbRetrieveKeyPair(name, handler) {
-    if (ready) {
-        db.transaction(function (tx) {
-            var sql = "select K.keyPair from key K where K.name = ?";
-            tx.executeSql(sql, [name], function (tx, result) {
-                handler(result);
-            }, dbCallbacks.dbErrorHandler);
-        }, dbCallbacks.dbErrorHandler, function () {});
-    } else {
-        dbCallbacks.dbShowMessage("Database not ready yet");
-        handler(false);
-    }
-}
-
-/**
- * Delete the whole database.
- * Once the operation is completed the handler function, received as
- * a parameter, is called.
- *
- * @param handler
- */
-function dbCleanAll(handler) {
-    if (ready) {
-        db.transaction(
-            function (tx) {
-                var sql = "delete from key";
-                tx.executeSql(sql);
-            }, dbCallbacks.dbErrorHandler, function() {
-                handler(true);
-            }
-        );
-    } else {
-        dbCallbacks.dbShowMessage("Database not ready yet");
-        handler(false);
-    }
+    db.transaction(function (tx) {
+        tx.executeSql(sql, arg, function (tx, result) {
+            handler(result);
+        }, dbErrorHandler);
+    }, dbErrorHandler, function () {});
 }

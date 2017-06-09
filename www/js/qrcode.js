@@ -1,6 +1,6 @@
 /**
- * Scan a qr-code using the official phonegap plugin, then pass the resulting string
- * (or an empty one in case of failure) to the given handler.
+ * Scan a qr-code, then pass the resulting string (or an empty one in case of failure)
+ * to the given handler. Those methods are using the official "phonegap-plugin-barcodescanner".
  *
  * @param handler
  */
@@ -22,14 +22,19 @@ function qrcodeScan(handler) {
 }
 
 /**
- * Encode the given string in to a qr-code and shows it to the user.
+ * Encode the given string into a qr-code and shows it to the user.
  * In case of error alert the user.
  *
  * @param toEncode
  */
 function qrcodeCreate(toEncode) {
+    
     cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, toEncode,
-        function (success) {alert("Encode succes: " + success)},
-        function (fail) {alert("Encoding failed: " + fail)}
+        function (success) {
+            alert("Encode succes: " + success);
+        },
+        function (fail) {
+            alert("Encoding failed: " + fail);
+        }
     );
 }

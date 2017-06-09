@@ -3,151 +3,16 @@ var CothorityProtobuf = (function (protobuf) {
 
 protobuf = 'default' in protobuf ? protobuf['default'] : protobuf;
 
-var Type = protobuf.Type;
-var Field = protobuf.Field;
-var MapField = protobuf.MapField;
-
-
-var StatusResponse = new Type('StatusResponse').add(new MapField('system', 1, 'string', 'Status')).add(new Field('server', 2, 'ServerIdentity'));
-
-var Type$1 = protobuf.Type;
-var MapField$1 = protobuf.MapField;
-
-
-var status = new Type$1('Status').add(new MapField$1('field', 1, 'string', 'string'));
-
-var Type$2 = protobuf.Type;
-var Field$1 = protobuf.Field;
-
-
-var serverIdentity = new Type$2('ServerIdentity').add(new Field$1('public', 1, 'bytes')).add(new Field$1('id', 2, 'bytes')).add(new Field$1('address', 3, 'string')).add(new Field$1('description', 4, 'string'));
-
-var Type$3 = protobuf.Type;
-var Field$2 = protobuf.Field;
-
-
-var roster = new Type$3("Roster").add(new Field$2('id', 1, 'bytes')).add(new Field$2('list', 2, 'ServerIdentity', 'repeated')).add(new Field$2('aggregate', 3, 'bytes'));
-
-var Type$4 = protobuf.Type;
-var Field$3 = protobuf.Field;
-
-
-var signatureRequest = new Type$4("SignatureRequest").add(new Field$3('message', 1, 'bytes')).add(new Field$3('roster', 2, 'Roster'));
-
-var Type$5 = protobuf.Type;
-var Field$4 = protobuf.Field;
-
-
-var signatureResponse = new Type$5("SignatureResponse").add(new Field$4('hash', 1, 'bytes', 'required')).add(new Field$4('signature', 2, 'bytes', 'required'));
-
-var Type$6 = protobuf.Type;
-var Field$5 = protobuf.Field;
-
-
-var StoreSkipBlockRequest = new Type$6("StoreSkipBlockRequest").add(new Field$5('LatestID', 1, 'bytes')).add(new Field$5('NewBlock', 2, 'SkipBlock'));
-
-var Type$7 = protobuf.Type;
-var Field$6 = protobuf.Field;
-
-
-var StoreSkipBlockResponse = new Type$7("StoreSkipBlockResponse").add(new Field$6('Previous', 1, 'SkipBlock')).add(new Field$6('Latest', 2, 'SkipBlock'));
-
-var Type$8 = protobuf.Type;
-var Field$7 = protobuf.Field;
-
-
-var LatestBlockRequest = new Type$8("LatestBlockRequest").add(new Field$7('LatestID', 1, 'bytes'));
-
-var Type$9 = protobuf.Type;
-var Field$8 = protobuf.Field;
-
-
-var LatestBlockResponse = new Type$9("LatestBlockResponse").add(new Field$8('Update', 1, 'SkipBlock', 'repeated'));
-
-var Type$10 = protobuf.Type;
-var Field$9 = protobuf.Field;
-
-
-var SkipBlock = new Type$10("SkipBlock").add(new Field$9('Index', 1, 'sint32')).add(new Field$9('Height', 2, 'sint32')).add(new Field$9('MaximumHeight', 3, 'sint32')).add(new Field$9('BaseHeight', 4, 'sint32')).add(new Field$9('BackLinkIDs', 5, 'bytes', 'repeated')).add(new Field$9('VerifierIDs', 6, 'bytes', 'repeated')).add(new Field$9('ParentBlockID', 7, 'bytes')).add(new Field$9('GenesisID', 8, 'bytes')).add(new Field$9('RespPublic', 9, 'bytes', 'repeated')).add(new Field$9('Data', 10, 'bytes')).add(new Field$9('Roster', 11, 'Roster')).add(new Field$9('Hash', 12, 'bytes')).add(new Field$9('ForwardLink', 13, 'BlockLink', 'repeated')).add(new Field$9('ChildSL', 14, 'bytes'));
-
-var Type$11 = protobuf.Type;
-var Field$10 = protobuf.Field;
-
-
-var BlockLink = new Type$11("BlockLink").add(new Field$10('Hash', 1, 'bytes')).add(new Field$10('Signature', 2, 'bytes'));
-
-var Type$12 = protobuf.Type;
-var Field$11 = protobuf.Field;
-
-
-var pinRequest = new Type$12("PinRequest").add(new Field$11('pin', 1, 'string')).add(new Field$11('public', 2, 'bytes'));
-
-var Type$13 = protobuf.Type;
-var Field$12 = protobuf.Field;
-
-
-var storeConfig = new Type$13("StoreConfig").add(new Field$12('desc', 1, 'popDesc'));
-
-var Type$14 = protobuf.Type;
-var Field$13 = protobuf.Field;
-
-
-var storeConfigReply = new Type$14("StoreConfigReply").add(new Field$13('id', 1, 'bytes'));
-
-var Type$15 = protobuf.Type;
-var Field$14 = protobuf.Field;
-
-
-var finalizeRequest = new Type$15("FinalizeRequest").add(new Field$14('descId', 1, 'bytes')).add(new Field$14('attendees', 2, 'bytes'));
-
-var Type$16 = protobuf.Type;
-var Field$15 = protobuf.Field;
-
-
-var finalizeResponse = new Type$16("FinalizeResponse").add(new Field$15('final', 1, 'finalStatement'));
-
-var Type$17 = protobuf.Type;
-var Field$16 = protobuf.Field;
-
-
-var popDesc = new Type$17("PopDesc").add(new Field$16('name', 1, 'string')).add(new Field$16('dateTime', 2, 'string')).add(new Field$16('location', 3, 'string')).add(new Field$16('roster', 4, 'Roster'));
-
-var Type$18 = protobuf.Type;
-var Field$17 = protobuf.Field;
-
-
-var finalStatement = new Type$18("FinalStatement").add(new Field$17('desc', 1, 'popDesc')).add(new Field$17('attendees', 2, 'bytes')).add(new Field$17('signature', 3, 'bytes'));
-
-var Type$19 = protobuf.Type;
-var Field$18 = protobuf.Field;
-var MapField$2 = protobuf.MapField;
-
-
-var config = new Type$19("Config").add(new Field$18('threshold', 1, 'sint32')).add(new MapField$2('device', 2, 'string', 'bytes')).add(new MapField$2('data', 3, 'string', 'string'));
-
-var Type$20 = protobuf.Type;
-var Field$19 = protobuf.Field;
-
-
-var configUpdate = new Type$20("ConfigUpdate").add(new Field$19('id', 1, 'bytes'));
-
-var Type$21 = protobuf.Type;
-var Field$20 = protobuf.Field;
-
-
-var configUpdateReply = new Type$21("ConfigUpdateReply").add(new Field$20('config', 1, 'Config'));
-
-var Type$22 = protobuf.Type;
-var Field$21 = protobuf.Field;
-
-
-var proposeSend = new Type$22("ProposeSend").add(new Field$21('id', 1, 'bytes')).add(new Field$21('config', 2, 'Config'));
+var skeleton = '{"nested":{"cothority":{},"BlockLink":{"fields":{"Hash":{"rule":"required","type":"bytes","id":1},"Signature":{"rule":"required","type":"bytes","id":2}}},"LatestBlockRequest":{"fields":{"LatestID":{"rule":"required","type":"bytes","id":1}}},"LatestBlockResponse":{"fields":{"Update":{"rule":"repeated","type":"SkipBlock","id":1,"options":{"packed":false}}}},"RandomRequest":{"fields":{}},"RandomResponse":{"fields":{"R":{"rule":"required","type":"bytes","id":1},"T":{"rule":"required","type":"Transcript","id":2}},"nested":{"Transcript":{"fields":{"nodes":{"rule":"required","type":"sint32","id":1},"groups":{"rule":"required","type":"sint32","id":2},"purpose":{"rule":"required","type":"string","id":3},"time":{"rule":"required","type":"fixed64","id":4}}}}},"google":{"nested":{"protobuf":{"nested":{"Timestamp":{"fields":{"seconds":{"type":"int64","id":1},"nanos":{"type":"int32","id":2}}}}}}},"Roster":{"fields":{"id":{"type":"bytes","id":1},"list":{"rule":"repeated","type":"ServerIdentity","id":2,"options":{"packed":false}},"aggregate":{"type":"bytes","id":3}}},"ServerIdentity":{"fields":{"public":{"rule":"required","type":"bytes","id":1},"id":{"rule":"required","type":"bytes","id":2},"address":{"rule":"required","type":"string","id":3},"description":{"rule":"required","type":"string","id":4}}},"SignatureRequest":{"fields":{"message":{"rule":"required","type":"bytes","id":1},"roster":{"rule":"required","type":"Roster","id":2}}},"SignatureResponse":{"fields":{"hash":{"rule":"required","type":"bytes","id":1},"signature":{"rule":"required","type":"bytes","id":2}}},"SkipBlock":{"fields":{"Index":{"type":"sint32","id":1},"Height":{"type":"sint32","id":2},"MaximumHeight":{"type":"sint32","id":3},"BaseHeight":{"type":"sint32","id":4},"BackLinkIDs":{"rule":"repeated","type":"bytes","id":5,"options":{"packed":false}},"VerifierIDs":{"rule":"repeated","type":"bytes","id":6,"options":{"packed":false}},"ParentBlockID":{"type":"bytes","id":7},"GenesisID":{"type":"bytes","id":8},"Data":{"type":"bytes","id":9},"Roster":{"type":"Roster","id":10},"Hash":{"type":"bytes","id":11},"ForwardLink":{"rule":"repeated","type":"BlockLink","id":12,"options":{"packed":false}},"ChildSL":{"type":"bytes","id":13}}},"StatusResponse":{"fields":{"system":{"keyType":"string","type":"Status","id":1},"server":{"type":"ServerIdentity","id":2}},"nested":{"Status":{"fields":{"field":{"keyType":"string","type":"string","id":1}}}}},"StoreSkipBlockRequest":{"fields":{"LatestID":{"rule":"required","type":"bytes","id":1},"NewBlock":{"rule":"required","type":"SkipBlock","id":2}}},"StoreSkipBlockResponse":{"fields":{"Previous":{"rule":"required","type":"SkipBlock","id":1},"Latest":{"rule":"required","type":"SkipBlock","id":2}}},"FinalStatement":{"fields":{"desc":{"type":"PopDesc","id":1},"attendees":{"type":"bytes","id":2},"signature":{"type":"bytes","id":3}}},"FinalizeRequest":{"fields":{"descId":{"type":"bytes","id":1},"attendees":{"type":"bytes","id":2}}},"FinalizeResponse":{"fields":{"final":{"type":"FinalStatement","id":1}}},"PinRequest":{"fields":{"pin":{"type":"string","id":1},"public":{"type":"bytes","id":2}}},"PopDesc":{"fields":{"name":{"type":"string","id":1},"dateTime":{"type":"string","id":2},"location":{"type":"string","id":3},"roster":{"type":"Roster","id":4}}},"StoreConfigReply":{"fields":{"id":{"type":"bytes","id":1}}},"StoreConfig":{"fields":{"desc":{"type":"PopDesc","id":1}}},"ConfigUpdateReply":{"fields":{"config":{"type":"Config","id":1}}},"ConfigUpdate":{"fields":{"id":{"type":"bytes","id":1}}},"Config":{"fields":{"threshold":{"type":"sint32","id":1},"device":{"keyType":"string","type":"Device","id":2},"data":{"keyType":"string","type":"string","id":3}}},"Device":{"fields":{"point":{"type":"bytes","id":1}}},"ProposeSend":{"fields":{"id":{"type":"bytes","id":1},"config":{"type":"Config","id":2}}},"ProposeUpdateReply":{"fields":{"propose":{"type":"Config","id":1}}},"ProposeUpdate":{"fields":{"id":{"type":"bytes","id":1}}},"ProposeVote":{"fields":{"id":{"type":"bytes","id":1},"signer":{"type":"string","id":2},"signature":{"type":"SchnorrSig","id":3}}},"SchnorrSig":{"fields":{"challenge":{"type":"bytes","id":1},"response":{"type":"bytes","id":2}}}}}';
 
 var Root = protobuf.Root;
 
+/**
+ * As we need to create a bundle, we cannot use the *.proto files and the a script will wrap
+ * them in a skeleton file that contains the JSON representation that can be used in the js code
+ */
 
-var root = new Root();
-root.define("cothority").add(SkipBlock).add(serverIdentity).add(roster).add(BlockLink).add(LatestBlockRequest).add(LatestBlockResponse).add(StoreSkipBlockRequest).add(StoreSkipBlockResponse).add(status).add(StatusResponse).add(signatureRequest).add(signatureResponse).add(pinRequest).add(storeConfig).add(storeConfigReply).add(finalizeRequest).add(finalizeResponse).add(popDesc).add(finalStatement).add(config).add(configUpdate).add(configUpdateReply).add(proposeSend);
+var Root$1 = Root.fromJSON(JSON.parse(skeleton));
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -215,17 +80,28 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
+/**
+ * Base class for the protobuf library that provides helpers to encode and decode
+ * messages according to a given model
+ *
+ * @author Gaylor Bosson (gaylor.bosson@epfl.ch)
+ */
+
 var CothorityProtobuf = function () {
+
+  /**
+   * @constructor
+   */
   function CothorityProtobuf() {
     classCallCheck(this, CothorityProtobuf);
 
-    this.root = root;
+    this.root = Root$1;
   }
 
   /**
    * Encode a model to be transmitted over websocket
-   * @param name
-   * @param fields
+   * @param {String} name
+   * @param {Object} fields
    * @returns {*|Buffer|Uint8Array}
    */
 
@@ -244,8 +120,8 @@ var CothorityProtobuf = function () {
 
     /**
      * Decode a message coming from a websocket
-     * @param name
-     * @param buffer
+     * @param {String} name
+     * @param {*|Buffer|Uint8Array} buffer
      */
 
   }, {
@@ -257,18 +133,24 @@ var CothorityProtobuf = function () {
 
     /**
      * Return the protobuf loaded model
-     * @param name
+     * @param {String} name
      * @returns {ReflectionObject|?ReflectionObject|string}
      */
 
   }, {
     key: 'getModel',
     value: function getModel(name) {
-      return this.root.lookup('cothority.' + name);
+      return this.root.lookup('' + name);
     }
   }]);
   return CothorityProtobuf;
 }();
+
+/**
+ * Helpers to encode and decode messages of the Cothority
+ *
+ * @author Gaylor Bosson (gaylor.bosson@epfl.ch)
+ */
 
 var CothorityMessages = function (_CothorityProtobuf) {
   inherits(CothorityMessages, _CothorityProtobuf);
@@ -284,8 +166,8 @@ var CothorityMessages = function (_CothorityProtobuf) {
 
     /**
      * Create an encoded message to make a sign request to a cothority node
-     * @param message to sign stored in a Uint8Array
-     * @param servers list of ServerIdentity
+     * @param {Uint8Array} message - Message to sign stored in a Uint8Array
+     * @param {Array} servers - list of ServerIdentity
      * @returns {*|Buffer|Uint8Array}
      */
     value: function createSignatureRequest(message, servers) {
@@ -304,9 +186,9 @@ var CothorityMessages = function (_CothorityProtobuf) {
     }
 
     /**
-     * Return the decoded response
-     * @param response
-     * @returns {*}
+     * Return the decoded response of a signature request
+     * @param {*|Buffer|Uint8Array} response - Response of the Cothority
+     * @returns {Object}
      */
 
   }, {
@@ -318,8 +200,8 @@ var CothorityMessages = function (_CothorityProtobuf) {
     }
 
     /**
-     * Return the decoded response
-     * @param response
+     * Return the decoded response of a status request
+     * @param {*|Buffer|Uint8Array} response - Response of the Cothority
      * @returns {*}
      */
 
@@ -329,6 +211,104 @@ var CothorityMessages = function (_CothorityProtobuf) {
       response = new Uint8Array(response);
 
       return this.decodeMessage('StatusResponse', response);
+    }
+
+    /**
+     * Create a message to store a new block
+     * @param {Uint8Array} id - ID of the current latest block
+     * @param {Array} servers - list of ServerIdentity
+     * @returns {*|Buffer|Uint8Array}
+     */
+
+  }, {
+    key: 'createStoreSkipBlockRequest',
+    value: function createStoreSkipBlockRequest(id, servers) {
+      if (!(id instanceof Uint8Array)) {
+        throw new Error("message must be a instance of Uint8Array");
+      }
+
+      return this.encodeMessage('StoreSkipBlockRequest', {
+        LatestID: id,
+        NewBlock: {
+          MaximumHeight: 1,
+          BaseHeight: 1,
+          Data: new Uint8Array([]),
+          Roster: {
+            list: servers
+          }
+        }
+      });
+    }
+
+    /**
+     * Return the decoded message of a store skip block request
+     * @param {*|Buffer|Uint8Array} response - Response of the Cothority
+     * @returns {*}
+     */
+
+  }, {
+    key: 'decodeStoreSkipBlockResponse',
+    value: function decodeStoreSkipBlockResponse(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('StoreSkipBlockResponse', response);
+    }
+
+    /**
+     * Create a message request to get the latest blocks of a skip-chain
+     * @param {Uint8Array} id - ID of the genesis block of the skip-chain
+     * @returns {*|Buffer|Uint8Array}
+     */
+
+  }, {
+    key: 'createLatestBlockRequest',
+    value: function createLatestBlockRequest(id) {
+      if (!(id instanceof Uint8Array)) {
+        throw new Error("message must be a instance of Uint8Array");
+      }
+
+      return this.encodeMessage('LatestBlockRequest', {
+        LatestID: id
+      });
+    }
+
+    /**
+     * Return the decoded message of a latest block request
+     * @param {*|Buffer|Uint8Array} response - Response of the Cothority
+     * @returns {*}
+     */
+
+  }, {
+    key: 'decodeLatestBlockResponse',
+    value: function decodeLatestBlockResponse(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('LatestBlockResponse', response);
+    }
+
+    /**
+     * Create a message request to get a random number
+     * @returns {*|Buffer|Uint8Array}
+     */
+
+  }, {
+    key: 'createRandomMessage',
+    value: function createRandomMessage() {
+      return this.encodeMessage('RandomRequest');
+    }
+
+    /**
+     * Return the decoded message of a random number request
+     * @param {*|Buffer|Uint8Array} response - Response of the Cothority
+     * @returns {*}
+     */
+
+  }, {
+    key: 'decodeRandomResponse',
+    value: function decodeRandomResponse(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('RandomResponse', response);
     }
 
     /**
@@ -425,50 +405,6 @@ var CothorityMessages = function (_CothorityProtobuf) {
       return this.decodeMessage('FinalizeResponse', response);
     }
   }, {
-    key: 'createStoreSkipBlockRequest',
-    value: function createStoreSkipBlockRequest(id, servers) {
-      if (!(id instanceof Uint8Array)) {
-        throw new Error("message must be a instance of Uint8Array");
-      }
-
-      return this.encodeMessage('StoreSkipBlockRequest', {
-        LatestID: id,
-        NewBlock: {
-          MaximumHeight: 1,
-          BaseHeight: 1,
-          Data: new Uint8Array([]),
-          Roster: {
-            list: servers
-          }
-        }
-      });
-    }
-  }, {
-    key: 'decodeStoreSkipBlockResponse',
-    value: function decodeStoreSkipBlockResponse(response) {
-      response = new Uint8Array(response);
-
-      return this.decodeMessage('StoreSkipBlockResponse', response);
-    }
-  }, {
-    key: 'createLatestBlockRequest',
-    value: function createLatestBlockRequest(id) {
-      if (!(id instanceof Uint8Array)) {
-        throw new Error("message must be a instance of Uint8Array");
-      }
-
-      return this.encodeMessage('LatestBlockRequest', {
-        LatestID: id
-      });
-    }
-  }, {
-    key: 'decodeLatestBlockResponse',
-    value: function decodeLatestBlockResponse(response) {
-      response = new Uint8Array(response);
-
-      return this.decodeMessage('LatestBlockResponse', response);
-    }
-  }, {
     key: 'createConfigUpdate',
     value: function createConfigUpdate(id) {
       var fields = {
@@ -485,18 +421,69 @@ var CothorityMessages = function (_CothorityProtobuf) {
       return this.decodeMessage('ConfigUpdateReply', response);
     }
   }, {
+    key: 'createDevice',
+    value: function createDevice(key) {
+
+      var model = this.getModel('Device');
+
+      var fields = {
+        point: key
+      };
+
+      return model.create(fields);
+    }
+  }, {
     key: 'createProposeSend',
     value: function createProposeSend(id, config) {
       var fields = {
         id: id,
-        config: config
+        config: {
+          threshold: config.threshold,
+          device: config.device,
+          data: config.data
+        }
       };
 
       return this.encodeMessage('ProposeSend', fields);
     }
+  }, {
+    key: 'createProposeUpdate',
+    value: function createProposeUpdate(id) {
+      var fields = {
+        id: id
+      };
+
+      return this.encodeMessage('ProposeUpdate', fields);
+    }
+  }, {
+    key: 'decodeProposeUpdateReply',
+    value: function decodeProposeUpdateReply(response) {
+      response = new Uint8Array(response);
+
+      return this.decodeMessage('ProposeUpdateReply', response);
+    }
+  }, {
+    key: 'createProposeVote',
+    value: function createProposeVote(id, signer, challenge, response) {
+      var fields = {
+        id: id,
+        signer: signer,
+        signature: {
+          challenge: challenge,
+          response: response
+        }
+      };
+
+      return this.encodeMessage('ProposeVote', fields);
+    }
   }]);
   return CothorityMessages;
 }(CothorityProtobuf);
+
+/**
+ * Singleton
+ */
+
 
 var index = new CothorityMessages();
 

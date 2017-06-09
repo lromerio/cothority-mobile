@@ -10,6 +10,7 @@
         <title>Cothority Mobile</title>
 
         <!-- Prevent scroll on iOS -->
+        <!--  Uncomment if needed.
         <script type="text/javascript">
             window.addEventListener('load', function() {
                 document.body.addEventListener('touchmove', function(e) {
@@ -17,10 +18,12 @@
                 }, false);
             }, false);
         </script>
+        -->
 
         <!-- Import CSS files -->
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/sidebar.css" />
+        <link rel="stylesheet" type="text/css" href="css/tabMenu.css" />
 
         <!-- Import .js files -->
         <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -28,10 +31,17 @@
         <script type="text/javascript" src="cordova.js"></script>
 
         <script type="text/javascript" src="js/sidebar.js"></script>
-        <script type="text/javascript" src="js/qrcode.js"></script>
+        <script type="text/javascript" src="js/registerSsh.js"></script>
+        <script type="text/javascript" src="js/utils.js"></script>
+        <script type="text/javascript" src="js/webSocket.js"></script>
+        <script type="text/javascript" src="js/databaseHelper.js"></script>
+
+        <script type="text/javascript" src="js/lib/protobuf.js"></script>
+        <script type="text/javascript" src="js/lib/cothority-messages.js"></script>
+        <script type="text/javascript" src="js/lib/crypto-js.js"></script>
     </head>
 
-    <body onload="dbOpen()">
+    <body onload="rsDisplayConodes()">
         <!-- Sidebar content -->
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>
@@ -43,18 +53,35 @@
         </div>
         <!-- Sidebar open icon -->
         <span id="open_menu" onclick="openNav()">
-                <img src="img/menu.png" alt="MENU">
-            </span>
+                    <img src="img/menu.png" alt="MENU">
+                </span>
         <hr>
 
         <!-- Page content -->
         <div data-role="page" id="main">
-            <div data-role="header">
-                <h1>cothority-mobile</h1>
-            </div>
-
             <div data-role="main" class="ui-content">
-                <p>A mobile application to perform distributed tasks using the cothority-framework.</p>
+
+                <!-- Phase 1 (Conodes list) -->
+                <p id="ssh_conodes_list"></p>
+
+                <!-- Phase 2 (Add SSH) -->
+                <p id="ssh_propose" style="display: none">
+                    <label for="sshName">Insert a unique id: </label><br/>
+                    <input id="sshName"/> <br/><br/>
+
+                    Insert a unique id for the new key.
+
+                    <a href="javascript:sshPropose();">
+                        <button type="button">Propose</button>
+                    </a>
+                </p>
+
+                <!-- Phase 3 (Informative message) -->
+                <p id="ssh_verify" style="display: none">
+                    Threshold: <b id="threshold"></b> <br/><br/>
+
+                    Proposition done and voted.<br/>
+                </p>
             </div>
         </div>
     </body>
