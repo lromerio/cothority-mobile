@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/lromerio/cothority-mobile.svg?branch=master)](https://travis-ci.org/lromerio/cothority-mobile) [![Coverage Status](https://coveralls.io/repos/github/lromerio/cothority-mobile/badge.svg?branch=master)](https://coveralls.io/github/lromerio/cothority-mobile?branch=master)
+[![Build Status](https://travis-ci.org/lromerio/cothority-mobile.svg?branch=master)](https://travis-ci.org/lromerio/cothority-mobile)
 
 # CothorityMobile
 EPFL Bachelor Project, Spring 2017.
 
-A mobile application developed with [PhoneGap][phonegap], it allows to manage SSH-keys using the [cothority-framework][cothority].
+A mobile application developed with [PhoneGap][phonegap], which allows to manage SSH-keys using the [cothority-framework][cothority].
 
 ###Installation
 First install [npm][npm], then run `npm i` to install dependencies and `npm i -g phonegap` to install PhoneGap.

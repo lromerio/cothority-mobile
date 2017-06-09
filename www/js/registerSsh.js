@@ -11,7 +11,7 @@ var conodeEntry;
 /**
  * Display - as buttons - all conodes to which the device is registered.
  */
-function displayConodes() {
+function rsDisplayConodes() {
 
     // Retrieve all keyPairs
     var sql = "select C.address from conodes C";

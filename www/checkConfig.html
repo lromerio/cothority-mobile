@@ -10,6 +10,7 @@
         <title>Cothority Mobile</title>
 
         <!-- Prevent scroll on iOS -->
+        <!--  Uncomment if needed.
         <script type="text/javascript">
             window.addEventListener('load', function() {
                 document.body.addEventListener('touchmove', function(e) {
@@ -17,6 +18,7 @@
                 }, false);
             }, false);
         </script>
+        -->
 
         <!-- Import CSS files -->
         <link rel="stylesheet" type="text/css" href="css/index.css" />
@@ -40,7 +42,7 @@
         <script type="text/javascript" src="js/lib/crypto-js.js"></script>
     </head>
 
-    <body onload="displayConodes('conodes_list')">
+    <body onload="ccDisplayConodes('conodes_list')">
         <!-- Sidebar content -->
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav('')">&times;</a>

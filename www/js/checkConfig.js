@@ -15,7 +15,7 @@ var address;
  * Display all conodesto which the device is registered.
  * The conodes are displayed as buttons.
  */
-function displayConodes() {
+function ccDisplayConodes() {
 
     // Retrieve all keyPairs
     var sql = "select C.address from conodes C";
@@ -98,7 +98,7 @@ function conodeAction(addr) {
                         // Decode message and store config
                         config = CothorityProtobuf.decodeProposeUpdateReply(response).propose;
 
-                        showConfig();
+                        showConfig(config);
                     }
                 );
             } else {
@@ -118,7 +118,7 @@ function conodeAction(addr) {
                         // Decode message and store config
                         config = CothorityProtobuf.decodeConfigUpdateReply(response).config;
 
-                        showConfig();
+                        showConfig(config);
                     }
                 );
             }
@@ -131,15 +131,14 @@ function conodeAction(addr) {
 /**
  * Display a config file.
  */
-function showConfig() {
-
+function showConfig(config) {
     var html = address + '<hr>';
 
     if (updates && config === null) {
         html += 'No updates to vote.';
     } else {
 
-        //html += '<b>Threshold: </b>' + config.threshold + '</br></br>';
+        html += '<b>Threshold: </b>' + config.threshold + '</br></br>';
 
         html += '<b>Devices:</b></br>';
         for (var device in config.device) {

@@ -17,6 +17,9 @@ describe('sidebar', function() {
 
     });
 
+    /**
+     * Full page reload are not supported by Karma-
+     */
     // describe('closeNav', function() {
     //
     //     it('should close the sidebar', function() {

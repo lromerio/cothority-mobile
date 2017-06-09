@@ -7,7 +7,7 @@
 /**
  * Display - as buttons - all conodes to which the device is registered.
  */
-function displayConodes() {
+function csDisplayConodes() {
 
     // Retrieve all keyPairs
     var sql = "select C.address from conodes C";
@@ -44,9 +44,6 @@ function conodeStatus(address) {
 
             // Get status from response and update GUI
             var data = CothorityProtobuf.decodeStatusResponse(response).system.Status.field;
-
-            console.log(JSON.stringify(data, null, 4));
-
             document.getElementById("show_status").innerHTML = showStatus(data);
             document.getElementById("conodes_list").style.display = 'none';
             document.getElementById("show_status").style.display = 'block';
