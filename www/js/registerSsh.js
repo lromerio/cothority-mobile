@@ -122,7 +122,7 @@ function sshPropose() {
 
                         }, function () {
                             // Update GUI
-                            document.getElementById("threshold").innerHTML = 'Threshold: ' + config.threshold;
+                            document.getElementById("threshold").innerHTML = config.threshold;
                             document.getElementById("ssh_propose").style.display = 'none';
                             document.getElementById("ssh_verify").style.display = 'block';
                         }
