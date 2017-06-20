@@ -26,7 +26,7 @@ Alternatively - if you are using an Android device - you can directly install th
 - Camera permission
 - A running Cothority
 
-## Dependencies
+## Related libraries
 - [CothorityProtoBuf](https://github.com/Gilthoniel/CothorityProtoBuf)
 - [CryptoJS](https://github.com/Gilthoniel/CryptoJS)
 
