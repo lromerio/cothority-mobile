@@ -27,6 +27,6 @@
   "scripts": {
     "test": "karma start karma.conf.js"
   },
-  "license": "ISC",
+  "license": "AGPL",
   "homepage": "https://github.com/lromerio/cothority-mobile#readme"
 }
