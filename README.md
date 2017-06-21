@@ -31,7 +31,7 @@ Alternatively - if you are using an Android device - you can directly install th
 - [CryptoJS](https://github.com/Gilthoniel/CryptoJS)
 
 ## License
-[GNU/APGL 3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) license, see the [LICENSE](./LICENSE.AGPL) file for more details.
+[GNU/AGPL 3.0](https://www.gnu.org/licenses/agpl-3.0.en.html) license, see the [LICENSE](./LICENSE.AGPL) file for more details.
 
 ## Author
 Lucio Romerio - _Development_ - [lromerio](https://github.com/lromerio)
